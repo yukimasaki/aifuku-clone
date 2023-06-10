@@ -9,5 +9,5 @@ app.use(express.urlencoded({ extended: true }))
 app.use("/messages", messageController)
 
 app.listen(3000,()=>{
-    console.log('ポート3000番で起動しました。')
+    console.log('ポート3000番で起動しました!!')
 })
