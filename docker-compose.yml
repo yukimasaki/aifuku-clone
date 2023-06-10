@@ -4,7 +4,7 @@ services:
     container_name: aifuku-clone
     build: ./backend
     ports:
-      - "127.0.0.1:3000:3000"
+      - "0.0.0.0:3000:3000"
     volumes:
       - "./src:/var/www/html"
     tty: true
