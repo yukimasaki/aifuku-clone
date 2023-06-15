@@ -1,0 +1,11 @@
+version: "3"
+services:
+  express:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.express
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src/backend:/app
+    tty: true
