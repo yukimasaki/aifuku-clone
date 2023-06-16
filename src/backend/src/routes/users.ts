@@ -1,5 +1,5 @@
 import express from 'express'
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 const router = express.Router()
@@ -19,7 +19,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST /users
-router.post("/", async (req, res) => {
+router.post('/', async (req, res) => {
     const { name, email } = req.body
     const user = await prisma.user.create({
       data: { name, email },
@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
 })
 
 // PUT /users/:id
-router.put("/:id", async (req, res) => {
+router.put('/:id', async (req, res) => {
     const { name, email } = req.body
     const user = await prisma.user.update({
       where: { id: parseInt(req.params?.id) },
@@ -38,7 +38,7 @@ router.put("/:id", async (req, res) => {
 })  
 
 // DELETE /users/:id
-router.delete("/:id", async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const user = await prisma.user.delete({
       where: { id: parseInt(req.params?.id) },
     })
