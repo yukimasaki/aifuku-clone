@@ -1,5 +1,18 @@
 version: "3"
+
 services:
+  db:
+    container_name: postgres
+    image: postgres:15.3-alpine
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - "./db-data:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+    tty: true
+
   express:
     container_name: express
     build:
