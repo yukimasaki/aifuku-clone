@@ -18,7 +18,7 @@ services:
     container_name: express
     build:
       context: .
-      dockerfile: ./docker/Dockerfile.express
+      dockerfile: ./docker/Dockerfile.backend
     ports:
       - "3000:3000"
       - "5555:5555"
