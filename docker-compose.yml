@@ -16,6 +16,8 @@ services:
 
   express:
     container_name: express
+    depends_on:
+      - db
     build:
       context: .
       dockerfile: ./docker/Dockerfile.backend
