@@ -5,6 +5,7 @@
   "author": "Yuki Masaki",
   "license": "MIT",
   "dependencies": {
+    "@firebase/auth": "^0.23.2",
     "@prisma/client": "4.15.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
