@@ -29,20 +29,20 @@ router.post('/', async (req, res) => {
 
 // PUT /users/:id
 router.put('/:id', async (req, res) => {
-    const { name, email } = req.body
-    const user = await prisma.user.update({
-      where: { id: parseInt(req.params?.id) },
-      data: { name, email },
-    })
-    res.status(200).json({ user })
-})  
+  const { name, email } = req.body
+  const user = await prisma.user.update({
+    where: { id: parseInt(req.params?.id) },
+    data: { name, email },
+  })
+  res.status(200).json({ user })
+})
 
 // DELETE /users/:id
 router.delete('/:id', async (req, res) => {
-    const user = await prisma.user.delete({
-      where: { id: parseInt(req.params?.id) },
-    })
-    res.status(200).json({ user })
+  const user = await prisma.user.delete({
+    where: { id: parseInt(req.params?.id) },
+  })
+  res.status(200).json({ user })
 })
 
 export default router
