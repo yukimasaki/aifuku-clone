@@ -8,7 +8,6 @@ router.post('/', async (req, res) => {
   const user = {
     email: req.body.email,
     password: req.body.password,
-    displayName: req.body.displayName,
   }
   await FirebaseAdmin.auth().createUser(user)
   .then((userRecord) => {
