@@ -5,6 +5,7 @@ import FirebaseAdmin from 'firebase-admin'
 import indexRouter from './routes'
 import helloworldRouter from './routes/helloworld'
 import userRouter from './routes/users'
+import signupRouter from './routes/signup'
 
 const app = express()
 app.use(cors())
@@ -15,6 +16,7 @@ const port = 3000
 app.use('/', indexRouter)
 app.use('/helloworld', helloworldRouter)
 app.use('/users', userRouter)
+app.use('/signup', signupRouter)
 
 FirebaseAdmin.initializeApp({
   credential: FirebaseAdmin.credential.applicationDefault(),
