@@ -3,7 +3,7 @@ import FirebaseAdmin from 'firebase-admin'
 
 const router = express.Router()
 
-// GET /users
+// POST /signup
 router.post('/', async (req, res) => {
   const user = {
     email: req.body.email,
