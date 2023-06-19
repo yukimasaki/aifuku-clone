@@ -27,3 +27,16 @@ services:
     volumes:
       - ./src/backend:/app
     tty: true
+
+  express:
+    container_name: nuxt
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.frontend
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./src/frontend:/app
+    tty: true
