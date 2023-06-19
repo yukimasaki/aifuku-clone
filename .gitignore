@@ -1,2 +1,5 @@
 node_modules
+.env
 db-data
+firebase-admin-sdk.json
+src/backend/yarn-error.log
