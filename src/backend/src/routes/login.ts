@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAuth, signInWithEmailAndPassword } from "@firebase/auth"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 
 const router = express.Router()
 
