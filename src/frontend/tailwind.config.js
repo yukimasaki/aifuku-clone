@@ -4,6 +4,11 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    // Docs: https://tailwindcss.com/docs/typography-plugin
+    require("@tailwindcss/typography"),
+    // Docs: https://daisyui.com/docs
+    require("daisyui"),
+  ],
 }
 
