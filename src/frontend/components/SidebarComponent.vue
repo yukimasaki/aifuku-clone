@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute left-0 top-0 z-9999 flex h-screen w-56 flex-col overflow-y-hidden bg-base-200 ease-linear lg:static lg:translate-x-0">
+  <aside class="absolute left-0 top-0 z-9999 flex h-screen w-56 flex-col overflow-y-hidden bg-base-200 ease-linear lg:static lg:translate-x-0">
     <!-- SIDEBAR HEADER -->
     <div class="flex items-center justify-between gap-2 px-6 py-5 lg:py-6">
       <a href="#">
@@ -23,7 +23,7 @@
       </nav>
     </div>
     <!-- SIDEBAR MENU -->
-  </div>
+  </aside>
 </template>
 
 <script>
