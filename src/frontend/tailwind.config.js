@@ -20,15 +20,15 @@ module.exports = {
     themes: [
       {
         aifuku: {
-          "primary": "#f2f25c",
-          "secondary": "#73e2b8",
-          "accent": "#f756b1",
-          "neutral": "#2b2834",
-          "base-100": "#e5ecf1",
-          "info": "#7592eb",
-          "success": "#17a177",
-          "warning": "#facd6b",
-          "error": "#eb7076",         
+          "primary": "#15bef2",
+          "secondary": "#ffc9d7",
+          "accent": "#f296cb",
+          "neutral": "#36273a",
+          "base-100": "#f9fafa",
+          "info": "#4e8dda",
+          "success": "#1a7465",
+          "warning": "#9f730f",
+          "error": "#f33f42",
         }
       }
     ]
