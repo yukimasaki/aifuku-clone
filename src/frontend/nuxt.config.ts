@@ -5,4 +5,11 @@ export default defineNuxtConfig({
     // Docs: https://tailwindcss.nuxtjs.org
     "@nuxtjs/tailwindcss",
   ],
+  app: {
+    head: {
+      htmlAttrs: {
+        "data-theme": "cupcake",
+      }
+    }
+  }
 })
