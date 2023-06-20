@@ -13,6 +13,7 @@ services:
     ports:
       - "5432:5432"
     tty: true
+    restart: always
 
   express:
     container_name: express
@@ -27,6 +28,7 @@ services:
     volumes:
       - ./src/backend:/app
     tty: true
+    restart: always
 
   nuxt:
     container_name: nuxt
@@ -40,3 +42,4 @@ services:
     volumes:
       - ./src/frontend:/app
     tty: true
+    restart: always
