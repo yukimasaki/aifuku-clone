@@ -16,5 +16,22 @@ module.exports = {
     // Docs: https://daisyui.com/docs
     require("daisyui"),
   ],
+  daisyui: {
+    themes: [
+      {
+        aifuku: {
+          "primary": "#f2f25c",
+          "secondary": "#73e2b8",
+          "accent": "#f756b1",
+          "neutral": "#2b2834",
+          "base-100": "#e5ecf1",
+          "info": "#7592eb",
+          "success": "#17a177",
+          "warning": "#facd6b",
+          "error": "#eb7076",         
+        }
+      }
+    ]
+  },
 }
 
