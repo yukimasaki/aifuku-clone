@@ -34,12 +34,12 @@
 
     <!-- SIDEBAR MENU -->
     <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
-      <nav class="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
+      <nav class="mt-4 py-1 px-4 lg:mt-5 lg:px-5">
         <ul class="menu mb-6 flex flex-col gap-1">
-          <li class="menu-title mb-4 ml-4 text-sm font-medium text-bodydark2">メニュー</li>
+          <li class="menu-title mb-2 ml-2 text-sm font-medium">メニュー</li>
           <li v-for="item in items" :key="item.id">
             <a
-              class="relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark"
+              class="relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out"
               :href="item.link"
             >
               <img :src="item.logo" width="24">
