@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="absolute left-0 top-0 z-9999 flex h-screen w-56 flex-col overflow-y-hidden bg-base-200 ease-linear lg:static lg:translate-x-0"
+    class="absolute left-0 top-0 z-40 flex h-screen w-56 flex-col overflow-y-hidden bg-base-200 ease-linear lg:static lg:translate-x-0"
     :class="visibleSidebar ? 'translate-x-0' : '-translate-x-full'"
   >
     <!-- SIDEBAR HEADER -->
@@ -14,8 +14,8 @@
     <!-- SIDEBAR MENU -->
     <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
       <nav class="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
-        <ul class="menu">
-          <li class="menu-title">メニュー</li>
+        <ul class="menu mb-6 flex flex-col gap-1">
+          <li class="menu-title mb-4 ml-4 text-sm font-medium text-bodydark2">メニュー</li>
           <li v-for="item in items" :key="item.id">
             <a :href="item.link">
               <img :src="item.logo" width="24">
