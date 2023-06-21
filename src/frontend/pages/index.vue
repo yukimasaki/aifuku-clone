@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div class="flex h-screen overflow-hidden">
     <SidebarComponent />
-    <HeaderComponent />
+    <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+      <HeaderComponent />
+    </div>
   </div>
 </template>
 
