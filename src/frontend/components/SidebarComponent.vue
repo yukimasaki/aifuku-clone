@@ -1,5 +1,8 @@
 <template>
-  <aside class="absolute left-0 top-0 z-9999 flex h-screen w-56 flex-col overflow-y-hidden bg-base-200 ease-linear lg:static lg:translate-x-0">
+  <aside
+    class="absolute left-0 top-0 z-9999 flex h-screen w-56 flex-col overflow-y-hidden bg-base-200 ease-linear lg:static lg:translate-x-0"
+    :class="visibleSidebar ? 'translate-x-0' : '-translate-x-full'"
+  >
     <!-- SIDEBAR HEADER -->
     <div class="flex items-center justify-between gap-2 px-6 py-5 lg:py-6">
       <a href="#">
@@ -31,6 +34,8 @@ import { reactive } from 'vue'
 
 export default {
   setup () {
+    const visibleSidebar = useState('visibleSidebar')
+
     const logoPath = '../assets/images/sidebar'
 
     const items = reactive([
@@ -53,7 +58,7 @@ export default {
     ])
 
     return {
-      items,
+      visibleSidebar, items,
     }
   }
 }
