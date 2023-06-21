@@ -34,9 +34,9 @@ export default {
   setup () {  
     const visibleSidebar = useState('visibleSidebar', () => false)
 
+    // todo: composable化したい
     const toggleSidebar = () => {
       visibleSidebar.value = !visibleSidebar.value
-      console.log(visibleSidebar.value)
     }
 
     return { 
