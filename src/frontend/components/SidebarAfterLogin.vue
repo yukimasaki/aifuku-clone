@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="absolute left-0 top-0 z-40 flex h-screen w-56 flex-col overflow-y-hidden duration-300 bg-base-200 ease-linear lg:static lg:translate-x-0"
+    class="absolute left-0 top-0 z-40 flex h-screen w-56 flex-col overflow-y-hidden duration-300 bg-base-300 ease-linear lg:static lg:translate-x-0"
     :class="visibleSidebar ? 'translate-x-0' : '-translate-x-full'"
   >
     <!-- SIDEBAR HEADER -->
