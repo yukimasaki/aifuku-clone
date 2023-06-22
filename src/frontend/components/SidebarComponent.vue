@@ -7,7 +7,7 @@
     <div class="flex items-center justify-between gap-2 px-6 py-5 lg:py-6">
       <!-- Logo -->
       <a href="#">
-        <img src="../assets/images/sidebar-header.png" alt="Logo">
+        <img src="../assets/images/site-logo.png" alt="Logo">
       </a>
 
       <!-- Close Btn -->
