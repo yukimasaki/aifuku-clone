@@ -15,6 +15,7 @@
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/typography": "^0.5.9",
+    "@types/firebase": "^3.2.1",
     "@types/node": "^18",
     "daisyui": "^3.1.1",
     "nuxt": "3.4.1"
