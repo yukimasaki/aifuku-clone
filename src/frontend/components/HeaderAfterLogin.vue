@@ -1,6 +1,6 @@
 <template>
   <header class="sticky top-0 z-30 flex w-full bg-base-100 drop-shadow">
-    <div class="flex flex-grow items-center justify-between py-4 px-4 shadow-2 md:px-6 2xl:px-11">
+    <div class="flex flex-grow items-center justify-between py-4 px-4 shadow-sm md:px-6 2xl:px-11">
       <!-- Hamburger Toggle Button -->
       <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
         <button
@@ -48,7 +48,7 @@
           </a>
 
           <!-- Dropdown Start -->
-          <div v-if="dropdownOpen" class="absolute right-0 mt-4 flex w-64 flex-col rounded-sm border border-stroke bg-base-100 shadow-default">
+          <div v-if="dropdownOpen" class="absolute right-0 mt-4 flex w-64 flex-col rounded-sm border border-stroke bg-base-100 shadow">
             <ul class="flex flex-col gap-5 border-b border-stroke px-6 py-7">
               <li>
                 <a href="profile.html" class="flex items-center gap-3 text-sm font-medium duration-300 ease-in-out hover:text-primary">
