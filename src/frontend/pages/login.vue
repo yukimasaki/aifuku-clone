@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-full bg-base-200">
     This is login page.
   </div>
 </template>
