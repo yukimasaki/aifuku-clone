@@ -24,7 +24,6 @@
     "@headlessui/vue": "^1.7.14",
     "@nuxtjs/firebase": "^8.2.2",
     "@nuxtjs/tailwindcss": "^6.7.2",
-    "dotenv": "^16.3.1",
     "firebase": "^9.22.2"
   }
 }
