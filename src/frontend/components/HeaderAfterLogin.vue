@@ -83,30 +83,21 @@
   </header>
 </template>
 
-<script>
+<script setup>
 import { mdiMenu, mdiChevronDown, mdiAccountOutline, mdiCogOutline, mdiLogout } from '@mdi/js'
 
-export default {
-  setup () {
-    const visibleSidebar = useState('visibleSidebar', () => false)
+const visibleSidebar = useState('visibleSidebar', () => false)
 
-    // todo: composable化したい
-    const toggleSidebar = () => {
-      visibleSidebar.value = !visibleSidebar.value
-    }
-
-    const dropdownOpen = ref(false)
-
-    const mdiMenuPath = ref(mdiMenu)
-    const mdiChevronDownPath = ref(mdiChevronDown)
-    const mdiAccountOutlinePath = ref(mdiAccountOutline)
-    const mdiCogOutlinePath = ref(mdiCogOutline)
-    const mdiLogoutPath = ref(mdiLogout)
-
-    return {
-      visibleSidebar, toggleSidebar, dropdownOpen,
-      mdiMenuPath, mdiChevronDownPath, mdiAccountOutlinePath, mdiCogOutlinePath, mdiLogoutPath,
-    }
-  }
+// todo: composable化したい
+const toggleSidebar = () => {
+  visibleSidebar.value = !visibleSidebar.value
 }
+
+const dropdownOpen = ref(false)
+
+const mdiMenuPath = ref(mdiMenu)
+const mdiChevronDownPath = ref(mdiChevronDown)
+const mdiAccountOutlinePath = ref(mdiAccountOutline)
+const mdiCogOutlinePath = ref(mdiCogOutline)
+const mdiLogoutPath = ref(mdiLogout)
 </script>
