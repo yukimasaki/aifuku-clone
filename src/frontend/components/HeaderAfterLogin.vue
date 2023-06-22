@@ -32,8 +32,8 @@
         <div class="relative">
           <a class="flex items-center gap-4" href="#" @click.prevent="dropdownOpen = !dropdownOpen">
             <span class="hidden text-right lg:block">
-              <span class="block text-sm font-medium text-black">Thomas Anree</span>
-              <span class="block text-xs font-medium">UX Designer</span>
+              <span class="block text-sm font-medium text-black">Ms. Anko</span>
+              <span class="block text-xs font-medium">Chief Engineer</span>
             </span>
 
             <div class="avatar">
