@@ -20,11 +20,11 @@ module.exports = {
     themes: [
       {
         aifuku: {
-          "primary": "#15bef2",
-          "secondary": "#ffc9d7",
-          "accent": "#f296cb",
-          "neutral": "#36273a",
-          "base-100": "#f9fafa",
+          "primary": "#5f939a",
+          "secondary": "#1b2021",
+          "accent": "#d8ac9c",
+          "neutral": "#eac8af",
+          "base-100": "#eff4f4",
           "info": "#4e8dda",
           "success": "#1a7465",
           "warning": "#9f730f",
