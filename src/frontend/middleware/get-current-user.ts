@@ -8,17 +8,10 @@ export default defineNuxtRouteMiddleware(async () => {
   // }
 
   // 下記は正常に動作しない
-  // const { checkAuthState } = useAuth()
-  // const currentUser = await checkAuthState()
-  // if (currentUser === null) {
-  //   return navigateTo('/login', { replace: true })
-  // }
-
-  console.log(`middleware`)
-  const auth = await getAuth()
-  // await onAuthStateChanged(auth, (user) => {
-  //   if (user === null) {
-  //     return navigateTo('/login', { replace: true })
-  //   }
-  // })
+  const { checkAuthState } = useAuth()
+  const currentUser = await checkAuthState()
+  console.log(currentUser)
+  if (currentUser === null) {
+    return navigateTo('/login', { replace: true })
+  }
 })
