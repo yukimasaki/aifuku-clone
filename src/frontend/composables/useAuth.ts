@@ -1,9 +1,10 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 export const useAuth = () => {
-  const checkAuthState = async () => {
-    const auth = await getAuth()
-    await onAuthStateChanged(auth, (user) => {
+  const checkAuthState = () => {
+    const auth = getAuth()
+    onAuthStateChanged(auth, (user) => {
+      console.log(user)
       return user
     })
   }
