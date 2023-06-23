@@ -20,23 +20,16 @@ router.post('/', async (req, res) => {
       body,
     }
   )
-  .then(result => {
-    console.log(result)
+  .then(response => {
+    return response.json()
+  })
+  .then(data => {
+    res.cookie('token', data.idToken, { httpOnly: true })
+    .status(200).json({ message: 'ok', data })
   })
   .catch(error => {
-    console.log(error)
+    res.status(401).json({ message: 'ng', error })
   })
 })
-
-//   const auth = getAuth()
-
-//   await signInWithEmailAndPassword(auth, email, password)
-//   .then((userCredential) => {
-//     const user = userCredential.user
-//     res.status(200).json({ message: 'ok', user: user })
-//   })
-//   .catch((error) => {
-//     res.status(401).json({ message: 'ng', error: error })
-//   })
 
 export default router
