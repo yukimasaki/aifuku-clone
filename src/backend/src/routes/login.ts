@@ -24,8 +24,13 @@ router.post('/', async (req, res) => {
     return response.json()
   })
   .then(data => {
-    res.cookie('token', data.idToken, { httpOnly: true })
-    .status(200).json({ message: 'ok', data })
+    if (data.error) {
+      res.status(400).json({ message: 'ng', error: data.error })
+    } else {
+      console.log(`本当はcookieに保存できてるはず・・・`)
+      res.cookie('token', data.idToken, { httpOnly: true })
+      .status(200).json({ message: 'ok', data })
+    }
   })
   .catch(error => {
     res.status(401).json({ message: 'ng', error })
