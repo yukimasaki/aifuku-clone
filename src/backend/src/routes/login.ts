@@ -2,10 +2,33 @@ import express from 'express'
 const router = express.Router()
 
 // POST /login
-// router.post('/', async (req, res) => {
+router.post('/', async (req, res) => {
+  const firebaseApiKey = 'AIzaSyDIraHkuFWYdItWEydce1dbaAwBsRNNMeA'
+  const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${firebaseApiKey}`
+  const { email, password } = req.body
+  const body = JSON.stringify({
+    email,
+    password,
+    returnSecureToken: true
+  })
+
+  await fetch(
+    url,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+    }
+  )
+  .then(result => {
+    console.log(result)
+  })
+  .catch(error => {
+    console.log(error)
+  })
+})
+
 //   const auth = getAuth()
-//   const email = req.body.email
-//   const password = req.body.password
 
 //   await signInWithEmailAndPassword(auth, email, password)
 //   .then((userCredential) => {
@@ -15,6 +38,5 @@ const router = express.Router()
 //   .catch((error) => {
 //     res.status(401).json({ message: 'ng', error: error })
 //   })
-// })
 
 export default router
