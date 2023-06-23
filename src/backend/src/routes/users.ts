@@ -1,5 +1,4 @@
 import express from 'express'
-import FirebaseAdmin from 'firebase-admin'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -20,20 +19,20 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST /users
-router.post('/', async (req, res) => {
-  const { email, password, tenant_id, display_name } = req.body
-  await FirebaseAdmin.auth().createUser({ email, password })
-  .then(async (userRecord) => {
-    const uid = userRecord.uid
-    const result = await prisma.user.create({
-      data: { uid, email, tenant_id, display_name },
-    })
-    res.status(200).json({ message: 'ok', result: result })
-  })
-  .catch((error) => {
-    res.status(400).json({ message: 'ng', result: error })
-  })
-})
+// router.post('/', async (req, res) => {
+//   const { email, password, tenant_id, display_name } = req.body
+//   await FirebaseAdmin.auth().createUser({ email, password })
+//   .then(async (userRecord) => {
+//     const uid = userRecord.uid
+//     const result = await prisma.user.create({
+//       data: { uid, email, tenant_id, display_name },
+//     })
+//     res.status(200).json({ message: 'ok', result: result })
+//   })
+//   .catch((error) => {
+//     res.status(400).json({ message: 'ng', result: error })
+//   })
+// })
 
 // PUT /users/:id
 router.put('/:id', async (req, res) => {
