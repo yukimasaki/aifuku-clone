@@ -20,10 +20,10 @@ router.post('/', async (req, res) => {
     return response.json()
   })
   .then(data => {
-    res.status(200).json({ message: 'ok', data })
+    res.status(200).json({ message: 'ok', uid: data.users[0].localId })
   })
   .catch(error => {
-    res.status(401).json({ message: 'ng', error })
+    res.status(400).json({ message: 'ng', error })
   })
 })
 
