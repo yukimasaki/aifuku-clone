@@ -3,6 +3,11 @@ version: "3"
 services:
   db:
     container_name: postgres
+    networks:
+      default:
+      aifuku-network:
+        aliases:
+          - postgres-container
     image: postgres:15.3-alpine
     environment:
       POSTGRES_USER: root
@@ -17,6 +22,11 @@ services:
 
   express:
     container_name: express
+    networks:
+      default:
+      aifuku-network:
+        aliases:
+          - express-container
     depends_on:
       - db
     build:
@@ -32,6 +42,11 @@ services:
 
   nuxt:
     container_name: nuxt
+    networks:
+      default:
+      aifuku-network:
+        aliases:
+          - nuxt-container
     depends_on:
       - db
     build:
@@ -43,3 +58,7 @@ services:
       - ./src/frontend:/app
     tty: true
     restart: always
+
+networks:
+  aifuku-network:
+    external: true
