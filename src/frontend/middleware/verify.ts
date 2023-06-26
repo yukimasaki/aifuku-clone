@@ -1,5 +1,5 @@
 export default defineNuxtRouteMiddleware(async () => {
-  const url = 'http://192.168.93.150:3000/verify'
+  const url = 'http://express-container:3000/verify'
 
   await fetch(
     url,

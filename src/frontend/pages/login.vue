@@ -33,7 +33,7 @@ definePageMeta({
 const email = ''
 const password = ''
 
-const url = 'http://192.168.93.150:3000/login'
+const url = 'http://express-container:3000/login'
 
 const login = async (email, password) => {
   const res = await fetch(url, {
