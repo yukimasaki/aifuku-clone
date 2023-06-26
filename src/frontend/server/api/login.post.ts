@@ -9,26 +9,28 @@ export default defineEventHandler(async (event) => {
     returnSecureToken: true
   })
 
-  await fetch(
+  const response = await fetch(
     url,
     {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body,
     }
   )
-  .then(response => {
-    return response.json()
-  })
-  .then(data => {
-    setCookie(event, 'token', data.idToken, { secure: true, httpOnly: true })
-  })
-  .catch(error => {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Authentication failed.',
-      message: error
-    })
-  })
+
+  if (!response.ok) {
+    return await response.json()
+  }
+
+  const responseData = await response.json()
+  setCookie(
+    event,
+    'token',
+    responseData.idToken,
+    { maxAge: responseData.expiresIn },
+  )
+  return response.ok
 })
 

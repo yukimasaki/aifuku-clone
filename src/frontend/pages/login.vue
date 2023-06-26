@@ -33,7 +33,7 @@ definePageMeta({
 const email = ''
 const password = ''
 
-const url = '/login'
+const url = '/api/login'
 
 const login = async (email, password) => {
   await useFetch(
