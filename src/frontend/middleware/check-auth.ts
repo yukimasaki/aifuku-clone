@@ -1,12 +1,12 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
   // issue: URLとして認識していないのがエラーの原因？
-  const url = '/api/verify'
+  const url = 'http://example.com:3001/api/verify'
 
   // todo: useFetchに置き換える
   const response = await fetch(
     url,
     {
-      method: 'GET',
+      method: 'POST',
     }
   )
 
@@ -17,6 +17,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     await navigateTo('/login', { replace: true })
   } else {
     console.log(`ログインしています。`)
-    await navigateTo('/test')
+    await navigateTo('/')
   }
 })
