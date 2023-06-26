@@ -1,6 +1,6 @@
 <template>
   <div class="h-full bg-base-200">
-    This is index page.
+    <h2><nuxt-link :to="'/login'">Loginページ</nuxt-link></h2>
   </div>
 </template>
 
