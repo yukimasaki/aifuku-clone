@@ -11,7 +11,8 @@ const port = 3000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+// CORS設定あり
+app.use(cors({ credentials: true, origin: 'http://nuxt-container.local:3001' }))
 app.use(cookieParser())
 
 app.use('/users', userRouter)
