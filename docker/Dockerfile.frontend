@@ -1,6 +1,6 @@
 FROM node:19.9.0-alpine
 
-WORKDIR /app
+WORKDIR /work
 
 EXPOSE 3001
 
