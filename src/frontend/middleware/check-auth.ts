@@ -1,4 +1,5 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
+  // issue: URLとして認識していないのがエラーの原因？
   const url = '/api/verify'
   const response = await fetch(
     url,
@@ -11,9 +12,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   if (!response.ok) {
     console.log(`ログインしていません。`)
-    // return navigateTo('/login', { replace: true })
+    await navigateTo('/login', { replace: true })
   } else {
     console.log(`ログインしています。`)
-    // return navigateTo('/test')
+    await navigateTo('/test')
   }
 })
