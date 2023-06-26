@@ -5,6 +5,7 @@ export default defineEventHandler(async (event) => {
   const idToken = getCookie(event, 'token')
   const body = JSON.stringify({ idToken })
 
+  // todo: useFetchに置き換える
   const response = await fetch(
     url,
     {

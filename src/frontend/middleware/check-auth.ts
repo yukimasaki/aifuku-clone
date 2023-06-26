@@ -1,6 +1,8 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
   // issue: URLとして認識していないのがエラーの原因？
   const url = '/api/verify'
+
+  // todo: useFetchに置き換える
   const response = await fetch(
     url,
     {

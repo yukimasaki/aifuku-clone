@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
     returnSecureToken: true
   })
 
+  // todo: useFetchに置き換える
   const response = await fetch(
     url,
     {
