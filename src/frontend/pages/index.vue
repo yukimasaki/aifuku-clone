@@ -6,6 +6,6 @@
 
 <script setup>
 definePageMeta({
-  middleware: 'verify'
+  middleware: 'check-auth'
 })
 </script>
