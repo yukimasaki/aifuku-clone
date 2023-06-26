@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
       res.status(400).json({ message: 'ng', error: data.error })
     } else {
       // CORS設定あり
-      res.cookie('token', data.idToken, { httpOnly: true, domain: 'express-container' })
+      res.cookie('token', data.idToken, { httpOnly: true, domain: 'nuxt-container.local' })
       .status(200).json({ message: 'ok', data })
     }
   })

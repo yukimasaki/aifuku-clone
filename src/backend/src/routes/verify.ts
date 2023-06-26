@@ -6,6 +6,7 @@ router.post('/', async (req, res) => {
   const firebaseApiKey = 'AIzaSyDIraHkuFWYdItWEydce1dbaAwBsRNNMeA'
   const url = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${firebaseApiKey}`
   const idToken = req.cookies.token
+  console.log(req.cookies)
   const body = JSON.stringify({ idToken })
 
   await fetch(
