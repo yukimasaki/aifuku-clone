@@ -20,26 +20,6 @@ services:
     tty: true
     restart: always
 
-  express:
-    container_name: express
-    networks:
-      default:
-      aifuku-network:
-        aliases:
-          - express-container
-    depends_on:
-      - db
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile.backend
-    ports:
-      - "3000:3000"
-      - "5555:5555"
-    volumes:
-      - ./src/backend:/work
-    tty: true
-    restart: always
-
   nuxt:
     container_name: nuxt
     networks:
@@ -54,6 +34,7 @@ services:
       dockerfile: ./docker/Dockerfile.frontend
     ports:
       - "3001:3000"
+      - "5555:5555"
     volumes:
       - ./src/frontend:/work
     tty: true
