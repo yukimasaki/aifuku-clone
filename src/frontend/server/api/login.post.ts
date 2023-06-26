@@ -30,7 +30,10 @@ export default defineEventHandler(async (event) => {
     event,
     'token',
     responseData.idToken,
-    { maxAge: responseData.expiresIn },
+    {
+      httpOnly: true,
+      maxAge: responseData.expiresIn
+    },
   )
   return response.ok
 })
