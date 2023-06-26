@@ -33,10 +33,12 @@ definePageMeta({
 const email = ''
 const password = ''
 
-const url = 'http://express-container:3000/login'
+const url = 'http://nuxt-container.local:3000/login'
 
 const login = async (email, password) => {
   const res = await fetch(url, {
+    mode: 'cors',
+    credentials: 'include',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
