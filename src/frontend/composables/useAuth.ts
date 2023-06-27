@@ -36,8 +36,25 @@ export const useAuth = () => {
     }
   }
 
+  const logout = async () => {
+    const url = '/api/logout'
+
+    const { data } = await useFetch(
+      url,
+      {
+        method: 'POST',
+      }
+    )
+
+    if (data.value) {
+      // ログアウト成功
+      return navigateTo('/')
+    }
+  }
+
   return {
     verify,
     login,
+    logout,
   }
 }
