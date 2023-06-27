@@ -2,7 +2,7 @@ export const useAuth = () => {
   const verify = async () => {
     const url = '/api/verify'
 
-    const { data: uid } =  await useFetch(
+    const { data } =  await useFetch(
       url,
       {
         method: 'POST',
@@ -11,7 +11,11 @@ export const useAuth = () => {
         },
       }
     )
-    return uid.value
+    
+    if (data.value) {
+      const uid = JSON.parse(data.value)   
+      return uid
+    }
   }
 
   const login = async (email: String, password: String) => {
