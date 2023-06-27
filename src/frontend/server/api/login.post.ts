@@ -9,7 +9,6 @@ export default defineEventHandler(async (event) => {
     returnSecureToken: true
   })
 
-  // todo: useFetchに置き換える
   const response = await fetch(
     url,
     {
@@ -22,7 +21,10 @@ export default defineEventHandler(async (event) => {
   )
 
   if (!response.ok) {
-    return await response.json()
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Login failed'
+    })
   }
 
   const responseData = await response.json()
@@ -35,6 +37,7 @@ export default defineEventHandler(async (event) => {
       maxAge: responseData.expiresIn
     },
   )
-  return response.ok
+  
+  return JSON.stringify({ uid: responseData.localId })
 })
 
