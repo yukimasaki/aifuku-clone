@@ -28,5 +28,5 @@ export default defineEventHandler(async (event) => {
 
   const result  = await response.json()
   const uid = result.users[0].localId
-  return uid
+  return JSON.stringify({ uid })
 })
