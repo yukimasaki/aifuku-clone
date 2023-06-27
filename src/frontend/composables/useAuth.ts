@@ -48,7 +48,8 @@ export const useAuth = () => {
 
     if (data.value) {
       // ログアウト成功
-      return navigateTo('/')
+      console.log(data.value)
+      return navigateTo('/login')
     }
   }
 
