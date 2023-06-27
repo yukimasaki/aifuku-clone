@@ -1,20 +1,8 @@
+import { useAuth } from "../../composables/useAuth"
+
 export default defineEventHandler(async (event) => {
-  const firebaseApiKey = 'AIzaSyDIraHkuFWYdItWEydce1dbaAwBsRNNMeA'
-  const url = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${firebaseApiKey}`
-
-  const idToken = getCookie(event, 'token')
-  const body = JSON.stringify({ idToken })
-
-  const response = await fetch(
-    url,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body,
-    }
-  )
+  const { fetchUserWithToken } = useAuth()
+  const response = await fetchUserWithToken(event)
 
   if (!response.ok) {
     const result = await response.json()
