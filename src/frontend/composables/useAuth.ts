@@ -1,9 +1,8 @@
 export const useAuth = () => {
   const verify = async () => {
-    const url = '/verify'
+    const url = '/api/verify'
 
-    // todo: useFetchに置き換える
-    const response = await fetch(
+    const { data } =  await useFetch(
       url,
       {
         method: 'POST',
@@ -13,15 +12,11 @@ export const useAuth = () => {
       }
     )
 
-    // if (!response.ok) {
-    //   const result = await response.json()
-    //   const { error } = result
-    //   throw createError({
-    //     statusCode: error.code,
-    //     statusMessage: error.message,
-    //   })
-    // }
+    console.log(data)
+    return data
+  }
 
-    // return response.ok
+  return {
+    verify
   }
 }
