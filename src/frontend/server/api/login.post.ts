@@ -21,23 +21,24 @@ export default defineEventHandler(async (event) => {
   )
 
   if (!response.ok) {
+    const result = await response.json()
+    const { error } = result
     throw createError({
-      statusCode: 400,
-      statusMessage: 'Login failed'
+      statusCode: error.code,
+      statusMessage: error.message,
     })
+  } else {
+    const responseData = await response.json()
+    setCookie(
+      event,
+      'token',
+      responseData.idToken,
+      {
+        httpOnly: true,
+        maxAge: responseData.expiresIn
+      },
+    )
+    return JSON.stringify({ uid: responseData.localId })
   }
-
-  const responseData = await response.json()
-  setCookie(
-    event,
-    'token',
-    responseData.idToken,
-    {
-      httpOnly: true,
-      maxAge: responseData.expiresIn
-    },
-  )
-  
-  return JSON.stringify({ uid: responseData.localId })
 })
 
