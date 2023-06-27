@@ -26,6 +26,8 @@
 </template>
 
 <script setup>
+import { useAuth } from '../composables/useAuth'
+
 definePageMeta({
   layout: 'before-login'
 })
@@ -33,16 +35,5 @@ definePageMeta({
 const email = ''
 const password = ''
 
-const url = '/api/login'
-
-const login = async (email, password) => {
-  await useFetch(
-    url,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: { email, password }
-    }
-  )
-}
+const { login } = useAuth()
 </script>
