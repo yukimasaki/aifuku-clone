@@ -67,7 +67,10 @@
                 </a>
               </li>
             </ul>
-            <button class="flex items-center gap-3 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary">
+            <button
+              class="flex items-center gap-3 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary"
+              @click="logout"
+            >
               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" style="transform: scaleX(-1)">
                 <path :d="mdiLogoutPath"></path>
               </svg>
@@ -85,6 +88,9 @@
 
 <script setup>
 import { mdiMenu, mdiChevronDown, mdiAccountOutline, mdiCogOutline, mdiLogout } from '@mdi/js'
+import { useAuth } from '../composables/useAuth'
+
+const { logout } = useAuth()
 
 const visibleSidebar = useState('visibleSidebar', () => false)
 
