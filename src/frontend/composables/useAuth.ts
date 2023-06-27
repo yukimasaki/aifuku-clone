@@ -13,7 +13,7 @@ export const useAuth = () => {
     )
     
     if (data.value) {
-      const uid = JSON.parse(data.value)   
+      const uid = JSON.parse(data.value)
       return uid
     }
   }
@@ -21,14 +21,19 @@ export const useAuth = () => {
   const login = async (email: String, password: String) => {
     const url = '/api/login'
 
-    await useFetch(
+    const { data } = await useFetch(
       url,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: { email, password }
       }
-    )    
+    )
+
+    if (data.value) {
+      // ログイン成功
+      return navigateTo('/')
+    }
   }
 
   return {
