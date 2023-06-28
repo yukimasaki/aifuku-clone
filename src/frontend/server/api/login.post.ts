@@ -4,19 +4,28 @@ export default defineEventHandler(async (event) => {
   const req = await readBody(event)
   const { email, password } = req
 
-  const auth = getAuth()
-  signInWithEmailAndPassword(auth, email, password)
-  .then(userCredential => {
-    console.log(userCredential.user)
-    return JSON.stringify(userCredential.user)
-  })
-  .catch(error => {
-    const errorCode = error.code
-    if (errorCode === 'auth/user-not-found') {
-      throw createError({
-        statusCode: 400,
-        statusMessage: errorCode
-      })
-    }
-  })
+  // リクエストボディで渡されたJSONデータが不正な場合は400を返す
+  if (!email || !password) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Bad Request',
+    })
+  }
+
+  try {
+    const auth = getAuth()
+    const userCredential = await signInWithEmailAndPassword(auth, email, password)
+    const user = userCredential.user
+    // ログインに成功した場合はユーザ情報を含むJSONデータを返す
+    return JSON.stringify({
+      uid: user.uid,
+      email: user.email,
+    })
+  } catch (error) {
+    // ログインに失敗した場合は401を返す
+    throw createError({
+      statusCode: 401,
+      statusMessage: 'Unauthorized',
+    })
+  }
 })
