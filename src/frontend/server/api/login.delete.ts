@@ -6,15 +6,14 @@ export default defineEventHandler(async () => {
     const user = auth.currentUser
     await signOut(auth)
     if (user) {
-      console.log(`here`)
       return JSON.stringify({
         uid: user.uid
       })
-    } else {
-      // user === null (既にログアウトしている)
     }
   } catch (error) {
-    // 例外
-    console.log(error)
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Internal Server Error',
+    })
   }
 })
