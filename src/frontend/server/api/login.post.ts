@@ -21,11 +21,42 @@ export default defineEventHandler(async (event) => {
       uid: user.uid,
       email: user.email,
     })
-  } catch (error) {
-    // ログインに失敗した場合は401を返す
+  } catch (error: any) {
+    // ログインに失敗した場合は、Firebaseのエラーコードに応じてステータスコードとステータスメッセージを返す
+    const message = error.code
+    let statusCode
+    let statusMessage
+
+    switch (message) {
+      case 'auth/invalid-email':
+        statusCode = 400
+        statusMessage = 'Bad Request'
+        break
+
+      case 'auth/wrong-password':
+        statusCode = 401
+        statusMessage = 'Unauthorized'
+        break
+
+      case 'auth/user-disabled':
+        statusCode = 403
+        statusMessage = 'Forbidden'
+        break
+
+      case 'auth/user-not-found':
+        statusCode = 404
+        statusMessage = 'Not Found'
+        break
+
+      default:
+        statusCode = 500
+        statusMessage = 'Internal Server Error'
+        break
+    }
+
     throw createError({
-      statusCode: 401,
-      statusMessage: 'Unauthorized',
+      statusCode,
+      statusMessage,
     })
   }
 })
