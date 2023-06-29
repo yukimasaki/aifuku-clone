@@ -1,6 +1,8 @@
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, deleteUser } from 'firebase/auth'
+import { PrismaClient } from '@prisma/client'
 
 export default defineEventHandler(async (event) => {
+  const prisma = new PrismaClient()
   const req = await readBody(event)
   const { email, password, tenantId, displayName } = req
 
@@ -15,8 +17,29 @@ export default defineEventHandler(async (event) => {
   try {
     const auth = getAuth()
     const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-    // 1. Firebaseへのユーザ登録が成功した場合は、データベースにもプロフィール情報を登録する
-
+    const uid = userCredential.user.uid
+    // Firebaseへのユーザ登録後、データベースにもプロフィール情報を登録する
+    try {
+      const profile = await prisma.profile.create({
+        data: {
+          uid,
+          email,
+          displayName,
+          tenantId: parseInt(tenantId),
+        }
+      })
+      console.log(profile)
+    } catch (error) {
+      // データベースへの登録に失敗した場合は、Firebaseへ登録したユーザ情報を削除する
+      console.log(`データベースへの登録に失敗`)
+      console.log(error)
+      try {
+        await deleteUser(userCredential.user)
+      } catch (error) {
+        console.log(`Firebaseからの削除に失敗`)
+        console.log(error)
+      }
+    }
     // final. 双方のユーザ登録に成功した場合はユーザ情報を含むJSONデータを返す
     const user = userCredential.user
     return JSON.stringify({
