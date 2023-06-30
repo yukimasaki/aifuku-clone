@@ -1,7 +1,6 @@
 import { getAuth, createUserWithEmailAndPassword, deleteUser } from 'firebase/auth'
 import { PrismaClient } from '@prisma/client'
 import { useErrorHande } from '../../composables/useErrorHandle'
-import { profile } from 'console'
 
 export default defineEventHandler(async (event) => {
   const prisma = new PrismaClient()
