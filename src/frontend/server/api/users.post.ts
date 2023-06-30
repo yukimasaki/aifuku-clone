@@ -8,7 +8,8 @@ export default defineEventHandler(async (event) => {
 
   const req = await readBody(event)
   const { email, password, tenantId, displayName } = req
-
+  // todo: ↑ 各値を配列に格納する
+  // todo: ↓ 配列でループ処理する
   // リクエストボディで渡されたJSONデータが不正な場合は400を返す
   if (!email || !password || !tenantId || !displayName) {
     throw createError({
@@ -16,6 +17,14 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Bad Request',
     })
   }
+
+  // バリデーションを行い、1つでも不合格の場合はエラーをスローする
+  const ruleEmail = /^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$/
+  const rulePassword = /^(?=.*[0-9a-zA-Z]).{6,}$/
+  const ruleDisplayName = /^[\u4E00-\u9FFF\u30A0-\u30FF\u3040-\u309Fa-zA-Z0-9_-\.]+$/
+  const ruleTenantId = /^[0-9]+$/
+
+  // todo: 配列をループ処理でバリデーションする
 
   try {
     const auth = getAuth()
@@ -72,3 +81,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 })
+
+const validate = (value: any, regex: RegExp) => {
+  return regex.test(value)
+}
