@@ -1,8 +1,8 @@
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { useErrorHande } from '../../composables/useErrorHandle'
+import { useErrorHandle } from '../../composables/useErrorHandle'
 
 export default defineEventHandler(async (event) => {
-  const { firebaseErrorMessageToHttpStatusCode } = useErrorHande()
+  const { firebaseErrorMessageToHttpStatusCode } = useErrorHandle()
 
   const req = await readBody(event)
   const { email, password } = req
