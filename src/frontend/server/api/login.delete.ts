@@ -10,6 +10,10 @@ export default defineEventHandler(async () => {
         uid: user.uid
       })
     }
+    // todo: オプショナルチェーン演算子 (nullの場合、undefinedが返る) の動作検証
+    // return JSON.stringify({
+    //   uid: user?.uid
+    // })
   } catch (error) {
     throw createError({
       statusCode: 500,
