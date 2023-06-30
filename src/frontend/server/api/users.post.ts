@@ -1,6 +1,7 @@
 import { getAuth, createUserWithEmailAndPassword, deleteUser } from 'firebase/auth'
 import { PrismaClient } from '@prisma/client'
 import { useErrorHande } from '../../composables/useErrorHandle'
+import { profile } from 'console'
 
 export default defineEventHandler(async (event) => {
   const prisma = new PrismaClient()
@@ -32,13 +33,15 @@ export default defineEventHandler(async (event) => {
           tenantId: parseInt(tenantId),
         }
       })
-      // final. 双方のユーザ登録に成功した場合はユーザ情報を含むJSONデータを返す
-      console.log(`データベースへの登録に成功`)
-      return JSON.stringify({
-        uid: profile.uid,
-        email: profile.email,
-        displayName: profile.displayName,
-      })
+      if (profile) {
+        // 双方のユーザ登録に成功した場合はユーザ情報を含むJSONデータを返す
+        console.log(`データベースへの登録に成功`)
+        return JSON.stringify({
+          uid: profile.uid,
+          email: profile.email,
+          displayName: profile.displayName,
+        })
+      }
     } catch (error) {
       try {
         // データベースへの登録に失敗した場合は、Firebaseへ登録したユーザ情報を削除する
