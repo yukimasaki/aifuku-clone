@@ -1,30 +1,31 @@
 import { getAuth, createUserWithEmailAndPassword, deleteUser } from 'firebase/auth'
 import { PrismaClient } from '@prisma/client'
-import { useErrorHandle } from '../../composables/useErrorHandle'
+import { useErrorHandle} from '../../composables/useErrorHandle'
+import validator from 'validator'
 
 export default defineEventHandler(async (event) => {
   const prisma = new PrismaClient()
   const { firebaseErrorMessageToHttpStatusCode } = useErrorHandle()
 
   const req = await readBody(event)
-  const { email, password, tenantId, displayName } = req
-  // todo: ↑ 各値を配列に格納する
-  // todo: ↓ 配列でループ処理する
+  const { email, password, displayName, tenantId } = req
+
   // リクエストボディで渡されたJSONデータが不正な場合は400を返す
-  if (!email || !password || !tenantId || !displayName) {
+  if (!email || !password || !displayName || !tenantId) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Bad Request',
     })
   }
 
-  // バリデーションを行い、1つでも不合格の場合はエラーをスローする
-  const ruleEmail = /^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$/
-  const rulePassword = /^(?=.*[0-9a-zA-Z]).{6,}$/
-  const ruleDisplayName = /^[\u4E00-\u9FFF\u30A0-\u30FF\u3040-\u309Fa-zA-Z0-9_-\.]+$/
-  const ruleTenantId = /^[0-9]+$/
-
-  // todo: 配列をループ処理でバリデーションする
+  // バリデーションを行い、1つでも不合格の場合は例外をスローし、全てに合格した場合は処理を続行する
+  const validationResult = valid(email, password, displayName, tenantId)
+  if (!validationResult) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Bad Request',
+    })
+  }
 
   try {
     const auth = getAuth()
@@ -82,6 +83,30 @@ export default defineEventHandler(async (event) => {
   }
 })
 
-const validate = (value: any, regex: RegExp) => {
-  return regex.test(value)
+const valid = (email: any, password: any, displayName: any, tenantId: any) => {
+  const ruleEmail = () => validator.isEmail(email)
+  const rulePassword = () => validator.isStrongPassword(password, { minLength: 6 })
+  const ruleDisplayName = () => {
+    const isSomeText = [
+      validator.isAscii(displayName),
+      validator.isMultibyte(displayName),
+    ].some(result => result === true)
+
+    const isValid = [
+      isSomeText,
+      validator.isLength(displayName, { min: 1, max: 32 }),
+    ].every(result => result === true)
+
+    return isValid
+  }
+  const ruleTenantId = () => validator.isInt(tenantId)
+
+  const validationResult = [
+    ruleEmail(),
+    rulePassword(),
+    ruleDisplayName(),
+    ruleTenantId(),
+  ].every(result => result === true)
+
+  return validationResult
 }
