@@ -1,10 +1,10 @@
 import { getAuth, createUserWithEmailAndPassword, deleteUser } from 'firebase/auth'
 import { PrismaClient } from '@prisma/client'
-import { useErrorHande } from '../../composables/useErrorHandle'
+import { useErrorHandle } from '../../composables/useErrorHandle'
 
 export default defineEventHandler(async (event) => {
   const prisma = new PrismaClient()
-  const { firebaseErrorMessageToHttpStatusCode } = useErrorHande()
+  const { firebaseErrorMessageToHttpStatusCode } = useErrorHandle()
 
   const req = await readBody(event)
   const { email, password, tenantId, displayName } = req

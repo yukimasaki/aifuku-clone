@@ -1,4 +1,4 @@
-export const useErrorHande = () => {
+export const useErrorHandle = () => {
   const firebaseErrorMessageToHttpStatusCode = (message: string) => {
     let statusCode
     let statusMessage
