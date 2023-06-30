@@ -27,6 +27,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
+  // todo: ネストを減らして可読性を高める、Postmanで動作検証する
   try {
     const auth = getAuth()
     const userCredential = await createUserWithEmailAndPassword(auth, email, password)
