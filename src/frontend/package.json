@@ -18,6 +18,7 @@
     "@tailwindcss/typography": "^0.5.9",
     "@types/firebase": "^3.2.1",
     "@types/node": "^18",
+    "@types/validator": "^13.7.17",
     "daisyui": "^3.1.1",
     "jsdom": "^22.1.0",
     "nuxt": "^3.6.0",
