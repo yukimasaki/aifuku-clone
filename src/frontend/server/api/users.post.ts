@@ -1,12 +1,9 @@
-import { getAuth, createUserWithEmailAndPassword, deleteUser } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, deleteUser, User } from 'firebase/auth'
 import { PrismaClient } from '@prisma/client'
 import { useErrorHandle} from '../../composables/useErrorHandle'
 import validator from 'validator'
 
 export default defineEventHandler(async (event) => {
-  const prisma = new PrismaClient()
-  const { firebaseErrorMessageToHttpStatusCode } = useErrorHandle()
-
   const req = await readBody(event)
   const { email, password, displayName, tenantId } = req
 
@@ -27,64 +24,29 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  // todo: ネストを減らして可読性を高める、Postmanで動作検証する
   try {
-    const auth = getAuth()
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-    const uid = userCredential.user.uid
-    console.log(`Firebaseへの登録に成功`)
-    // Firebaseへのユーザ登録後、データベースにもプロフィール情報を登録する
+    // Firebaseへユーザ登録する
+    // 成功したら次のtryへ進み、失敗したら例外をスローする
+    const user = await createUserToFirebase(email, password)
     try {
-      const profile = await prisma.profile.create({
-        data: {
-          uid,
-          email,
-          displayName,
-          tenantId: parseInt(tenantId),
-        }
-      })
-      if (profile) {
-        // 双方のユーザ登録に成功した場合はユーザ情報を含むJSONデータを返す
-        console.log(`データベースへの登録に成功`)
-        return JSON.stringify({
-          uid: profile.uid,
-          email: profile.email,
-          displayName: profile.displayName,
-        })
-      }
+      // データベースへプロフィール情報を登録する
+      // 成功したらJSON形式でレスポンスボディを返し、失敗したらFirebaseからデータを削除して例外をスローする
+      const profile = await createUserToDatabase(user.uid, email, displayName, tenantId)
+      return profile
     } catch (error) {
-      try {
-        // データベースへの登録に失敗した場合は、Firebaseへ登録したユーザ情報を削除する
-        await deleteUser(userCredential.user)
-        console.log(`データベースへの登録に失敗`)
-        console.log(error)
-        throw createError({
-          statusCode: 400,
-          statusMessage: 'Bad Request',
-        })
-      } catch (error) {
-        console.log(`Firebaseからの削除に失敗`)
-        console.log(error)
-        throw createError({
-          statusCode: 500,
-          statusMessage: 'Internal Server Error',
-        })
-      }
+      await onFailureCreateUserToDatabase(user)
     }
   } catch (error: any) {
-    // ユーザ登録に失敗した場合は、Firebaseのエラーコードに応じてステータスコードとステータスメッセージを返す
-    console.log(`Firebaseへの登録に失敗`)
-    console.log(error)
-    const message = error.code
-    const { statusCode, statusMessage } = firebaseErrorMessageToHttpStatusCode(message)
-    throw createError({
-      statusCode,
-      statusMessage,
-    })
+    onFailureCreateUserToFirebase(error)
   }
 })
 
-const valid = (email: any, password: any, displayName: any, tenantId: any) => {
+const valid = (
+  email: any,
+  password: any,
+  displayName: any,
+  tenantId: any,
+) => {
   const ruleEmail = () => validator.isEmail(email)
   const rulePassword = () => validator.isStrongPassword(password, { minLength: 6 })
   const ruleDisplayName = () => {
@@ -110,4 +72,51 @@ const valid = (email: any, password: any, displayName: any, tenantId: any) => {
   ].every(result => result === true)
 
   return validationResult
+}
+
+const createUserToFirebase = async (email: string, password: string) => {
+  console.log(`createUserToFirebase`)
+  const auth = getAuth()
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+  const user = userCredential.user
+  return user
+}
+
+const onFailureCreateUserToFirebase = (error: any) => {
+  console.log(`onFailureCreateUserToFirebase`)
+  const { firebaseErrorMessageToHttpStatusCode } = useErrorHandle()
+  const message = error.code
+  const { statusCode, statusMessage } = firebaseErrorMessageToHttpStatusCode(message)
+  throw createError({
+    statusCode,
+    statusMessage,
+  })
+}
+
+const createUserToDatabase = async (
+  uid: string,
+  email: string,
+  displayName: string,
+  tenantId: string,
+  ) => {
+  console.log(`createUserToDatabase`)
+  const prisma = new PrismaClient()
+  const profile = await prisma.profile.create({
+    data: {
+      uid,
+      email,
+      displayName,
+      tenantId: parseInt(tenantId),
+    }
+  })
+  return JSON.stringify(profile)
+}
+
+const onFailureCreateUserToDatabase = async (user: User) => {
+  console.log(`onFailureCreateUserToDatabase`)
+  await deleteUser(user)
+  throw createError({
+    statusCode: 400,
+    statusMessage: 'Bad Request',
+  })
 }
