@@ -12,6 +12,7 @@ export default defineEventHandler(async (event) => {
     throw createError({
       statusCode: 400,
       statusMessage: 'Bad Request',
+      message: 'Invalid request body',
     })
   }
 
@@ -21,6 +22,7 @@ export default defineEventHandler(async (event) => {
     throw createError({
       statusCode: 400,
       statusMessage: 'Bad Request',
+      message: 'Validation failed',
     })
   }
 
@@ -90,6 +92,7 @@ const onFailureCreateUserToFirebase = (error: any) => {
   throw createError({
     statusCode,
     statusMessage,
+    message: 'Create to Firebase failed',
   })
 }
 
@@ -118,5 +121,6 @@ const onFailureCreateUserToDatabase = async (user: User) => {
   throw createError({
     statusCode: 400,
     statusMessage: 'Bad Request',
+    message: 'Create to database failed',
   })
 }
