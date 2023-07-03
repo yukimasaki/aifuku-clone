@@ -17,7 +17,6 @@ export default defineEventHandler(async (event) => {
       const idToken = getCookie(event, 'token')
       if (idToken) {
         const user = await isAuthenticated(idToken)
-        console.log(user)
         if (user) {
           // 認証状態であればそのままリクエスト先URLへアクセスする
           console.log(`認証済み`)
