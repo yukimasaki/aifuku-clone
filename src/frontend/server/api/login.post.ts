@@ -1,85 +1,84 @@
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { useErrorHandle } from '../../composables/useErrorHandle'
-import validator from 'validator'
-import { H3Event } from 'h3'
+// import { useErrorHandle } from '../../composables/useErrorHandle'
+// import validator from 'validator'
+// import { H3Event } from 'h3'
 
-export default defineEventHandler(async (event) => {
-  const req = await readBody(event)
-  const { email, password } = req
+// export default defineEventHandler(async (event) => {
+//   const req = await readBody(event)
+//   const { email, password } = req
 
-  // リクエストボディで渡されたJSONデータが不正な場合は400を返す
-  if (!email || !password) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad Request',
-      message: 'Invalid request body',
-    })
-  }
+//   // リクエストボディで渡されたJSONデータが不正な場合は400を返す
+//   if (!email || !password) {
+//     throw createError({
+//       statusCode: 400,
+//       statusMessage: 'Bad Request',
+//       message: 'Invalid request body',
+//     })
+//   }
 
-  // バリデーションを行い、1つでも不合格の場合は例外をスローし、全てに合格した場合は処理を続行する
-  const validationResult = valid(email, password)
-  if (!validationResult) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad Request',
-      message: 'Validation failed',
-    })
-  }
+//   // バリデーションを行い、1つでも不合格の場合は例外をスローし、全てに合格した場合は処理を続行する
+//   const validationResult = valid(email, password)
+//   if (!validationResult) {
+//     throw createError({
+//       statusCode: 400,
+//       statusMessage: 'Bad Request',
+//       message: 'Validation failed',
+//     })
+//   }
 
-  try {
-    // ログインに成功したらuidを含むJSONデータを返し、失敗したら例外をスローする
-    const { uid, idToken } = await login(email, password)
-    setIdTokenToCookie(event, idToken)
+//   try {
+//     // ログインに成功したらuidを含むJSONデータを返し、失敗したら例外をスローする
+//     const { uid, idToken } = await login(email, password)
+//     setIdTokenToCookie(event, idToken)
 
-    return JSON.stringify({ uid })
-  } catch (error: any) {
-    onFailureLogin(error)
-  }
-})
+//     return JSON.stringify({ uid })
+//   } catch (error: any) {
+//     onFailureLogin(error)
+//   }
+// })
 
-const valid = (
-  email: any,
-  password: any,
-) => {
-  const ruleEmail = () => validator.isEmail(email)
-  const rulePassword = () => validator.isStrongPassword(password, { minLength: 6 })
+// const valid = (
+//   email: any,
+//   password: any,
+// ) => {
+//   const ruleEmail = () => validator.isEmail(email)
+//   const rulePassword = () => validator.isStrongPassword(password, { minLength: 6 })
 
-  const validationResult = [
-    ruleEmail(),
-    rulePassword(),
-  ].every(result => result === true)
+//   const validationResult = [
+//     ruleEmail(),
+//     rulePassword(),
+//   ].every(result => result === true)
 
-  return validationResult
-}
+//   return validationResult
+// }
 
-const login = async (email: string, password: string) => {
-  console.log(`login`)
-  const auth = getAuth()
-  const userCredential = await signInWithEmailAndPassword(auth, email, password)
+// const login = async (email: string, password: string) => {
+//   console.log(`login`)
+//   const auth = getAuth()
+//   const userCredential = await signInWithEmailAndPassword(auth, email, password)
 
-  const uid = userCredential.user.uid
-  const idToken = await userCredential.user.getIdToken()
+//   const uid = userCredential.user.uid
+//   const idToken = await userCredential.user.getIdToken()
 
-  return { uid, idToken }
-}
+//   return { uid, idToken }
+// }
 
-const setIdTokenToCookie = (event: H3Event, idToken: string) => {
-  console.log(`setIdTokenToCookie`)
-  const options = {
-    httpOnly: true,
-    secure: true,
-  }
-  setCookie(event, 'token', idToken, options)
-}
+// const setIdTokenToCookie = (event: H3Event, idToken: string) => {
+//   console.log(`setIdTokenToCookie`)
+//   const options = {
+//     httpOnly: true,
+//     secure: true,
+//   }
+//   setCookie(event, 'token', idToken, options)
+// }
 
-const onFailureLogin = (error: any) => {
-  console.log(`onFailureLogin`)
-  const { firebaseErrorMessageToHttpStatusCode } = useErrorHandle()
-  const message = error.code
-  const { statusCode, statusMessage } = firebaseErrorMessageToHttpStatusCode(message)
-  throw createError({
-    statusCode,
-    statusMessage,
-    message: 'Login failed',
-  })
-}
+// const onFailureLogin = (error: any) => {
+//   console.log(`onFailureLogin`)
+//   const { firebaseErrorMessageToHttpStatusCode } = useErrorHandle()
+//   const message = error.code
+//   const { statusCode, statusMessage } = firebaseErrorMessageToHttpStatusCode(message)
+//   throw createError({
+//     statusCode,
+//     statusMessage,
+//     message: 'Login failed',
+//   })
+// }
