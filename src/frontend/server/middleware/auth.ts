@@ -26,11 +26,14 @@ export default defineEventHandler(async (event) => {
       }
 
       // 未認証状態であれば例外をスローする
-      throw createError({
-        statusCode: 401,
-        statusMessage: 'Unauthorized',
-        message: 'Unauthorized execute API error',
-      })
+      // throw createError({
+        //   statusCode: 401,
+        //   statusMessage: 'Unauthorized',
+        //   message: 'Unauthorized execute API error',
+        // })
+
+        // 未認証状態であれば/loginへリダイレクトする
+        sendRedirect(event, '/login', 302)
     }
   } else {
     // methodとpathがundefinedになるってどんな時？
@@ -45,6 +48,7 @@ export default defineEventHandler(async (event) => {
 const noAuthRequired = (method: string, path: string) => {
   const excludeRules = [
     { method: 'POST', path: '/api/login' },
+    { method: 'GET', path: '/login' },
   ]
 
   return excludeRules.some(rule => {
