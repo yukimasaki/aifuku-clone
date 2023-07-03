@@ -38,8 +38,28 @@ export const useFirebase = () => {
     return await response.json()
   }
 
+  const signInWithEmailAndPassword = async (email: string, password: string) => {
+    const endPoint = `accounts:signInWithPassword`
+    const url = `${baseUrl}/${endPoint}?key=${apiKey}`
+
+    const body = {
+      email,
+      password,
+      returnSecureToken: true,
+    }
+
+    const response = await fetch(url,{
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+
+    return await response.json()
+  }
+
   return {
     signUp,
     deleteUser,
+    signInWithEmailAndPassword,
   }
 }

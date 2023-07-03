@@ -4,26 +4,16 @@ export const useErrorHandle = () => {
     let statusMessage
 
     switch (message) {
-      case 'auth/invalid-email':
-      case 'auth/weak-password':
-        statusCode = 400
-        statusMessage = 'Bad Request'
-        break
-
-      case 'auth/wrong-password':
+      case 'INVALID_PASSWORD':
+      case 'EMAIL_NOT_FOUND':
         statusCode = 401
         statusMessage = 'Unauthorized'
         break
 
       case 'OPERATION_NOT_ALLOWED':
-      case 'auth/user-disabled':
+      case 'USER_DISABLED':
         statusCode = 403
         statusMessage = 'Forbidden'
-        break
-
-      case 'auth/user-not-found':
-        statusCode = 404
-        statusMessage = 'Not Found'
         break
 
       case 'EMAIL_EXISTS':
