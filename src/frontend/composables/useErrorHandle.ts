@@ -15,7 +15,7 @@ export const useErrorHandle = () => {
         statusMessage = 'Unauthorized'
         break
 
-      case 'auth/operation-not-allowed':
+      case 'OPERATION_NOT_ALLOWED':
       case 'auth/user-disabled':
         statusCode = 403
         statusMessage = 'Forbidden'
@@ -26,9 +26,14 @@ export const useErrorHandle = () => {
         statusMessage = 'Not Found'
         break
 
-      case 'auth/email-already-in-use':
+      case 'EMAIL_EXISTS':
         statusCode = 409
         statusMessage = 'Conflict'
+        break
+
+      case 'TOO_MANY_ATTEMPTS_TRY_LATER':
+        statusCode = 429
+        statusMessage = 'Too Many Requests'
         break
 
       default:
