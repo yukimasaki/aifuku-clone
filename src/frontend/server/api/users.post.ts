@@ -1,7 +1,7 @@
-import { getAuth, createUserWithEmailAndPassword, deleteUser, User } from 'firebase/auth'
-import { PrismaClient } from '@prisma/client'
-import { useErrorHandle} from '../../composables/useErrorHandle'
 import validator from 'validator'
+import { useFirebase } from '../../composables/useFirebase'
+import { useErrorHandle} from '../../composables/useErrorHandle'
+import { PrismaClient } from '@prisma/client'
 
 export default defineEventHandler(async (event) => {
   const req = await readBody(event)
@@ -26,20 +26,20 @@ export default defineEventHandler(async (event) => {
     })
   }
 
+  // Firebaseへユーザ登録する
+  const user = await createUserToFirebase(email, password)
+  if (user.error) {
+    // 失敗したらHTTPステータスコードを返す
+    onFailureCreateUserToFirebase(user.error)
+  }
+
+  // データベースへプロフィール情報を登録する
   try {
-    // Firebaseへユーザ登録する
-    // 成功したら次のtryへ進み、失敗したら例外をスローする
-    const user = await createUserToFirebase(email, password)
-    try {
-      // データベースへプロフィール情報を登録する
-      // 成功したらJSON形式でレスポンスボディを返し、失敗したらFirebaseからデータを削除して例外をスローする
-      const profile = await createUserToDatabase(user.uid, email, displayName, tenantId)
-      return profile
-    } catch (error) {
-      await onFailureCreateUserToDatabase(user)
-    }
-  } catch (error: any) {
-    onFailureCreateUserToFirebase(error)
+    const profile = await createUserToDatabase(user.localId, email, displayName, tenantId)
+    return profile
+  } catch (error) {
+    // 失敗したらFirebaseからデータを削除してHTTPステータスコードを返す
+    await onFailureCreateUserToDatabase(user.idToken)
   }
 })
 
@@ -78,16 +78,15 @@ const valid = (
 
 const createUserToFirebase = async (email: string, password: string) => {
   console.log(`createUserToFirebase`)
-  const auth = getAuth()
-  const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-  const user = userCredential.user
+  const { signUp } = useFirebase()
+  const user = await signUp(email, password)
   return user
 }
 
 const onFailureCreateUserToFirebase = (error: any) => {
   console.log(`onFailureCreateUserToFirebase`)
   const { firebaseErrorMessageToHttpStatusCode } = useErrorHandle()
-  const message = error.code
+  const message = error.message
   const { statusCode, statusMessage } = firebaseErrorMessageToHttpStatusCode(message)
   throw createError({
     statusCode,
@@ -115,9 +114,10 @@ const createUserToDatabase = async (
   return JSON.stringify(profile)
 }
 
-const onFailureCreateUserToDatabase = async (user: User) => {
+const onFailureCreateUserToDatabase = async (idToken: string) => {
   console.log(`onFailureCreateUserToDatabase`)
-  await deleteUser(user)
+  const { deleteUser } = useFirebase()
+  await deleteUser(idToken)
   throw createError({
     statusCode: 400,
     statusMessage: 'Bad Request',
