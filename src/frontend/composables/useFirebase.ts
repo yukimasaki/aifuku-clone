@@ -57,9 +57,27 @@ export const useFirebase = () => {
     return await response.json()
   }
 
+  const checkAuthState = async (idToken: string) => {
+    const endPoint = `accounts:lookup`
+    const url = `${baseUrl}/${endPoint}?key=${apiKey}`
+
+    const body = {
+      idToken,
+    }
+
+    const response = await fetch(url,{
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+
+    return await response.json()
+  }
+
   return {
     signUp,
     deleteUser,
     signInWithEmailAndPassword,
+    checkAuthState,
   }
 }

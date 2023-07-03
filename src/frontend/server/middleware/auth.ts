@@ -1,4 +1,7 @@
-export default defineEventHandler((event) => {
+import { userInfo } from 'os'
+import { useFirebase } from '../../composables/useFirebase'
+
+export default defineEventHandler(async (event) => {
   const method = event.node.req.method
   const path = event.node.req.url
 
@@ -11,16 +14,23 @@ export default defineEventHandler((event) => {
     } else {
       //リクエスト先URLが認証を必要とする場合は認証状態を取得する
       console.log(`要認証`)
-      // if (isAuthenticated()) {
-      //   // 認証状態であればそのままリクエスト先URLへアクセスする
-      //   console.log(`認証中`)
-      //   return
-      // } else {
-      //   // 未認証状態であれば/loginへリダイレクトする
-      //   console.log(`未認証`)
-      //   return sendRedirect(event, '/api/login', 302)
-      // }
-      return
+      const idToken = getCookie(event, 'token')
+      if (idToken) {
+        const user = await isAuthenticated(idToken)
+        console.log(user)
+        if (user) {
+          // 認証状態であればそのままリクエスト先URLへアクセスする
+          console.log(`認証済み`)
+          return
+        }
+      }
+
+      // 未認証状態であれば例外をスローする
+      throw createError({
+        statusCode: 401,
+        statusMessage: 'Unauthorized',
+        message: 'Unauthorized execute API error',
+      })
     }
   } else {
     // methodとpathがundefinedになるってどんな時？
@@ -44,4 +54,10 @@ const noAuthRequired = (method: string, path: string) => {
       return false
     }
   })
+}
+
+const isAuthenticated = async (idToken: string) => {
+  const { checkAuthState } = useFirebase()
+  const response = await checkAuthState(idToken)
+  return response
 }
