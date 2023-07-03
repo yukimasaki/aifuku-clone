@@ -22,25 +22,6 @@ export const useAuth = () => {
     return response
   }
 
-  const verify = async () => {
-    const url = '/api/verify'
-
-    const { data } =  await useFetch(
-      url,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-
-    if (data.value) {
-      const uid = JSON.parse(data.value)
-      return uid
-    }
-  }
-
   const login = async (email: String, password: String) => {
     const url = '/api/login'
 
@@ -60,12 +41,12 @@ export const useAuth = () => {
   }
 
   const logout = async () => {
-    const url = '/api/logout'
+    const url = '/api/login'
 
     const { data } = await useFetch(
       url,
       {
-        method: 'POST',
+        method: 'DELETE',
       }
     )
 
@@ -78,7 +59,6 @@ export const useAuth = () => {
 
   return {
     fetchUserWithToken,
-    verify,
     login,
     logout,
   }
