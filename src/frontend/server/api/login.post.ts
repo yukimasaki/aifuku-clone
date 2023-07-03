@@ -1,6 +1,7 @@
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { useErrorHandle } from '../../composables/useErrorHandle'
 import validator from 'validator'
+import { H3Event } from 'h3'
 
 export default defineEventHandler(async (event) => {
   const req = await readBody(event)
@@ -27,8 +28,10 @@ export default defineEventHandler(async (event) => {
 
   try {
     // ログインに成功したらuidを含むJSONデータを返し、失敗したら例外をスローする
-    const uid = await login(email, password)
-    return uid
+    const { uid, idToken } = await login(email, password)
+    setIdTokenToCookie(event, idToken)
+
+    return JSON.stringify({ uid })
   } catch (error: any) {
     onFailureLogin(error)
   }
@@ -53,9 +56,20 @@ const login = async (email: string, password: string) => {
   console.log(`login`)
   const auth = getAuth()
   const userCredential = await signInWithEmailAndPassword(auth, email, password)
-  const uid = userCredential.user.uid
 
-  return JSON.stringify({ uid })
+  const uid = userCredential.user.uid
+  const idToken = await userCredential.user.getIdToken()
+
+  return { uid, idToken }
+}
+
+const setIdTokenToCookie = (event: H3Event, idToken: string) => {
+  console.log(`setIdTokenToCookie`)
+  const options = {
+    httpOnly: true,
+    secure: true,
+  }
+  setCookie(event, 'token', idToken, options)
 }
 
 const onFailureLogin = (error: any) => {
