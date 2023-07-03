@@ -65,7 +65,7 @@ const setIdTokenToCookie = (event: H3Event, idToken: string) => {
   console.log(`setIdTokenToCookie`)
   const options = {
     httpOnly: true,
-    secure: true,
+    // secure: true,
   }
   setCookie(event, 'token', idToken, options)
 }
