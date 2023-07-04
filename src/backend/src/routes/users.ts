@@ -133,5 +133,4 @@ const onFailureCreateUserToDatabase = async (idToken: string) => {
   await deleteUser(idToken)
 }
 
-
 export default router
