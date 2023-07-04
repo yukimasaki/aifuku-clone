@@ -76,7 +76,9 @@ router.post('/', async (req, res) => {
   }
 
   // ログインに成功したらクッキーを保存する
+  const expires = new Date(Date.now() + 60 * 60 * 1000)
   res.cookie('token', user.idToken, {
+    expires: expires,
     // httpOnly: true,
     // secure: true,
   })
