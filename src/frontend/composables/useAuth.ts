@@ -22,14 +22,11 @@ export const useAuth = () => {
   const login = async (email: String, password: String) => {
     const url = '/api/login'
 
-    const { data } = await useFetch(
-      url,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: { email, password }
-      }
-    )
+    const { data } = await useFetch(url,{
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: { email, password }
+    })
 
     if (data.value) {
       // ログイン成功
@@ -40,12 +37,9 @@ export const useAuth = () => {
   const logout = async () => {
     const url = '/api/login'
 
-    const { data } = await useFetch(
-      url,
-      {
-        method: 'DELETE',
-      }
-    )
+    const { data } = await useFetch(url,{
+      method: 'DELETE',
+    })
 
     if (data.value) {
       // ログアウト成功
