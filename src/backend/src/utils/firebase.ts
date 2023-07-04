@@ -71,7 +71,8 @@ export const useFirebase = () => {
       body: JSON.stringify(body),
     })
 
-    return await response.json()
+    const user = await response.json()
+    return user
   }
 
   const errMsgToStatusCodeAndMessage = (message: string) => {
