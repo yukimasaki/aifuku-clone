@@ -3,7 +3,38 @@ import validator from 'validator'
 import { useFirebase } from 'src/utils/firebase'
 const router = express.Router()
 
+// POST /user/login
 router.post('/', async (req, res) => {
+  const valid = (
+    email: any,
+    password: any,
+  ) => {
+    const ruleEmail = () => validator.isEmail(email)
+    const rulePassword = () => validator.isStrongPassword(password, { minLength: 6 })
+
+    const validationResult = [
+      ruleEmail(),
+      rulePassword(),
+    ].every(result => result === true)
+
+    return validationResult
+  }
+
+  const login = async (email: string, password: string) => {
+    console.log(`login`)
+    const { signInWithEmailAndPassword } = useFirebase()
+    const user = await signInWithEmailAndPassword(email, password)
+
+    return user
+  }
+  const onFailureLogin = (error: any) => {
+    console.log(`onFailureLogin`)
+    const { errMsgToStatusCodeAndMessage } = useFirebase()
+    const message = error.message
+    const { statusCode, statusMessage } = errMsgToStatusCodeAndMessage(message)
+    return { statusCode, statusMessage, message }
+  }
+
   const body = req.body
   const { email, password } = body
 
@@ -56,34 +87,19 @@ router.post('/', async (req, res) => {
   })
 })
 
-const valid = (
-  email: any,
-  password: any,
-) => {
-  const ruleEmail = () => validator.isEmail(email)
-  const rulePassword = () => validator.isStrongPassword(password, { minLength: 6 })
-
-  const validationResult = [
-    ruleEmail(),
-    rulePassword(),
-  ].every(result => result === true)
-
-  return validationResult
-}
-
-const login = async (email: string, password: string) => {
-  console.log(`login`)
-  const { signInWithEmailAndPassword } = useFirebase()
-  const user = await signInWithEmailAndPassword(email, password)
-
-  return user
-}
-const onFailureLogin = (error: any) => {
-  console.log(`onFailureLogin`)
-  const { errMsgToStatusCodeAndMessage } = useFirebase()
-  const message = error.message
-  const { statusCode, statusMessage } = errMsgToStatusCodeAndMessage(message)
-  return { statusCode, statusMessage, message }
-}
-
+// DELETE /user/login
+router.delete('/', (req, res) => {
+  try {
+    console.log(`logout`)
+    res
+    .clearCookie('token')
+    .send({})
+  } catch (error) {
+    res.send({
+      statusCode: 500,
+      statusMessage: 'Internal Server Error',
+      message: 'Unexpected error',
+    })
+  }
+})
 export default router
