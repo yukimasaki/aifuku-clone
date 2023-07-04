@@ -10,6 +10,8 @@ export default defineEventHandler(async (event) => {
     if (noAuthRequired(method, path)) {
       // リクエスト先URLが認証を必要としない場合はそのままリクエスト先URLへアクセスする
       console.log(`認証不要`)
+      console.log(`------------`)
+      console.log(`${method} ${path}`)
       return
     } else {
       //リクエスト先URLが認証を必要とする場合は認証状態を取得する
@@ -25,7 +27,16 @@ export default defineEventHandler(async (event) => {
       }
 
       // 未認証状態であれば/loginへリダイレクトする
-      sendRedirect(event, '/login', 302)
+      // sendRedirect(event, '/login', 302)
+
+      // 未認証状態であれば例外をスローする
+      throw createError({
+        statusCode: 401,
+        statusMessage: 'Unauthorized',
+        message: 'Unauthorized execute API error'
+      })
+
+
     }
   } else {
     // methodとpathがundefinedになるってどんな時？
