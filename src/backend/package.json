@@ -1,10 +1,10 @@
 {
   "name": "aifuku-backend",
   "version": "1.0.0",
-  "main": "app.ts",
+  "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node ./src/app.ts",
+    "start": "node ./dist/index.js",
     "build": "webpack --config webpack.config.js",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore . --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
