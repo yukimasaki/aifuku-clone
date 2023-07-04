@@ -4,8 +4,9 @@ export const useAuth = () => {
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${firebaseApiKey}`
 
     const tokenCookie = useCookie('token')
-    const body = JSON.stringify({ idToken: tokenCookie.value})
+    if (!tokenCookie.value) return false
 
+    const body = JSON.stringify({ idToken: tokenCookie.value})
     const response = await fetch(url,{
       method: 'POST',
       headers: {
@@ -43,7 +44,6 @@ export const useAuth = () => {
 
     if (data.value) {
       // ログアウト成功
-      console.log(data.value)
       return navigateTo('/login')
     }
   }
