@@ -1,25 +1,22 @@
-import { H3Event } from 'h3'
-
 export const useAuth = () => {
-  const fetchUserWithToken = async (event: H3Event) => {
+  const verify = async () => {
     const firebaseApiKey = 'AIzaSyDIraHkuFWYdItWEydce1dbaAwBsRNNMeA'
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${firebaseApiKey}`
 
-    const idToken = getCookie(event, 'token')
-    const body = JSON.stringify({ idToken })
+    const tokenCookie = useCookie('token')
+    const body = JSON.stringify({ idToken: tokenCookie.value})
 
-    const response = await fetch(
-      url,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body,
-      }
-    )
+    const response = await fetch(url,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body,
+    })
 
-    return response
+    const user = await response.json()
+
+    return user
   }
 
   const login = async (email: String, password: String) => {
@@ -58,7 +55,7 @@ export const useAuth = () => {
   }
 
   return {
-    fetchUserWithToken,
+    verify,
     login,
     logout,
   }
