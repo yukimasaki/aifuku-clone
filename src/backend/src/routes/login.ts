@@ -27,6 +27,7 @@ router.post('/', async (req, res) => {
 
     return user
   }
+
   const onFailureLogin = (error: any) => {
     console.log(`onFailureLogin`)
     const { errMsgToStatusCodeAndMessage } = useFirebase()
@@ -76,7 +77,7 @@ router.post('/', async (req, res) => {
 
   // ログインに成功したらクッキーを保存する
   res.cookie('token', user.idToken, {
-    httpOnly: true,
+    // httpOnly: true,
     // secure: true,
   })
 
