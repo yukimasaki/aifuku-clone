@@ -1,4 +1,3 @@
-import { userInfo } from 'os'
 import { useFirebase } from '../../composables/useFirebase'
 
 export default defineEventHandler(async (event) => {
@@ -33,7 +32,7 @@ export default defineEventHandler(async (event) => {
       throw createError({
         statusCode: 401,
         statusMessage: 'Unauthorized',
-        message: 'Unauthorized execute API error'
+        message: 'Unauthorized execute API error',
       })
 
 
@@ -43,7 +42,7 @@ export default defineEventHandler(async (event) => {
     throw createError({
       statusCode: 500,
       statusMessage: 'Internal Server Error',
-      message: 'Unexpected error'
+      message: 'Unexpected error',
     })
   }
 })
