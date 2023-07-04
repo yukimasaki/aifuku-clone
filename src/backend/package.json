@@ -1,8 +1,14 @@
 {
   "name": "aifuku-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.ts",
   "license": "MIT",
+  "scripts": {
+    "start": "node ./src/app.ts",
+    "build": "webpack --config webpack.config.js",
+    "lint": "eslint --ext .js,.ts --ignore-path .gitignore . --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2"
