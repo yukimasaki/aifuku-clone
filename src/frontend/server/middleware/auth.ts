@@ -34,8 +34,6 @@ export default defineEventHandler(async (event) => {
         statusMessage: 'Unauthorized',
         message: 'Unauthorized execute API error',
       })
-
-
     }
   } else {
     // methodとpathがundefinedになるってどんな時？
