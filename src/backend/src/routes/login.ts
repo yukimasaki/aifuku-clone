@@ -1,7 +1,9 @@
+import { IncomingMessage, ServerResponse } from 'http'
 import express from 'express'
 import validator from 'validator'
 import { useFirebase } from 'src/utils/firebase'
 const router = express.Router()
+const { verify } = useFirebase()
 
 /** POST /user/login */
 router.post('/', async (req, res) => {
@@ -91,14 +93,15 @@ router.post('/', async (req, res) => {
 })
 
 /** DELETE /user/login */
-router.delete('/', (req, res) => {
+router.delete('/', verify, async (req: IncomingMessage, res: ServerResponse) => {
+
   try {
-    console.log(`logout`)
     res
+    // issue: verifyを引数に指定するとclearCookieがエラーになってしまう
     .clearCookie('token')
     .send({})
   } catch (error) {
-    res.send({
+    res.end({
       statusCode: 500,
       statusMessage: 'Internal Server Error',
       message: 'Unexpected error',
