@@ -3,7 +3,7 @@ import validator from 'validator'
 import { useFirebase } from 'src/utils/firebase'
 const router = express.Router()
 
-// POST /user/login
+/** POST /user/login */
 router.post('/', async (req, res) => {
   const valid = (
     email: any,
@@ -90,7 +90,7 @@ router.post('/', async (req, res) => {
   })
 })
 
-// DELETE /user/login
+/** DELETE /user/login */
 router.delete('/', (req, res) => {
   try {
     console.log(`logout`)
