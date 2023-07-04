@@ -5,4 +5,7 @@
 </template>
 
 <script setup>
+definePageMeta({
+  middleware: 'required-auth'
+})
 </script>
