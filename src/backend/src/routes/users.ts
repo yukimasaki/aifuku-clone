@@ -4,6 +4,7 @@ import { useFirebase } from 'src/utils/firebase'
 import { PrismaClient } from '@prisma/client'
 const router = express.Router()
 
+/** POST /api/users */
 router.post('/', async (req, res) => {
   const body = req.body
   const { email, password, displayName, tenantId } = body
