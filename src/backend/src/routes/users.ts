@@ -113,6 +113,7 @@ router.post('/', verify, async (req, res) => {
     // 失敗したらHTTPステータスコードとメッセージを含むJSONデータを返す
     const { statusCode, statusMessage, message } = onFailureCreateUserToFirebase(user.error)
     res
+    .status(statusCode)
     .send({
       statusCode,
       statusMessage,
@@ -128,6 +129,7 @@ router.post('/', verify, async (req, res) => {
     // 失敗したらFirebaseからデータを削除してHTTPステータスコードを返す
     await onFailureCreateUserToDatabase(user.idToken)
     res
+    .status(400)
     .send({
       statusCode: 400,
       statusMessage: 'Bad Request',
@@ -140,7 +142,9 @@ router.post('/', verify, async (req, res) => {
 // router.get('/', verify, async (req, res) => {
 router.get('/', async (req, res) => {
   const users = await prisma.profile.findMany()
-  res.send(users)
+  res
+  .status(200)
+  .send(users)
 })
 
 export default router
