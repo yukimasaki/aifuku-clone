@@ -1,3 +1,5 @@
+import { Request } from 'express'
+
 export const useFirebase = () => {
   const apiKey = 'AIzaSyDIraHkuFWYdItWEydce1dbaAwBsRNNMeA'
   const baseUrl = `https://identitytoolkit.googleapis.com/v1`
@@ -57,13 +59,12 @@ export const useFirebase = () => {
     return await response.json()
   }
 
-  const verify = async (idToken: string) => {
+  const checkIdToken = async (req: Request) => {
     const endPoint = `accounts:lookup`
     const url = `${baseUrl}/${endPoint}?key=${apiKey}`
 
-    const body = {
-      idToken,
-    }
+    const idToken = req.headers.authorization
+    const body = { idToken }
 
     const response = await fetch(url,{
       method: 'POST',
@@ -114,7 +115,7 @@ export const useFirebase = () => {
     signUp,
     deleteUser,
     signInWithEmailAndPassword,
-    verify,
+    checkIdToken,
     errMsgToStatusCodeAndMessage,
   }
 }
