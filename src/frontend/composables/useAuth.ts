@@ -38,7 +38,6 @@ export const useAuth = () => {
   const logout = async () => {
     const url = '/api/login'
     const tokenCookie = useCookie('token')
-    console.log(tokenCookie.value)
 
     const { data } = await useFetch(url,{
       method: 'DELETE',
