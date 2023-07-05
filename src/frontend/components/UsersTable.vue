@@ -57,19 +57,5 @@ const headers = reactive([
   { id: 5, label: 'テナントID' },
 ])
 
-// const users = reactive([
-//   { id: '1', email: 'user1@example.com', displayName: 'User1', tenantId: '1' },
-//   { id: '2', email: 'user2@example.com', displayName: 'User2', tenantId: '1' },
-//   { id: '3', email: 'user3@example.com', displayName: 'User3', tenantId: '1' },
-//   { id: '4', email: 'user4@example.com', displayName: 'User4', tenantId: '1' },
-//   { id: '5', email: 'user5@example.com', displayName: 'User5', tenantId: '1' },
-//   { id: '6', email: 'user6@example.com', displayName: 'User6', tenantId: '1' },
-//   { id: '7', email: 'user7@example.com', displayName: 'User7', tenantId: '1' },
-//   { id: '8', email: 'user8@example.com', displayName: 'User8', tenantId: '1' },
-//   { id: '9', email: 'user9@example.com', displayName: 'User9', tenantId: '1' },
-//   { id: '10', email: 'user10@example.com', displayName: 'User10', tenantId: '1' },
-// ])
-
-// const { response: users } = await useFetch('/api/login', { method: 'DELETE' })
-const { data: users, error, loading, requested } = await useFetch('/api/users')
+const { data: users } = await useFetch('/api/users')
 </script>
