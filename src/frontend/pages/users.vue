@@ -1,0 +1,19 @@
+<template>
+  <!-- Main Content Start-->
+  <main class="h-full bg-base-200 p-4 md:p-6 2xl:p-10">
+    <!-- Table Start-->
+    <div class="flex flex-col gap-10">
+      <Table />
+    </div>
+    <!-- Table End-->
+  </main>
+  <!-- Main Content End-->
+</template>
+
+<script setup>
+import Table from '~/components/Table.vue'
+
+definePageMeta({
+  middleware: 'required-auth'
+})
+</script>
