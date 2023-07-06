@@ -30,6 +30,7 @@
           <li v-for="item in items" :key="item.id">
             <a
               class="relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out"
+              @click.stop="toggleSidebar"
             >
               <img :src="item.logo" width="24">
               <nuxt-link :to="item.link">{{ item.label }}</nuxt-link>
