@@ -14,6 +14,7 @@ type PaginateOutputs<Items> = {
   count: number
   pageCount: number
   links: any
+  // meta: any
 }
 
 /**
@@ -42,10 +43,14 @@ export async function paginate<Items>({
     last: `?page=${pageCount}&?perPage=${perPage}`,
   }
 
+  // const prevLink = { link: links.prev, label: 'prev', active: false }
+  // const nexttLink = { link: links.first, label: 'next', active: false }
+
   return {
     items,
     count,
     pageCount,
     links,
+    // meta,
   }
 }
