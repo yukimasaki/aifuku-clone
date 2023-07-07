@@ -3,6 +3,7 @@ import validator from 'validator'
 import { useFirebase } from 'src/utils/firebase'
 import { PrismaClient } from '@prisma/client'
 import { verify } from '../middleware/verify'
+import { paginate } from 'src/utils/paginate'
 
 const router = express.Router()
 const prisma = new PrismaClient()
@@ -141,7 +142,60 @@ router.post('/', verify, async (req, res) => {
 /** GET /api/users */
 // router.get('/', verify, async (req, res) => {
 router.get('/', async (req, res) => {
-  const users = await prisma.profile.findMany()
+  const valid = (
+    page: string,
+    perPage: string,
+  ) => {
+    const rulePage = () => {
+      return [
+        validator.isInt(page),
+        validator.isLength(page, { min: 1 })
+      ].every(result => result === true)
+    }
+    const rulePerPage = () => {
+      return [
+        validator.isInt(perPage),
+        validator.isLength(perPage, { min: 1, max: 100 })
+      ].every(result => result === true)
+    }
+
+    const validationResult = [
+      rulePage(),
+      rulePerPage(),
+    ].every(result => result === true)
+
+    return validationResult
+  }
+
+  const page = req.query.page?.toString()
+  const perPage = req.query.perPage?.toString()
+
+  // クエリが不正な場合は例外をスローする
+  if (!page || !perPage) {
+    res.status(400).send({ statusMessage: 'Bad Request', message: 'No specified query' })
+    return
+  }
+
+  // バリデーションを行い、1つでも不合格の場合は例外をスローする
+  const validationResult = valid(page, perPage)
+  if (!validationResult) {
+    res
+    .status(400)
+    .send({
+      statusCode: 400,
+      statusMessage: 'Bad Request',
+      message: 'Validation failed',
+    })
+  }
+
+  const users = await paginate({
+    page: parseInt(page),
+    perPage: parseInt(perPage),
+    queryFn: (args) =>
+      prisma.profile.findMany({ ...args }),
+    countFn: () => prisma.profile.count()
+  })
+
   res
   .status(200)
   .send(users)
