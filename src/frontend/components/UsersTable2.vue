@@ -1,6 +1,6 @@
 <template>
   <div class="container max-w-full overflow-x-auto whitespace-nowrap">
-    <table class="table bg-white rounded-sm">
+    <table class="table table-lg bg-white rounded-sm text-lg">
       <thead>
         <tr>
           <th v-for="testHeader in testHeaders" :key="testHeader.id">
@@ -10,16 +10,16 @@
       </thead>
       <tbody>
         <tr v-for="testUser in testUsers" :key="testUser.id">
-          <td>
+          <td class="w-12">
             <label>
-              <input type="checkbox">
+              <input type="checkbox" class="checkbox">
             </label>
           </td>
-          <td>{{ testUser.id }}</td>
+          <td class="w-12">{{ testUser.id }}</td>
           <td>{{ testUser.email }}</td>
           <td>{{ testUser.displayName }}</td>
-          <td>{{ testUser.tenantId }}</td>
-          <td><nuxt-link to="#">Edit</nuxt-link></td>
+          <td class="w-12">{{ testUser.tenantId }}</td>
+          <td class="w-12"><nuxt-link to="#">Edit</nuxt-link></td>
         </tr>
       </tbody>
     </table>
