@@ -9,16 +9,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="testUser in testUsers" :key="testUser.id">
+        <tr v-for="user in users" :key="user.id">
           <td class="w-12">
             <label>
               <input type="checkbox" class="checkbox">
             </label>
           </td>
-          <td class="w-12">{{ testUser.id }}</td>
-          <td>{{ testUser.email }}</td>
-          <td>{{ testUser.displayName }}</td>
-          <td class="w-12">{{ testUser.tenantId }}</td>
+          <td class="w-12">{{ user.id }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.displayName }}</td>
+          <td class="w-12">{{ user.tenantId }}</td>
           <td class="w-12"><nuxt-link to="#">Edit</nuxt-link></td>
         </tr>
       </tbody>
@@ -36,5 +36,6 @@ const testHeaders = reactive([
   { id: 6, label: '編集' },
 ])
 
-const { data: testUsers } = await useFetch('/api/users')
+const { data } = await useFetch('/api/users?page=1&perPage=5')
+const users = data.value.items
 </script>
