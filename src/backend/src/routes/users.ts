@@ -149,6 +149,19 @@ router.get('/', async (req, res) => {
   const rulePage = z.coerce.number().int().min(1)
   const rulePerPage = z.coerce.number().int().min(1).max(100)
 
+  if (
+    rulePage.safeParse(page).success === false ||
+    rulePerPage.safeParse(perPage).success === false
+  ) {
+    res.status(422)
+    .send({
+      statusCode: 422,
+      statusMessage: 'Unprocessable Entity',
+      message: 'Validation failed',
+    })
+    return
+  }
+
   const users = await paginate(req,{
     page: rulePage.parse(page),
     perPage: rulePerPage.parse(perPage),
