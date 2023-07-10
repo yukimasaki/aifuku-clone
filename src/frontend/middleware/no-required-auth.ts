@@ -2,9 +2,7 @@ import { useAuth } from '../composables/useAuth'
 
 export default defineNuxtRouteMiddleware(async () => {
   const { verify } = useAuth()
-  const uid = await verify()
+  const user = await verify()
 
-  if (!uid) {
-    return navigateTo('/login', { replace: true })
-  }
+  if (user) return navigateTo('/', { replace: true })
 })

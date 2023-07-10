@@ -1,9 +1,9 @@
 {
-    "restartable": "rs",
-    "watch": [
-      "api"
-    ],
-    "env": {
-      "NODE_ENV": "development"
-    }
+  "restartable": "rs",
+  "watch": [
+    "dist"
+  ],
+  "env": {
+    "NODE_ENV": "development"
   }
+}

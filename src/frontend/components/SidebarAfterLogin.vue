@@ -30,10 +30,10 @@
           <li v-for="item in items" :key="item.id">
             <a
               class="relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out"
-              :href="item.link"
+              @click.stop="toggleSidebar"
             >
               <img :src="item.logo" width="24">
-              {{ item.label }}
+              <nuxt-link :to="item.link">{{ item.label }}</nuxt-link>
             </a>
           </li>
         </ul>
@@ -59,7 +59,7 @@ const logoPath = '../assets/images/sidebar'
 
 const items = reactive([
   { id: 1, label: 'ホーム', link: '', logo: `${logoPath}/home.svg` },
-  { id: 2, label: 'ユーザ管理', link: '', logo: `${logoPath}/user.svg` },
+  { id: 2, label: 'ユーザ管理', link: '/users', logo: `${logoPath}/user.svg` },
   { id: 3, label: 'お知らせ', link: '', logo: `${logoPath}/information.svg` },
   { id: 4, label: '会議・研修案内', link: '', logo: `${logoPath}/meeting.svg` },
   { id: 5, label: '掲示板', link: '', logo: `${logoPath}/bbs.svg` },

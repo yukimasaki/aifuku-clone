@@ -4,7 +4,11 @@ build:
 	docker compose up -d --build
 nuxt:
 	docker compose exec nuxt sh
-dev:
+dev-f:
 	docker compose exec nuxt yarn dev
+express:
+	docker compose exec express sh
+dev-b:
+	docker compose exec express yarn dev
 std:
-	docker compose exec nuxt npx prisma studio --browser none
+	docker compose exec express npx prisma studio --browser none

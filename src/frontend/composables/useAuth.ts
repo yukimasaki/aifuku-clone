@@ -1,57 +1,33 @@
-import { H3Event } from 'h3'
-
 export const useAuth = () => {
-  const fetchUserWithToken = async (event: H3Event) => {
+  const verify = async () => {
     const firebaseApiKey = 'AIzaSyDIraHkuFWYdItWEydce1dbaAwBsRNNMeA'
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${firebaseApiKey}`
 
-    const idToken = getCookie(event, 'token')
-    const body = JSON.stringify({ idToken })
+    const tokenCookie = useCookie('token')
+    if (!tokenCookie.value) return false
 
-    const response = await fetch(
-      url,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body,
-      }
-    )
+    const body = JSON.stringify({ idToken: tokenCookie.value})
+    const response = await fetch(url,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body,
+    })
 
-    return response
-  }
+    const user = await response.json()
 
-  const verify = async () => {
-    const url = '/api/verify'
-
-    const { data } =  await useFetch(
-      url,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-
-    if (data.value) {
-      const uid = JSON.parse(data.value)
-      return uid
-    }
+    return user
   }
 
   const login = async (email: String, password: String) => {
     const url = '/api/login'
 
-    const { data } = await useFetch(
-      url,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: { email, password }
-      }
-    )
+    const { data } = await useFetch(url,{
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: { email, password }
+    })
 
     if (data.value) {
       // ログイン成功
@@ -60,24 +36,23 @@ export const useAuth = () => {
   }
 
   const logout = async () => {
-    const url = '/api/logout'
+    const url = '/api/login'
+    const tokenCookie = useCookie('token')
 
-    const { data } = await useFetch(
-      url,
-      {
-        method: 'POST',
+    const { data } = await useFetch(url,{
+      method: 'DELETE',
+      headers: {
+        'Authorization': tokenCookie.value || ''
       }
-    )
+    })
 
     if (data.value) {
       // ログアウト成功
-      console.log(data.value)
       return navigateTo('/login')
     }
   }
 
   return {
-    fetchUserWithToken,
     verify,
     login,
     logout,
