@@ -144,13 +144,12 @@ router.post('/', verify, async (req, res) => {
 /** GET /api/users */
 // router.get('/', verify, async (req, res) => {
 router.get('/', async (req, res) => {
-  // const { page, perPage } = req.query
   const { page, perPage } = req.query
 
   const rulePage = z.coerce.number().int().min(1)
   const rulePerPage = z.coerce.number().int().min(1).max(100)
 
-  const users = await paginate({
+  const users = await paginate(req,{
     page: rulePage.parse(page),
     perPage: rulePerPage.parse(perPage),
     queryFn: (args) =>
