@@ -23,6 +23,15 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="join">
+      <button
+        class="join-item btn"
+        v-for="link in links" :key="link.id"
+      >
+        {{ link.label }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -36,6 +45,10 @@ const testHeaders = reactive([
   { id: 6, label: '編集' },
 ])
 
-const { data } = await useFetch('/api/users?page=1&perPage=5')
+const page = 1
+const perPage = 4
+
+const { data } = await useFetch(`/api/users?page=${page}&perPage=${perPage}`)
 const users = data.value.items
+const links = data.value.meta.links
 </script>

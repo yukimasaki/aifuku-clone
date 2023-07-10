@@ -21,9 +21,9 @@ type PaginateOutputs<Items> = {
 
 type LinkDefinition = {
   prevLabel: boolean
-  dotLeft: boolean
-  dotRight: boolean
-  NextLabel: boolean
+  leftDotLabel: boolean
+  rightDotLabel: boolean
+  nextLabel: boolean
 }
 
 /**
@@ -47,7 +47,6 @@ export async function paginate<Items>(req: Request, {
   const firstPage = 1
   const neighbor = 2
 
-  console.log(req)
   const baseUrl = req.baseUrl
 
   const links = {
@@ -58,7 +57,7 @@ export async function paginate<Items>(req: Request, {
   }
 
   // ページネーション用リンクの配列定義(オブジェクト)を条件分岐に従って生成する
-  const options = createLinkDefinition(page, pageCount, neighbor, firstPage)
+  const options = createLinkDefinition(page, pageCount, neighbor)
   const metaLinks = createLinkArray(page, perPage, pageCount, neighbor, options, links, baseUrl)
 
   return {
@@ -70,41 +69,83 @@ export async function paginate<Items>(req: Request, {
   }
 }
 
-const createLinkDefinition = (page: number, pageCount: number, neighbor: number, firstPage: number) => {
+const createLinkDefinition = (page: number, pageCount: number, neighbor: number) => {
+  const firstPage = 1
+  const lastPage = pageCount
+
   if (page === firstPage) {
-    return {
-      prevLabel: false,
-      dotLeft: false,
-      dotRight: true,
-      NextLabel: true,
+    if (lastPage > neighbor * 2 + 3) {
+      console.log(`section1-1`)
+      return {
+        prevLabel: false,
+        leftDotLabel: false,
+        rightDotLabel: true,
+        nextLabel: true,
+      }
+    } else {
+      console.log(`section1-2`)
+      return {
+        prevLabel: false,
+        leftDotLabel: false,
+        rightDotLabel: false,
+        nextLabel: true,
+      }
     }
-  } else if (page === pageCount) {
+  } else if (page === lastPage) {
+    if (lastPage > neighbor * 2) {
+      console.log(`section2-1`)
+      return {
+        prevLabel: true,
+        leftDotLabel: true,
+        rightDotLabel: false,
+        nextLabel: false,
+      }
+    } else {
+      console.log(`section2-2`)
+      return {
+        prevLabel: true,
+        leftDotLabel: false,
+        rightDotLabel: false,
+        nextLabel: false,
+      }
+    }
+  } else if (lastPage <= neighbor * 2 + 3) {
+    console.log(`section3`)
     return {
       prevLabel: true,
-      dotLeft: false,
-      dotRight: false,
-      NextLabel: false,
+      leftDotLabel: false,
+      rightDotLabel: false,
+      nextLabel: true,
     }
-  } else if ((page - neighbor) <= neighbor) {
+  } else if (
+    page - firstPage > neighbor &&
+    lastPage - page - 1 > neighbor
+    ) {
+    console.log(`section4`)
     return {
       prevLabel: true,
-      dotLeft: false,
-      dotRight: true,
-      NextLabel: true,
+      leftDotLabel: true,
+      rightDotLabel: true,
+      nextLabel: true,
     }
-  } else if ((pageCount - page - 1) <= neighbor) {
+  } else if (
+    page - firstPage > neighbor &&
+    lastPage - page < neighbor + 1
+    ) {
+    console.log(`section5`)
     return {
       prevLabel: true,
-      dotLeft: true,
-      dotRight: false,
-      NextLabel: true,
+      leftDotLabel: true,
+      rightDotLabel: false,
+      nextLabel: true,
     }
   } else {
+    console.log(`section6`)
     return {
       prevLabel: true,
-      dotLeft: true,
-      dotRight: true,
-      NextLabel: true,
+      leftDotLabel: false,
+      rightDotLabel: true,
+      nextLabel: true,
     }
   }
 }
@@ -118,63 +159,119 @@ const createLinkArray = (
   links: any,
   baseUrl: string
 ) => {
-  const { prevLabel, dotLeft, dotRight, NextLabel } = options
+  const { prevLabel, leftDotLabel, rightDotLabel, nextLabel } = options
   const linkArray = []
+  let id = 1
 
   // 戻るボタンは必要に応じて表示
   if (prevLabel) {
     linkArray.push({
+      id,
       url: links.prev,
       label: 'Prev',
       active: false,
     })
+    id++
   }
 
   // 最初のページは必ず表示
   linkArray.push({
+    id,
     url: links.first,
     label: '1',
     active: page === 1,
   })
+  id++
 
   // 左側のドットは必要に応じて表示
-  if (dotLeft) {
+  if (leftDotLabel) {
     linkArray.push({
+      id,
       url: '',
       label: '...',
       active: false,
+    })
+    id++
+  }
+
+  if (leftDotLabel && rightDotLabel) {
+    console.log(`// 左右にドットが表示される場合`)
+    // 左右にドットが表示される場合 (ループ=5)
+    Array.from({ length: 1 + neighbor * 2 }, (_, index) => {
+      const pageNumber = index + page - neighbor
+      linkArray.push({
+        id,
+        url: `${baseUrl}?page=${pageNumber}&?perPage=${perPage}`,
+        label: pageNumber,
+        active: page === pageNumber,
+      })
+      id++
+    })
+  } else if (rightDotLabel) {
+    console.log(`// 右側にドットが表示される場合`)
+    // 右側にドットが表示される場合 (ループ=5)
+    Array.from({ length: 1 + neighbor * 2 }, (_, index) => {
+      const pageNumber = index + 2
+      linkArray.push({
+        id,
+        url: `${baseUrl}?page=${pageNumber}&?perPage=${perPage}`,
+        label: pageNumber,
+        active: page === pageNumber,
+      })
+      id++
+    })
+  } else if (leftDotLabel) {
+    console.log(`// 左側にドットが表示される場合`)
+    // 左側にドットが表示される場合 (ループ=5)
+    Array.from({ length: 1 + neighbor * 2 }, (_, index) => {
+      const pageNumber = index + page - neighbor
+      linkArray.push({
+        id,
+        url: `${baseUrl}?page=${pageNumber}&?perPage=${perPage}`,
+        label: pageNumber,
+        active: page === pageNumber,
+      })
+      id++
+    })
+  } else {
+    console.log(`// ドットが表示されない場合`)
+    // ドットが表示されない場合 (ループ=1~5)
+    Array.from({ length: pageCount - 2 }, (_, index) => {
+      const pageNumber = index + page + 1
+      linkArray.push({
+        id,
+        url: `${baseUrl}?page=${pageNumber}&?perPage=${perPage}`,
+        label: pageNumber,
+        active: page === pageNumber,
+      })
+      id++
     })
   }
 
-  // 途中のページ
-  Array.from({ length: 1 + neighbor * 2 }, (_, index) => {
-    const pageNumber = index + (page - neighbor)
-    linkArray.push({
-      url: `${baseUrl}?page=${pageNumber}&?perPage=${perPage}`,
-      label: pageNumber,
-      active: page === pageNumber,
-    })
-  })
-
   // 右側のドットは必要に応じて表示
-  if (dotRight) {
+  if (rightDotLabel) {
     linkArray.push({
+      id,
       url: '',
       label: '...',
       active: false,
     })
+    id++
   }
 
   // 最後のページは必ず表示
   linkArray.push({
+    id,
     url: links.last,
     label: pageCount,
     active: page === pageCount,
   })
+  id++
 
   // 進むボタンは必要に応じて表示
-  if (NextLabel) {
+  if (nextLabel) {
     linkArray.push({
+      id,
       url: links.next,
       label: 'Next',
       active: false,
