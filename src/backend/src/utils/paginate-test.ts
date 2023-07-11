@@ -104,56 +104,51 @@ export const createMetaLink = (page: number, pageCount: number, pageRange: numbe
 
     // isContinuous(length: 2)でループ処理を実行し、左右のページ番号ラベルを配列(duplicatedValues)に格納する
     isContinuous.forEach((isContinuous, index) => {
-      switch (index) {
-        // ループ1回目は左側のページ番号ラベルを格納する
-        case 0:
-          const leftPageLabels = []
-          switch (isContinuous) {
-            // 連続的である
-            case true:
-              Array.from({ length: page }, (_, index) => {
-                const currentPage = index + 1
-                leftPageLabels.push({ label: currentPage, value: currentPage })
-              })
-              break
-            // 非連続的である
-            default:
-              leftPageLabels.push({ label: firstPage, value: firstPage })
-              leftPageLabels.push({ label: 'Prev', value: '...' })
-              Array.from({  length: 3 }, (_, index) => {
-                const currentPage = index + page - pageRange
-                leftPageLabels.push({ label: currentPage, value: currentPage })
-              })
-              break
-          }
-          leftPageLabels.forEach(v => duplicatedValues.push(v))
-          break
 
-        // ループ2回目は右側のページ番号ラベルを格納する
-        default:
-          const rightPageLabels = []
-          switch (isContinuous) {
-            // 連続的である
-            case true:
-              Array.from({ length: pageCount - page + 1 }, (_, index) => {
-                const currentPage = index + page
-                rightPageLabels.push({ label: currentPage, value: currentPage })
-              })
-              break
-            // 非連続的である
-            default:
-              Array.from({  length: 3 }, (_, index) => {
-                const currentPage = index + page
-                rightPageLabels.push({ label: currentPage, value: currentPage })
-              })
-              rightPageLabels.push({ label: 'Next', value: '...' })
-              rightPageLabels.push({ label: pageCount, value: pageCount })
-              break
-          }
-          rightPageLabels.forEach(v => duplicatedValues.push(v))
-          break
+      // ループ1回目は左側のページ番号ラベルを格納する
+      if (index === 0) {
+        const leftPageLabels = []
+        switch (isContinuous) {
+          // 連続的である
+          case true:
+            Array.from({ length: page }, (_, index) => {
+              const currentPage = index + 1
+              leftPageLabels.push({ label: currentPage, value: currentPage })
+            })
+            break
+          // 非連続的である
+          default:
+            leftPageLabels.push({ label: firstPage, value: firstPage })
+            leftPageLabels.push({ label: 'Prev', value: '...' })
+            Array.from({  length: 3 }, (_, index) => {
+              const currentPage = index + page - pageRange
+              leftPageLabels.push({ label: currentPage, value: currentPage })
+            })
+            break
         }
-      })
+        leftPageLabels.forEach(v => duplicatedValues.push(v))
+
+      // ループ2回目は右側のページ番号ラベルを格納する
+      } else {
+        const rightPageLabels = []
+        // 連続的である
+        if (isContinuous) {
+          Array.from({ length: pageCount - page + 1 }, (_, index) => {
+            const currentPage = index + page
+            rightPageLabels.push({ label: currentPage, value: currentPage })
+          })
+        // 非連続的である
+        } else {
+          Array.from({  length: 3 }, (_, index) => {
+            const currentPage = index + page
+            rightPageLabels.push({ label: currentPage, value: currentPage })
+          })
+          rightPageLabels.push({ label: 'Next', value: '...' })
+          rightPageLabels.push({ label: pageCount, value: pageCount })
+        }
+        rightPageLabels.forEach(v => duplicatedValues.push(v))
+      }
+    })
   }
 
   const uniqueValues = duplicatedValues.filter((element, index, self) =>
