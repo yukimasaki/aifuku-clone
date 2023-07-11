@@ -88,7 +88,20 @@ describe('createPageLabels', () => {
   //   const pageCount = 2
 
   //   const pageLabels = createPageLabels(page, pageCount, pageRange, baseUrl, perPage)
-  //   expect(pageLabels).toEqual(['1', '2'])
+  //   expect(pageLabels).toEqual([
+  //     {
+  //       "active": "true",
+  //       "id": "1",
+  //       "label": "1",
+  //       "url": "/api/users/?page=1&perPage=5",
+  //     },
+  //     {
+  //       "active": "false",
+  //       "id": "2",
+  //       "label": "2",
+  //       "url": "/api/users/?page=2&perPage=5",
+  //     },
+  //   ])
   // })
 
   // it('3/3ページ', () => {
@@ -107,13 +120,21 @@ describe('createPageLabels', () => {
   //   expect(pageLabels).toEqual(['1', '2', '3', '4'])
   // })
 
-  // it('5/5ページ', () => {
-  //   const page = 5
-  //   const pageCount = 5
+  it('5/5ページ', () => {
+    const page = 5
+    const pageCount = 5
 
-  //   const pageLabels = createPageLabels(page, pageCount, pageRange, baseUrl, perPage)
-  //   expect(pageLabels).toEqual(['1', '...', '3', '4', '5'])
-  // })
+    const pageLabels = createPageLabels(page, pageCount, pageRange, baseUrl, perPage)
+    // expect(pageLabels).toEqual(['1', '...', '3', '4', '5'])
+    expect(pageLabels).toEqual([
+      {
+        "active": "true",
+        "id": "1",
+        "label": "1",
+        "url": "/api/users/?page=1&perPage=5",
+      },
+    ])
+  })
 
   // it('2/3ページ', () => {
   //   const page = 2
