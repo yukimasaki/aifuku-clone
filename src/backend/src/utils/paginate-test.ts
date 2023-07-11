@@ -61,7 +61,7 @@ export async function paginate<Items>(req: Request, {
 export const createMetaLink = (page: number, pageCount: number, pageRange: number) => {
   const firstPage = 1
   const lastPage = pageCount
-  const uniqueValues = new Set()
+  const duplicatedValues = []
 
   switch (page) {
     // 最初または最後のページの場合
@@ -70,15 +70,17 @@ export const createMetaLink = (page: number, pageCount: number, pageRange: numbe
       if (pageCount <= 4) {
         // [1] ～ [1, 2, 3, 4]
         Array.from({ length: pageCount }, (_, index) => {
-          uniqueValues.add((index + 1).toString())
+          const currentPage = index + 1
+          duplicatedValues.push({ label: currentPage.toString(), value: currentPage.toString() })
         })
       } else {
         // [1, 2, 3, ..., 5]
         Array.from({ length: 3 }, (_, index) => {
-          uniqueValues.add((index + 1).toString())
+          const currentPage = index + 1
+          duplicatedValues.push({ label: currentPage.toString(), value: currentPage.toString() })
         })
-        uniqueValues.add('...')
-        uniqueValues.add(lastPage.toString())
+        duplicatedValues.push({ label: 'Prev', value: '...' })
+        duplicatedValues.push({ label: lastPage.toString(), value: lastPage.toString() })
       }
       break
 
@@ -105,7 +107,7 @@ export const createMetaLink = (page: number, pageCount: number, pageRange: numbe
             return result
           })(page, pageCount, pageRange)
 
-      // isContinuous(length: 2)でループ処理を実行し、左右のページ番号ラベルを配列(uniqueValues)に格納する
+      // isContinuous(length: 2)でループ処理を実行し、左右のページ番号ラベルを配列(duplicatedValues)に格納する
       isContinuous.forEach((v, index) => {
         switch (index) {
           // ループ1回目は左側のページ番号ラベルを格納する
@@ -116,22 +118,20 @@ export const createMetaLink = (page: number, pageCount: number, pageRange: numbe
               case true:
                 Array.from({ length: page }, (_, index) => {
                   const currentPage = index + 1
-                  leftPageLabels.push(currentPage)
+                  leftPageLabels.push({ label: currentPage, value: currentPage })
                 })
                 break
               // 非連続的である
               default:
-                leftPageLabels.push(firstPage)
-                leftPageLabels.push('...')
+                leftPageLabels.push({ label: firstPage, value: firstPage })
+                leftPageLabels.push({ label: 'Prev', value: '...' })
                 Array.from({  length: 3 }, (_, index) => {
                   const currentPage = index + page - pageRange
-                  leftPageLabels.push(currentPage)
+                  leftPageLabels.push({ label: currentPage, value: currentPage })
                 })
                 break
             }
-            leftPageLabels.forEach(v => {
-              uniqueValues.add(v.toString())
-            })
+            leftPageLabels.forEach(v => duplicatedValues.push(v))
             break
 
           // ループ2回目は右側のページ番号ラベルを格納する
@@ -142,26 +142,28 @@ export const createMetaLink = (page: number, pageCount: number, pageRange: numbe
               case true:
                 Array.from({ length: pageCount - page + 1 }, (_, index) => {
                   const currentPage = index + page
-                  rightPageLabels.push(currentPage)
+                  rightPageLabels.push({ label: currentPage, value: currentPage })
                 })
                 break
-                // 非連続的である
-                default:
-                  Array.from({  length: 3 }, (_, index) => {
-                const currentPage = index + page
-                rightPageLabels.push(currentPage)
-              })
-              rightPageLabels.push('...')
-              rightPageLabels.push(pageCount)
+              // 非連続的である
+              default:
+                Array.from({  length: 3 }, (_, index) => {
+                  const currentPage = index + page
+                  rightPageLabels.push({ label: currentPage, value: currentPage })
+                })
+              rightPageLabels.push({ label: 'Next', value: '...' })
+              rightPageLabels.push({ label: pageCount, value: pageCount })
               break
             }
-            rightPageLabels.forEach(v => {
-              uniqueValues.add(v.toString())
-            })
+            rightPageLabels.forEach(v => duplicatedValues.push(v))
             break
           }
         })
   }
-  const pageLabels = Array.from(uniqueValues)
+
+  const uniqueValues = duplicatedValues.filter((element, index, self) =>
+    self.findIndex(e => e.label === element.label) === index
+  )
+  const pageLabels = uniqueValues.map(element => element.value.toString())
   return pageLabels
 }

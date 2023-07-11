@@ -83,14 +83,14 @@ describe('createMetaLink', () => {
     expect(pageLabels).toEqual(['1', '2', '3', '4'])
   })
 
-  // it('5/5ページ', () => {
-    //   const page = 5
-    //   const pageCount = 5
-    //   const pageRange = 2
+  it('5/5ページ', () => {
+      const page = 5
+      const pageCount = 5
+      const pageRange = 2
 
-    //   const pageLabels = createMetaLink(page, pageCount, pageRange)
-    //   expect(pageLabels).toEqual([1, '...', 3, 4, 5])
-    // })
+      const pageLabels = createMetaLink(page, pageCount, pageRange)
+      expect(pageLabels).toEqual(['1', '...', '3', '4', '5'])
+    })
 
     it('2/3ページ', () => {
       const page = 2
