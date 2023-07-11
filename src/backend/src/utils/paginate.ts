@@ -68,21 +68,24 @@ export const createPageLabels = (page: number, pageCount: number, pageRange: num
     // ☆ 4ページ以下の場合: [1] ～ [1, 2, 3, 4]
     Array.from({ length: pageCount }, (_, index) => {
       const currentPage = index + 1
-      duplicatedValues.push({ label: currentPage, value: currentPage })
+      duplicatedValues.push({ dupeCheckLabel: currentPage, value: currentPage })
     })
   } else if (page === firstPage) {
     // ☆ 最初のページ(なおかつ5ページ以上)の場合: [1, 2, 3, ..., 5]
     Array.from({ length: 3 }, (_, index) => {
       const currentPage = index + 1
-      duplicatedValues.push({ label: currentPage, value: currentPage })
+      duplicatedValues.push({
+        dupeCheckLabel: currentPage,
+        value: currentPage
+      })
     })
-    duplicatedValues.push({ label: 'leftDot', value: '...' }, { label: lastPage, value: lastPage })
+    duplicatedValues.push({ dupeCheckLabel: 'leftDot', value: '...' }, { dupeCheckLabel: lastPage, value: lastPage })
   } else if (page === lastPage) {
     // ☆ 最後のページ(なおかつ5ページ以上)の場合: [1, ..., 3, 4, 5]
-    duplicatedValues.push({ label: firstPage, value: firstPage }, { label: 'rightDot', value: '...' })
+    duplicatedValues.push({ dupeCheckLabel: firstPage, value: firstPage }, { dupeCheckLabel: 'rightDot', value: '...' })
     Array.from({ length: 3 }, (_, index) => {
       const currentPage = index + page - pageRange
-      duplicatedValues.push({ label: currentPage, value: currentPage })
+      duplicatedValues.push({ dupeCheckLabel: currentPage, value: currentPage })
     })
   } else {
     // ☆ それ以外のページの場合
@@ -113,15 +116,15 @@ export const createPageLabels = (page: number, pageCount: number, pageRange: num
         if (isContinuous) {
           Array.from({ length: page }, (_, index) => {
             const currentPage = index + 1
-            leftPageLabels.push({ label: currentPage, value: currentPage })
+            leftPageLabels.push({ dupeCheckLabel: currentPage, value: currentPage })
           })
         } else {
           // 非連続的である
-          leftPageLabels.push({ label: firstPage, value: firstPage })
-          leftPageLabels.push({ label: 'leftDot', value: '...' })
+          leftPageLabels.push({ dupeCheckLabel: firstPage, value: firstPage })
+          leftPageLabels.push({ dupeCheckLabel: 'leftDot', value: '...' })
           Array.from({  length: 3 }, (_, index) => {
             const currentPage = index + page - pageRange
-            leftPageLabels.push({ label: currentPage, value: currentPage })
+            leftPageLabels.push({ dupeCheckLabel: currentPage, value: currentPage })
           })
         }
         leftPageLabels.forEach(v => duplicatedValues.push(v))
@@ -133,16 +136,16 @@ export const createPageLabels = (page: number, pageCount: number, pageRange: num
         if (isContinuous) {
           Array.from({ length: pageCount - page + 1 }, (_, index) => {
             const currentPage = index + page
-            rightPageLabels.push({ label: currentPage, value: currentPage })
+            rightPageLabels.push({ dupeCheckLabel: currentPage, value: currentPage })
           })
         // 非連続的である
         } else {
           Array.from({  length: 3 }, (_, index) => {
             const currentPage = index + page
-            rightPageLabels.push({ label: currentPage, value: currentPage })
+            rightPageLabels.push({ dupeCheckLabel: currentPage, value: currentPage })
           })
-          rightPageLabels.push({ label: 'rightDot', value: '...' })
-          rightPageLabels.push({ label: pageCount, value: pageCount })
+          rightPageLabels.push({ dupeCheckLabel: 'rightDot', value: '...' })
+          rightPageLabels.push({ dupeCheckLabel: pageCount, value: pageCount })
         }
         // この行で左右のページ番号ラベルが結合される (この時点では重複あり)
         rightPageLabels.forEach(v => duplicatedValues.push(v))
@@ -152,7 +155,7 @@ export const createPageLabels = (page: number, pageCount: number, pageRange: num
 
   // 重複を排除する
   const uniqueValues = duplicatedValues.filter((element, index, self) =>
-    self.findIndex(e => e.label === element.label) === index
+    self.findIndex(e => e.dupeCheckLabel === element.dupeCheckLabel) === index
   )
   const pageLabels = uniqueValues.map(element => element.value.toString())
   return pageLabels
