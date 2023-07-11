@@ -19,13 +19,6 @@ type PaginateOutputs<Items> = {
   // meta: any
 }
 
-// type LinkDefinition = {
-//   prevLabel: boolean
-//   leftDotLabel: boolean
-//   rightDotLabel: boolean
-//   nextLabel: boolean
-// }
-
 /**
  * ページネーションされたデータを取得する
  */
@@ -45,6 +38,7 @@ export async function paginate<Items>(req: Request, {
 
   const baseUrl = req.baseUrl
   const pageCount = Math.ceil(count / perPage)
+  // const pageRange = 2 // 何ページ隣までページ番号ラベルを表示するか
 
   const firstPage = 1
 
@@ -64,32 +58,110 @@ export async function paginate<Items>(req: Request, {
   }
 }
 
-export const createMetaLink = (page: number, pageCount: number) => {
+export const createMetaLink = (page: number, pageCount: number, pageRange: number) => {
   const firstPage = 1
   const lastPage = pageCount
-  const pageLabels = []
+  const uniqueValues = new Set()
 
   switch (page) {
+    // 最初または最後のページの場合
     case firstPage:
     case lastPage:
       if (pageCount <= 4) {
         // [1] ～ [1, 2, 3, 4]
         Array.from({ length: pageCount }, (_, index) => {
-          pageLabels.push(index + 1)
+          uniqueValues.add((index + 1).toString())
         })
       } else {
         // [1, 2, 3, ..., 5]
         Array.from({ length: 3 }, (_, index) => {
-          pageLabels.push(index + 1)
+          uniqueValues.add((index + 1).toString())
         })
-        pageLabels.push('...')
-        pageLabels.push(lastPage)
+        uniqueValues.add('...')
+        uniqueValues.add(lastPage.toString())
       }
       break
 
+    // 途中のページの場合 (この分岐はpageCount >= 3の時に実行される)
     default:
-      break
-  }
+      // `page`の左右ごとに、(最初|最後)のページ～現在のページまでが連続的であるか否かを判定し結果を配列に格納する
+      const isContinuous: boolean[] = ((page: number, pageCount: number, pageRange: number) => {
+        const result: boolean[] = []
 
+        // 最大2回ループ処理を実行する (1回目は左側、2回目は右側)
+        Array.from({ length: 2 }, (_, index) => {
+          switch (index) {
+            // ループ1回目は左側の連続性を調べる
+            case 0:
+              result.push(page - pageRange - 1 <= 1)
+              break
+
+              // ループ2回目は右側の連続性を調べる
+              default:
+                result.push(pageCount - page <= pageRange + 1)
+                break
+              }
+            })
+            return result
+          })(page, pageCount, pageRange)
+
+      // isContinuous(length: 2)でループ処理を実行し、左右のページ番号ラベルを配列(uniqueValues)に格納する
+      isContinuous.forEach((v, index) => {
+        switch (index) {
+          // ループ1回目は左側のページ番号ラベルを格納する
+          case 0:
+            const leftPageLabels = []
+            switch (v) {
+              // 連続的である
+              case true:
+                Array.from({ length: page }, (_, index) => {
+                  const currentPage = index + 1
+                  leftPageLabels.push(currentPage)
+                })
+                break
+              // 非連続的である
+              default:
+                leftPageLabels.push(firstPage)
+                leftPageLabels.push('...')
+                Array.from({  length: 3 }, (_, index) => {
+                  const currentPage = index + page - pageRange
+                  leftPageLabels.push(currentPage)
+                })
+                break
+            }
+            leftPageLabels.forEach(v => {
+              uniqueValues.add(v.toString())
+            })
+            break
+
+          // ループ2回目は右側のページ番号ラベルを格納する
+          default:
+            const rightPageLabels = []
+            switch (v) {
+              // 連続的である
+              case true:
+                Array.from({ length: pageCount - page + 1 }, (_, index) => {
+                  const currentPage = index + page
+                  rightPageLabels.push(currentPage)
+                })
+                break
+                // 非連続的である
+                default:
+                  Array.from({  length: 3 }, (_, index) => {
+                const currentPage = index + page
+                rightPageLabels.push(currentPage)
+              })
+              rightPageLabels.push('...')
+              rightPageLabels.push(pageCount)
+              break
+            }
+            rightPageLabels.forEach(v => {
+              uniqueValues.add(v.toString())
+            })
+            break
+          }
+        })
+  }
+  const pageLabels = Array.from(uniqueValues)
   return pageLabels
 }
