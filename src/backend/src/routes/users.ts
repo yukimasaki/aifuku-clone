@@ -5,7 +5,7 @@ import { useFirebase } from 'src/utils/firebase'
 import { PrismaClient } from '@prisma/client'
 import { verify } from '../middleware/verify'
 // import { paginate } from 'src/utils/paginate'
-import { paginate } from 'src/utils/paginate-test'
+import { paginate } from 'src/utils/paginate'
 
 const router = express.Router()
 const prisma = new PrismaClient()
