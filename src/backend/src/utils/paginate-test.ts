@@ -71,14 +71,15 @@ export const createMetaLink = (page: number, pageCount: number) => {
 
   switch (page) {
     case firstPage:
+    case lastPage:
       if (pageCount <= 4) {
-        // [1, 2, 3, 4]
-        Array.from({ length: pageCount }, (_,index) => {
+        // [1] ～ [1, 2, 3, 4]
+        Array.from({ length: pageCount }, (_, index) => {
           pageLabels.push(index + 1)
         })
       } else {
         // [1, 2, 3, ..., 5]
-        Array.from({ length: 3 }, (_,index) => {
+        Array.from({ length: 3 }, (_, index) => {
           pageLabels.push(index + 1)
         })
         pageLabels.push('...')
@@ -86,13 +87,9 @@ export const createMetaLink = (page: number, pageCount: number) => {
       }
       break
 
-    case lastPage:
-      break
-
     default:
       break
   }
 
-  console.log(pageLabels)
   return pageLabels
 }
