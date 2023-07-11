@@ -108,23 +108,20 @@ export const createPageLabels = (page: number, pageCount: number, pageRange: num
       // ループ1回目は左側のページ番号ラベルを格納する
       if (index === 0) {
         const leftPageLabels = []
-        switch (isContinuous) {
-          // 連続的である
-          case true:
-            Array.from({ length: page }, (_, index) => {
-              const currentPage = index + 1
-              leftPageLabels.push({ label: currentPage, value: currentPage })
-            })
-            break
+        // 連続的である
+        if (isContinuous) {
+          Array.from({ length: page }, (_, index) => {
+            const currentPage = index + 1
+            leftPageLabels.push({ label: currentPage, value: currentPage })
+          })
+        } else {
           // 非連続的である
-          default:
-            leftPageLabels.push({ label: firstPage, value: firstPage })
-            leftPageLabels.push({ label: 'leftDot', value: '...' })
-            Array.from({  length: 3 }, (_, index) => {
-              const currentPage = index + page - pageRange
-              leftPageLabels.push({ label: currentPage, value: currentPage })
-            })
-            break
+          leftPageLabels.push({ label: firstPage, value: firstPage })
+          leftPageLabels.push({ label: 'leftDot', value: '...' })
+          Array.from({  length: 3 }, (_, index) => {
+            const currentPage = index + page - pageRange
+            leftPageLabels.push({ label: currentPage, value: currentPage })
+          })
         }
         leftPageLabels.forEach(v => duplicatedValues.push(v))
 
