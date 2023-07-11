@@ -16,7 +16,7 @@ type PaginateOutputs<Items> = {
   count: number
   pageCount: number
   links: any,
-  // meta: any
+  meta: any
 }
 
 /**
@@ -38,28 +38,30 @@ export const paginate = async <Items>(req: Request, {
 
   const baseUrl = req.baseUrl
   const pageCount = Math.ceil(count / perPage)
-  // const pageRange = 2 // 何ページ隣までページ番号ラベルを表示するか
+  const pageRange = 2 // 何ページ隣までページ番号ラベルを表示するか
   const firstPage = 1
 
   const links = {
-    first: `${baseUrl}/?page=1&?perPage=${perPage}`,
-    prev: page === firstPage ? '' : `${baseUrl}/?page=${page - 1}&?perPage=${perPage}`,
-    next: page === pageCount ? '' : `${baseUrl}/?page=${page + 1}&?perPage=${perPage}`,
-    last: `${baseUrl}/?page=${pageCount}&?perPage=${perPage}`,
+    first: `${baseUrl}/?page=1&perPage=${perPage}`,
+    prev: page === firstPage ? '' : `${baseUrl}/?page=${page - 1}&perPage=${perPage}`,
+    next: page === pageCount ? '' : `${baseUrl}/?page=${page + 1}&perPage=${perPage}`,
+    last: `${baseUrl}/?page=${pageCount}&perPage=${perPage}`,
   }
 
-  // const pageLabels = createPageLabels(page, pageCount, pageRange)
+  const metaLinks = createPageLabels(page, pageCount, pageRange, baseUrl, perPage)
 
   return {
     items,
     count,
     pageCount,
     links,
-    // meta: { links: metaLinks },
+    meta: { links: metaLinks },
   }
 }
 
-export const createPageLabels = (page: number, pageCount: number, pageRange: number) => {
+export const createPageLabels = (
+  page: number, pageCount: number, pageRange: number, baseUrl: string, perPage: number
+) => {
   const firstPage = 1
   const lastPage = pageCount
   const duplicatedValues = []
@@ -71,15 +73,21 @@ export const createPageLabels = (page: number, pageCount: number, pageRange: num
       duplicatedValues.push({ dupeCheckLabel: currentPage, value: currentPage })
     })
   } else if (page === firstPage) {
-    // ☆ 最初のページ(なおかつ5ページ以上)の場合: [1, 2, 3, ..., 5]
+    // ★ 最初のページ(なおかつ5ページ以上)の場合: [1, 2, 3, ..., 5]
     Array.from({ length: 3 }, (_, index) => {
       const currentPage = index + 1
       duplicatedValues.push({
         dupeCheckLabel: currentPage,
-        value: currentPage
+        value: currentPage,
+        url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
+        active: page === currentPage,
       })
     })
-    duplicatedValues.push({ dupeCheckLabel: 'leftDot', value: '...' }, { dupeCheckLabel: lastPage, value: lastPage })
+    duplicatedValues.push(
+      { dupeCheckLabel: 'leftDot', value: '...', url: '', active: false },
+      { dupeCheckLabel: lastPage, value: lastPage, url: `${baseUrl}/?page=${lastPage}&perPage=${perPage}`, active: false },
+      { dupeCheckLabel: 'Next', value: 'Next', url: `${baseUrl}/?page=${page + 1}&perPage=${perPage}`, active: false },
+    )
   } else if (page === lastPage) {
     // ☆ 最後のページ(なおかつ5ページ以上)の場合: [1, ..., 3, 4, 5]
     duplicatedValues.push({ dupeCheckLabel: firstPage, value: firstPage }, { dupeCheckLabel: 'rightDot', value: '...' })
@@ -157,7 +165,14 @@ export const createPageLabels = (page: number, pageCount: number, pageRange: num
   const uniqueValues = duplicatedValues.filter((element, index, self) =>
     self.findIndex(e => e.dupeCheckLabel === element.dupeCheckLabel) === index
   )
-  const pageLabels = uniqueValues.map(element => element.value.toString())
+  const pageLabels = uniqueValues.map(element => {
+    return {
+      id: (uniqueValues.indexOf(element) + 1).toString(),
+      label: element.value.toString(),
+      url: element.url?.toString(),
+      active: element.active?.toString()
+    }
+  })
   return pageLabels
 }
 
