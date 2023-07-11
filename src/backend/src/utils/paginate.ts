@@ -22,12 +22,12 @@ type PaginateOutputs<Items> = {
 /**
  * ページネーションされたデータを取得する
  */
-export async function paginate<Items>(req: Request, {
+export const paginate = async <Items>(req: Request, {
   page,
   perPage,
   countFn,
   queryFn,
-}: PaginateInputs<Items>): Promise<PaginateOutputs<Items>> {
+}: PaginateInputs<Items>): Promise<PaginateOutputs<Items>> => {
   const [items, count] = await Promise.all([
     queryFn({
       skip: perPage * (page - 1),
@@ -75,10 +75,10 @@ export const createPageLabels = (page: number, pageCount: number, pageRange: num
       const currentPage = index + 1
       duplicatedValues.push({ label: currentPage, value: currentPage })
     })
-    duplicatedValues.push({ label: 'Prev', value: '...' }, { label: lastPage, value: lastPage })
+    duplicatedValues.push({ label: 'leftDot', value: '...' }, { label: lastPage, value: lastPage })
   } else if (page === lastPage) {
     // 最後のページ(なおかつ5ページ以上)の場合: [1, ..., 3, 4, 5]
-    duplicatedValues.push({ label: firstPage, value: firstPage }, { label: 'Next', value: '...' })
+    duplicatedValues.push({ label: firstPage, value: firstPage }, { label: 'rightDot', value: '...' })
     Array.from({ length: 3 }, (_, index) => {
       const currentPage = index + page - pageRange
       duplicatedValues.push({ label: currentPage, value: currentPage })
@@ -119,7 +119,7 @@ export const createPageLabels = (page: number, pageCount: number, pageRange: num
           // 非連続的である
           default:
             leftPageLabels.push({ label: firstPage, value: firstPage })
-            leftPageLabels.push({ label: 'Prev', value: '...' })
+            leftPageLabels.push({ label: 'leftDot', value: '...' })
             Array.from({  length: 3 }, (_, index) => {
               const currentPage = index + page - pageRange
               leftPageLabels.push({ label: currentPage, value: currentPage })
@@ -143,7 +143,7 @@ export const createPageLabels = (page: number, pageCount: number, pageRange: num
             const currentPage = index + page
             rightPageLabels.push({ label: currentPage, value: currentPage })
           })
-          rightPageLabels.push({ label: 'Next', value: '...' })
+          rightPageLabels.push({ label: 'rightDot', value: '...' })
           rightPageLabels.push({ label: pageCount, value: pageCount })
         }
         rightPageLabels.forEach(v => duplicatedValues.push(v))
