@@ -39,7 +39,6 @@ export const paginate = async <Items>(req: Request, {
   const baseUrl = req.baseUrl
   const pageCount = Math.ceil(count / perPage)
   // const pageRange = 2 // 何ページ隣までページ番号ラベルを表示するか
-
   const firstPage = 1
 
   const links = {
@@ -48,6 +47,8 @@ export const paginate = async <Items>(req: Request, {
     next: page === pageCount ? '' : `${baseUrl}/?page=${page + 1}&?perPage=${perPage}`,
     last: `${baseUrl}/?page=${pageCount}&?perPage=${perPage}`,
   }
+
+  // const pageLabels = createPageLabels(page, pageCount, pageRange)
 
   return {
     items,
@@ -64,27 +65,27 @@ export const createPageLabels = (page: number, pageCount: number, pageRange: num
   const duplicatedValues = []
 
   if (pageCount <= 4) {
-    // 4ページ以下の場合: [1] ～ [1, 2, 3, 4]
+    // ☆ 4ページ以下の場合: [1] ～ [1, 2, 3, 4]
     Array.from({ length: pageCount }, (_, index) => {
       const currentPage = index + 1
       duplicatedValues.push({ label: currentPage, value: currentPage })
     })
   } else if (page === firstPage) {
-    // 最初のページ(なおかつ5ページ以上)の場合: [1, 2, 3, ..., 5]
+    // ☆ 最初のページ(なおかつ5ページ以上)の場合: [1, 2, 3, ..., 5]
     Array.from({ length: 3 }, (_, index) => {
       const currentPage = index + 1
       duplicatedValues.push({ label: currentPage, value: currentPage })
     })
     duplicatedValues.push({ label: 'leftDot', value: '...' }, { label: lastPage, value: lastPage })
   } else if (page === lastPage) {
-    // 最後のページ(なおかつ5ページ以上)の場合: [1, ..., 3, 4, 5]
+    // ☆ 最後のページ(なおかつ5ページ以上)の場合: [1, ..., 3, 4, 5]
     duplicatedValues.push({ label: firstPage, value: firstPage }, { label: 'rightDot', value: '...' })
     Array.from({ length: 3 }, (_, index) => {
       const currentPage = index + page - pageRange
       duplicatedValues.push({ label: currentPage, value: currentPage })
     })
   } else {
-    // それ以外のページの場合
+    // ☆ それ以外のページの場合
     // `page`の左右ごとに、(最初|最後)のページ ～ 現在のページまでが連続的であるか否かを判定し結果を配列に格納する
     const isContinuous: boolean[] = ((page: number, pageCount: number, pageRange: number) => {
       const result: boolean[] = []
@@ -143,14 +144,19 @@ export const createPageLabels = (page: number, pageCount: number, pageRange: num
           rightPageLabels.push({ label: 'rightDot', value: '...' })
           rightPageLabels.push({ label: pageCount, value: pageCount })
         }
+        // この行で左右のページ番号ラベルが結合される (この時点では重複あり)
         rightPageLabels.forEach(v => duplicatedValues.push(v))
       }
     })
   }
 
+  // 重複を排除する
   const uniqueValues = duplicatedValues.filter((element, index, self) =>
     self.findIndex(e => e.label === element.label) === index
   )
   const pageLabels = uniqueValues.map(element => element.value.toString())
   return pageLabels
+}
+
+export const addNavigateBtn = (pageLabels: string[], page: number) => {
 }
