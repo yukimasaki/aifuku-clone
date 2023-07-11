@@ -84,16 +84,25 @@ export const createPageLabels = (
       })
     })
     duplicatedValues.push(
-      { dupeCheckLabel: 'leftDot', value: '...', url: '', active: false },
+      { dupeCheckLabel: 'rightDot', value: '...', url: '', active: false },
       { dupeCheckLabel: lastPage, value: lastPage, url: `${baseUrl}/?page=${lastPage}&perPage=${perPage}`, active: false },
       { dupeCheckLabel: 'Next', value: 'Next', url: `${baseUrl}/?page=${page + 1}&perPage=${perPage}`, active: false },
-    )
+      )
   } else if (page === lastPage) {
-    // ☆ 最後のページ(なおかつ5ページ以上)の場合: [1, ..., 3, 4, 5]
-    duplicatedValues.push({ dupeCheckLabel: firstPage, value: firstPage }, { dupeCheckLabel: 'rightDot', value: '...' })
+    // ★ 最後のページ(なおかつ5ページ以上)の場合: [1, ..., 3, 4, 5]
+    duplicatedValues.push(
+      { dupeCheckLabel: 'Prev', value: 'Prev', url: `${baseUrl}/?page=${page - 1}&perPage=${perPage}`, active: false },
+      { dupeCheckLabel: firstPage, value: firstPage, url: `${baseUrl}/?page=${firstPage}&perPage=${perPage}`, active: false },
+      { dupeCheckLabel: 'leftDot', value: '...', url: '', active: false },
+    )
     Array.from({ length: 3 }, (_, index) => {
       const currentPage = index + page - pageRange
-      duplicatedValues.push({ dupeCheckLabel: currentPage, value: currentPage })
+      duplicatedValues.push({
+        dupeCheckLabel: currentPage,
+        value: currentPage,
+        url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
+        active: page === currentPage,
+      })
     })
   } else {
     // ☆ それ以外のページの場合
