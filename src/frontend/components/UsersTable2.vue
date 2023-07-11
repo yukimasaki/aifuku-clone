@@ -46,7 +46,7 @@ const testHeaders = reactive([
 ])
 
 const page = 1
-const perPage = 4
+const perPage = 2
 
 const { data } = await useFetch(`/api/users?page=${page}&perPage=${perPage}`)
 const users = data.value.items
