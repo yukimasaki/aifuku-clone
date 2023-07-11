@@ -8,6 +8,8 @@ dev-f:
 	docker compose exec nuxt yarn dev
 express:
 	docker compose exec express sh
+test:
+	docker compose exec express yarn test
 dev-b:
 	docker compose exec express yarn dev
 std:
