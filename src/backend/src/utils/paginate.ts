@@ -16,7 +16,36 @@ type PaginateOutputs<Items> = {
   count: number
   pageCount: number
   links: any,
-  meta: any
+  // meta: any
+}
+
+type PageContinuty = {
+  left: boolean
+  right: boolean
+}
+
+type PagePosition = 'start' | 'end' | 'middle'
+
+type PageInfo = {
+  page: number
+  pageCount: number
+  pageRange: number
+  perPage: number
+  baseUrl: string
+}
+
+type PageLabel = {
+  id: number
+  label: string
+  url: string
+  active: boolean
+}
+
+type DuplicatedLabel = {
+  description: string
+  value: string
+  url: string
+  active: boolean
 }
 
 /**
@@ -38,7 +67,7 @@ export const paginate = async <Items>(req: Request, {
 
   const baseUrl = req.baseUrl
   const pageCount = Math.ceil(count / perPage)
-  const pageRange = 2 // 何ページ隣までページ番号ラベルを表示するか
+  const pageRange = 2
   const firstPage = 1
 
   const links = {
@@ -48,175 +77,94 @@ export const paginate = async <Items>(req: Request, {
     last: `${baseUrl}/?page=${pageCount}&perPage=${perPage}`,
   }
 
-  const metaLinks = createPageLabels(page, pageCount, pageRange, baseUrl, perPage)
-
   return {
     items,
     count,
     pageCount,
     links,
-    meta: { links: metaLinks },
+    // meta: { links: metaLinks },
   }
 }
 
+
+// ページネーション用のページ番号ラベルの配列を返す
 export const createPageLabels = (
-  page: number, pageCount: number, pageRange: number, baseUrl: string, perPage: number
-) => {
-  const firstPage = 1
-  const lastPage = pageCount
-  const duplicatedValues = []
-
-  if (pageCount <= 4) {
-    // ☆ 4ページ以下の場合: [1] ～ [1, 2, 3, 4]
-    Array.from({ length: pageCount }, (_, index) => {
-      const currentPage = index + 1
-      duplicatedValues.push({ dupeCheckLabel: currentPage, value: currentPage })
-    })
-  } else if (page === firstPage) {
-    // ★ 最初のページ(なおかつ5ページ以上)の場合: [1, 2, 3, ..., 5, Next]
-    Array.from({ length: 3 }, (_, index) => {
-      const currentPage = index + 1
-      duplicatedValues.push({
-        dupeCheckLabel: currentPage,
-        value: currentPage,
-        url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
-        active: page === currentPage,
-      })
-    })
-    duplicatedValues.push(
-      { dupeCheckLabel: 'rightDot', value: '...', url: '', active: false },
-      { dupeCheckLabel: lastPage, value: lastPage, url: `${baseUrl}/?page=${lastPage}&perPage=${perPage}`, active: false },
-      { dupeCheckLabel: 'Next', value: 'Next', url: `${baseUrl}/?page=${page + 1}&perPage=${perPage}`, active: false },
-      )
-  } else if (page === lastPage) {
-    // ★ 最後のページ(なおかつ5ページ以上)の場合: [Prev, 1, ..., 3, 4, 5]
-    duplicatedValues.push(
-      { dupeCheckLabel: 'Prev', value: 'Prev', url: `${baseUrl}/?page=${page - 1}&perPage=${perPage}`, active: false },
-      { dupeCheckLabel: firstPage, value: firstPage, url: `${baseUrl}/?page=${firstPage}&perPage=${perPage}`, active: false },
-      { dupeCheckLabel: 'leftDot', value: '...', url: '', active: false },
-    )
-    Array.from({ length: 3 }, (_, index) => {
-      const currentPage = index + page - pageRange
-      duplicatedValues.push({
-        dupeCheckLabel: currentPage,
-        value: currentPage,
-        url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
-        active: page === currentPage,
-      })
-    })
-  } else {
-    // ★ それ以外のページの場合
-    // `page`の左右ごとに、(最初|最後)のページ ～ 現在のページまでが連続的であるか否かを判定し結果を配列に格納する
-    const isContinuous: boolean[] = ((page: number, pageCount: number, pageRange: number) => {
-      const result: boolean[] = []
-
-      // 最大2回ループ処理を実行する (1回目は左側、2回目は右側)
-      Array.from({ length: 2 }, (_, index) => {
-        if (index === 0) {
-          // ループ1回目は左側の連続性を調べる
-          result.push(page - pageRange - 1 <= 1)
-        } else {
-          // ループ2回目は右側の連続性を調べる
-          result.push(pageCount - page <= pageRange + 1)
-        }
-      })
-      return result
-    })(page, pageCount, pageRange)
-
-    // isContinuous(length: 2)でループ処理を実行し、左右のページ番号ラベルを配列(duplicatedValues)に格納する
-    isContinuous.forEach((isContinuous, index) => {
-
-      // ループ1回目は左側のページ番号ラベルを格納する
-      if (index === 0) {
-        const leftPageLabels = []
-        // 連続的である
-        if (isContinuous) {
-          leftPageLabels.push(
-            { dupeCheckLabel: 'Prev', value: 'Prev', url: `${baseUrl}/?page=${page - 1}&perPage=${perPage}`, active: false },
-          )
-          Array.from({ length: page }, (_, index) => {
-            const currentPage = index + 1
-            leftPageLabels.push({
-              dupeCheckLabel: currentPage,
-              value: currentPage,
-              url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
-              active: page === currentPage,
-            })
-          })
-        } else {
-          // 非連続的である
-          leftPageLabels.push(
-            { dupeCheckLabel: 'Prev', value: 'Prev', url: `${baseUrl}/?page=${page - 1}&perPage=${perPage}`, active: false },
-            { dupeCheckLabel: firstPage, value: firstPage, url: `${baseUrl}/?page=${firstPage}&perPage=${perPage}`, active: false },
-            { dupeCheckLabel: 'leftDot', value: '...', url: '', active: false },
-          )
-          Array.from({  length: 3 }, (_, index) => {
-            const currentPage = index + page - pageRange
-            leftPageLabels.push({
-              dupeCheckLabel: currentPage,
-              value: currentPage,
-              url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
-              active: page === currentPage,
-            })
-          })
-        }
-        leftPageLabels.forEach(v => duplicatedValues.push(v))
-
-      // ループ2回目は右側のページ番号ラベルを格納する
-      } else {
-        const rightPageLabels = []
-        // 連続的である
-        if (isContinuous) {
-          Array.from({ length: pageCount - page + 1 }, (_, index) => {
-            const currentPage = index + page
-            rightPageLabels.push({
-              dupeCheckLabel: currentPage,
-              value: currentPage,
-              url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
-              active: page === currentPage,
-            })
-          })
-          rightPageLabels.push(
-            { dupeCheckLabel: 'Next', value: 'Next', url: `${baseUrl}/?page=${page + 1}&perPage=${perPage}`, active: false },
-          )
-        // 非連続的である
-        } else {
-          Array.from({  length: 3 }, (_, index) => {
-            const currentPage = index + page
-            rightPageLabels.push({
-              dupeCheckLabel: currentPage,
-              value: currentPage,
-              url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
-              active: page === currentPage,
-            })
-          })
-          rightPageLabels.push(
-            { dupeCheckLabel: 'rightDot', value: '...', url: '', active: false },
-            { dupeCheckLabel: pageCount, value: pageCount, url: `${baseUrl}/?page=${pageCount}&perPage=${perPage}`, active: false },
-            { dupeCheckLabel: 'Next', value: 'Next', url: `${baseUrl}/?page=${page + 1}&perPage=${perPage}`, active: false },
-          )
-          // rightPageLabels.push({ dupeCheckLabel: pageCount, value: pageCount })
-        }
-        // この行で左右のページ番号ラベルが結合される (この時点では重複あり)
-        rightPageLabels.forEach(v => duplicatedValues.push(v))
+  pageInfo: PageInfo,
+  ): PageLabel[] => {
+    // 最初または最後のページ～現在のページが連続的であるか否かを判定
+    const checkPageContinuty = (
+      pageInfo: PageInfo
+    ): PageContinuty => {
+      const { page, pageCount, pageRange } = pageInfo
+      return {
+        left: page - pageRange - 1 <= 1,
+        right: pageCount - page <= pageRange + 1
       }
-    })
-  }
-
-  // 重複を排除する
-  const uniqueValues = duplicatedValues.filter((element, index, self) =>
-    self.findIndex(e => e.dupeCheckLabel === element.dupeCheckLabel) === index
-  )
-  const pageLabels = uniqueValues.map(element => {
-    return {
-      id: (uniqueValues.indexOf(element) + 1).toString(),
-      label: element.value.toString(),
-      url: element.url?.toString(),
-      active: element.active?.toString()
     }
-  })
-  return pageLabels
-}
 
-export const addNavigateBtn = (pageLabels: string[], page: number) => {
+    // 現在のページの位置(最初、最後、途中)を判定
+    const checkPagePosition = (
+      pageInfo: PageInfo
+    ) : PagePosition => {
+      const { page, pageCount } = pageInfo
+      if (page === 1) {
+        return 'start'
+      } else if (page === pageCount) {
+        return 'end'
+      } else {
+        return 'middle'
+      }
+    }
+
+    // ドットラベルのオブジェクトを返すだけの関数
+    const createDotLabel = (
+      description: 'leftDot' | 'rightDot'
+    ): DuplicatedLabel => {
+      return {
+        description,
+        value: '...',
+        url: '',
+        active: false,
+      }
+    }
+
+    // 戻る・進むボタンラベルのオブジェクトを返すだけの関数
+    const createNavigateBtn = (
+      direction: 'Prev' | 'Next',
+      pageInfo: PageInfo,
+    ): DuplicatedLabel => {
+      return {
+        description: direction,
+        value: direction,
+        url: `${baseUrl}/?page=${direction === 'Prev' ? page - 1 : page + 1 }&perPage=${perPage}`,
+        active: false,
+      }
+    }
+
+    // メイン処理
+    const { page, pageCount, pageRange, perPage, baseUrl } = pageInfo
+
+    const { left, right } = checkPageContinuty(pageInfo)
+    const pagePosition = checkPagePosition(pageInfo)
+
+    // 以下、7つの分岐がある
+    if (left && right && pagePosition === 'start') {
+      // const continuousAllAndPageStart = (() => {})()
+    } else if (left && right && pagePosition === 'middle') {
+      // const continuousAllAndPageMiddle = (() => {})()
+    } else if (left && right && pagePosition === 'end') {
+      // const continuousAllAndPageEnd = (() => {})()
+    } else if (left && !right && pagePosition === 'start') {
+      // const continuousLeftAndPageStart = (() => {})()
+    } else if (left && !right && pagePosition === 'middle') {
+      // const continuousLeftAndPageMiddle = (() => {})()
+    } else if (!left && right && pagePosition === 'middle') {
+      // const continuousRightAndPageMiddle = (() => {})()
+    } else if (!left && right && pagePosition === 'end') {
+      // const continuousRightAndPageEnd = (() => {})()
+    } else if (!left && !right && pagePosition === 'middle') {
+      // const noContinuousAndPageMiddle = (() => {})()
+    } else {
+      console.log(`想定外の分岐`)
+    }
 }
