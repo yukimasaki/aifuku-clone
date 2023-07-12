@@ -105,7 +105,7 @@ export const createPageLabels = (
       })
     })
   } else {
-    // ☆ それ以外のページの場合
+    // (仮)★ それ以外のページの場合
     // `page`の左右ごとに、(最初|最後)のページ ～ 現在のページまでが連続的であるか否かを判定し結果を配列に格納する
     const isContinuous: boolean[] = ((page: number, pageCount: number, pageRange: number) => {
       const result: boolean[] = []
@@ -131,17 +131,33 @@ export const createPageLabels = (
         const leftPageLabels = []
         // 連続的である
         if (isContinuous) {
+          leftPageLabels.push(
+            { dupeCheckLabel: 'Prev', value: 'Prev', url: `${baseUrl}/?page=${page - 1}&perPage=${perPage}`, active: false },
+          )
           Array.from({ length: page }, (_, index) => {
             const currentPage = index + 1
-            leftPageLabels.push({ dupeCheckLabel: currentPage, value: currentPage })
+            leftPageLabels.push({
+              dupeCheckLabel: currentPage,
+              value: currentPage,
+              url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
+              active: page === currentPage,
+            })
           })
         } else {
           // 非連続的である
-          leftPageLabels.push({ dupeCheckLabel: firstPage, value: firstPage })
-          leftPageLabels.push({ dupeCheckLabel: 'leftDot', value: '...' })
+          leftPageLabels.push(
+            { dupeCheckLabel: 'Prev', value: 'Prev', url: `${baseUrl}/?page=${page - 1}&perPage=${perPage}`, active: false },
+            { dupeCheckLabel: firstPage, value: firstPage, url: `${baseUrl}/?page=${firstPage}&perPage=${perPage}`, active: false },
+            { dupeCheckLabel: 'leftDot', value: '...', url: '', active: false },
+          )
           Array.from({  length: 3 }, (_, index) => {
             const currentPage = index + page - pageRange
-            leftPageLabels.push({ dupeCheckLabel: currentPage, value: currentPage })
+            leftPageLabels.push({
+              dupeCheckLabel: currentPage,
+              value: currentPage,
+              url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
+              active: page === currentPage,
+            })
           })
         }
         leftPageLabels.forEach(v => duplicatedValues.push(v))
@@ -153,16 +169,33 @@ export const createPageLabels = (
         if (isContinuous) {
           Array.from({ length: pageCount - page + 1 }, (_, index) => {
             const currentPage = index + page
-            rightPageLabels.push({ dupeCheckLabel: currentPage, value: currentPage })
+            rightPageLabels.push({
+              dupeCheckLabel: currentPage,
+              value: currentPage,
+              url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
+              active: page === currentPage,
+            })
           })
+          rightPageLabels.push(
+            { dupeCheckLabel: 'Next', value: 'Next', url: `${baseUrl}/?page=${page + 1}&perPage=${perPage}`, active: false },
+          )
         // 非連続的である
         } else {
           Array.from({  length: 3 }, (_, index) => {
             const currentPage = index + page
-            rightPageLabels.push({ dupeCheckLabel: currentPage, value: currentPage })
+            rightPageLabels.push({
+              dupeCheckLabel: currentPage,
+              value: currentPage,
+              url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
+              active: page === currentPage,
+            })
           })
-          rightPageLabels.push({ dupeCheckLabel: 'rightDot', value: '...' })
-          rightPageLabels.push({ dupeCheckLabel: pageCount, value: pageCount })
+          rightPageLabels.push(
+            { dupeCheckLabel: 'rightDot', value: '...', url: '', active: false },
+            { dupeCheckLabel: pageCount, value: pageCount, url: `${baseUrl}/?page=${pageCount}&perPage=${perPage}`, active: false },
+            { dupeCheckLabel: 'Next', value: 'Next', url: `${baseUrl}/?page=${page + 1}&perPage=${perPage}`, active: false },
+          )
+          // rightPageLabels.push({ dupeCheckLabel: pageCount, value: pageCount })
         }
         // この行で左右のページ番号ラベルが結合される (この時点では重複あり)
         rightPageLabels.forEach(v => duplicatedValues.push(v))
