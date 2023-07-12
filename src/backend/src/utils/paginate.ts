@@ -67,7 +67,7 @@ export const paginate = async <Items>(req: Request, {
 
   const baseUrl = req.baseUrl
   const pageCount = Math.ceil(count / perPage)
-  const pageRange = 2
+  // const pageRange = 2
   const firstPage = 1
 
   const links = {
@@ -117,16 +117,16 @@ export const createPageLabels = (
     }
 
     // ドットラベルのオブジェクトを返すだけの関数
-    const createDotLabel = (
-      description: 'leftDot' | 'rightDot'
-    ): DuplicatedLabel => {
-      return {
-        description,
-        value: '...',
-        url: '',
-        active: false,
-      }
-    }
+    // const createDotLabel = (
+    //   description: 'leftDot' | 'rightDot'
+    // ): DuplicatedLabel => {
+    //   return {
+    //     description,
+    //     value: '...',
+    //     url: '',
+    //     active: false,
+    //   }
+    // }
 
     // 戻る・進むボタンラベルのオブジェクトを返すだけの関数
     const createNavigateBtn = (
@@ -142,29 +142,48 @@ export const createPageLabels = (
     }
 
     // メイン処理
-    const { page, pageCount, pageRange, perPage, baseUrl } = pageInfo
+    // const { page, pageCount, pageRange, perPage, baseUrl } = pageInfo
+    const { page, pageCount, perPage, baseUrl } = pageInfo
 
     const { left, right } = checkPageContinuty(pageInfo)
     const pagePosition = checkPagePosition(pageInfo)
 
-    // 以下、7つの分岐がある
+    const duplicatedLabels: DuplicatedLabel[] = []
+
+    // 以下、7つの分岐があり、ページの連続性・ページ位置に応じて配列を生成する
     if (left && right && pagePosition === 'start') {
-      // const continuousAllAndPageStart = (() => {})()
+      Array.from({ length: pageCount }, (_, index) => {
+        const currentPage = index + 1
+        duplicatedLabels.push({
+          description: currentPage.toString(),
+          value: currentPage.toString(),
+          url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
+          active: page === currentPage,
+        })
+      })
+      duplicatedLabels.push(createNavigateBtn('Next', pageInfo))
     } else if (left && right && pagePosition === 'middle') {
-      // const continuousAllAndPageMiddle = (() => {})()
     } else if (left && right && pagePosition === 'end') {
-      // const continuousAllAndPageEnd = (() => {})()
     } else if (left && !right && pagePosition === 'start') {
-      // const continuousLeftAndPageStart = (() => {})()
     } else if (left && !right && pagePosition === 'middle') {
-      // const continuousLeftAndPageMiddle = (() => {})()
     } else if (!left && right && pagePosition === 'middle') {
-      // const continuousRightAndPageMiddle = (() => {})()
     } else if (!left && right && pagePosition === 'end') {
-      // const continuousRightAndPageEnd = (() => {})()
     } else if (!left && !right && pagePosition === 'middle') {
-      // const noContinuousAndPageMiddle = (() => {})()
     } else {
       console.log(`想定外の分岐`)
     }
+
+    // 重複した要素を排除する
+    const uniqueValues = duplicatedLabels.filter((element, index, self) =>
+      self.findIndex(e => e.description === element.description) === index
+    )
+    const pageLabels: PageLabel[] = uniqueValues.map(element => {
+      return {
+        id: (uniqueValues.indexOf(element) + 1),
+        label: element.value.toString(),
+        url: element.url?.toString(),
+        active: element.active,
+      }
+    })
+    return pageLabels
 }
