@@ -105,7 +105,7 @@ export const createPageLabels = (
       })
     })
   } else {
-    // (仮)★ それ以外のページの場合
+    // ★ それ以外のページの場合
     // `page`の左右ごとに、(最初|最後)のページ ～ 現在のページまでが連続的であるか否かを判定し結果を配列に格納する
     const isContinuous: boolean[] = ((page: number, pageCount: number, pageRange: number) => {
       const result: boolean[] = []
@@ -207,12 +207,7 @@ export const createPageLabels = (
   const uniqueValues = duplicatedValues.filter((element, index, self) =>
     self.findIndex(e => e.dupeCheckLabel === element.dupeCheckLabel) === index
   )
-
-  console.log(uniqueValues)
-  console.log(uniqueValues.length)
   const pageLabels = uniqueValues.map(element => {
-    console.log(uniqueValues.indexOf(element) + 1)
-
     return {
       id: (uniqueValues.indexOf(element) + 1).toString(),
       label: element.value.toString(),
