@@ -202,6 +202,10 @@ export const createPageLabels = (
       duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: pageCount }, pageInfo))
       duplicatedLabels.push(createNavigateBtn('Next', pageInfo))
     } else if (!left && right && pagePosition === 'end') {
+      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo))
+      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: 1 }, pageInfo))
+      duplicatedLabels.push(createDotLabel('leftDot'))
+      duplicatedLabels.push(...createPageNumberLabel({ length: 3, loopStart: page - pageRange }, pageInfo))
     } else if (!left && !right && pagePosition === 'middle') {
     } else {
       console.log(`想定外の分岐`)
