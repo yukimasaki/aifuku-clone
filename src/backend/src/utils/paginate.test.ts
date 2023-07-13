@@ -320,4 +320,54 @@ describe('createPageLabels', () => {
       },
     ])
   })
+
+  it('5/5ページ', () => {
+    const pageInfo = {
+      page: 5,
+      pageCount: 5,
+      pageRange: 2,
+      perPage: 5,
+      baseUrl: '/api/users',
+    }
+
+    const pageLabels = createPageLabels(pageInfo)
+    expect(pageLabels).toEqual([
+      {
+        "active": false,
+        "id": 1,
+        "label": "Prev",
+        "url": "/api/users/?page=4&perPage=5",
+      },
+      {
+        "active": false,
+        "id": 2,
+        "label": "1",
+        "url": "/api/users/?page=1&perPage=5",
+      },
+      {
+        "active": false,
+        "id": 3,
+        "label": "...",
+        "url": "",
+      },
+      {
+        "active": false,
+        "id": 4,
+        "label": "3",
+        "url": "/api/users/?page=3&perPage=5",
+      },
+      {
+        "active": false,
+        "id": 5,
+        "label": "4",
+        "url": "/api/users/?page=4&perPage=5",
+      },
+      {
+        "active": true,
+        "id": 6,
+        "label": "5",
+        "url": "/api/users/?page=5&perPage=5",
+      },
+    ])
+  })
 })
