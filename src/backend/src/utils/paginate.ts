@@ -173,7 +173,9 @@ export const createPageLabels = (
     // 以下、7つの分岐があり、ページの連続性・ページ位置に応じて配列を生成する
     const duplicatedLabels: DuplicatedLabel[] = []
 
-    if (left && right && pagePosition === 'start') {
+    if (pageCount === 1) {
+      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: 1 }, pageInfo))
+    } else if (left && right && pagePosition === 'start') {
       duplicatedLabels.push(...createPageNumberLabel({ length: pageCount, loopStart: 1 }, pageInfo))
       duplicatedLabels.push(createNavigateBtn('Next', pageInfo))
     } else if (left && right && pagePosition === 'middle') {
