@@ -133,6 +133,7 @@ export const createPageLabels = (
       direction: 'Prev' | 'Next',
       pageInfo: PageInfo,
     ): DuplicatedLabel => {
+      const { page, perPage, baseUrl } = pageInfo
       return {
         description: direction,
         value: direction,
@@ -141,29 +142,44 @@ export const createPageLabels = (
       }
     }
 
-    // メイン処理
-    // const { page, pageCount, pageRange, perPage, baseUrl } = pageInfo
-    const { page, pageCount, perPage, baseUrl } = pageInfo
-
-    const { left, right } = checkPageContinuty(pageInfo)
-    const pagePosition = checkPagePosition(pageInfo)
-
-    const duplicatedLabels: DuplicatedLabel[] = []
-
-    // 以下、7つの分岐があり、ページの連続性・ページ位置に応じて配列を生成する
-    if (left && right && pagePosition === 'start') {
-      Array.from({ length: pageCount }, (_, index) => {
+    // ページ番号ラベルのオブジェクトを返すだけの関数
+    const createPageNumberLabel = (
+      length: number,
+      pageInfo: PageInfo
+    ): DuplicatedLabel[] => {
+      const { page, perPage, baseUrl } = pageInfo
+      return Array.from({ length }, (_, index) => {
         const currentPage = index + 1
-        duplicatedLabels.push({
+        return {
           description: currentPage.toString(),
           value: currentPage.toString(),
           url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
           active: page === currentPage,
-        })
+        }
       })
+    }
+
+    // メイン処理
+    const { pageCount } = pageInfo
+    const { left, right } = checkPageContinuty(pageInfo)
+    const pagePosition = checkPagePosition(pageInfo)
+
+    // 以下、7つの分岐があり、ページの連続性・ページ位置に応じて配列を生成する
+    const duplicatedLabels: DuplicatedLabel[] = []
+
+    if (left && right && pagePosition === 'start') {
+      const length = pageCount
+      duplicatedLabels.push(...createPageNumberLabel(length, pageInfo))
       duplicatedLabels.push(createNavigateBtn('Next', pageInfo))
     } else if (left && right && pagePosition === 'middle') {
+      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo))
+      const length = pageCount
+      duplicatedLabels.push(...createPageNumberLabel(length, pageInfo))
+      duplicatedLabels.push(createNavigateBtn('Next', pageInfo))
     } else if (left && right && pagePosition === 'end') {
+      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo))
+      const length = pageCount
+      duplicatedLabels.push(...createPageNumberLabel(length, pageInfo))
     } else if (left && !right && pagePosition === 'start') {
     } else if (left && !right && pagePosition === 'middle') {
     } else if (!left && right && pagePosition === 'middle') {
