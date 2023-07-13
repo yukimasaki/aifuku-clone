@@ -9,7 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in users" :key="user.id">
+        <tr v-for="user in users.items" :key="user.id">
           <td class="w-12">
             <label>
               <input type="checkbox" class="checkbox">
@@ -27,7 +27,8 @@
     <div class="join">
       <button
         class="join-item btn"
-        v-for="link in links" :key="link.id"
+        v-for="link in users.meta.links" :key="link.id"
+        @click="refetch(link.label)"
       >
         {{ link.label }}
       </button>
@@ -35,7 +36,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup >
 const testHeaders = reactive([
   { id: 1, label: '選択' },
   { id: 2, label: 'ID' },
@@ -45,10 +46,17 @@ const testHeaders = reactive([
   { id: 6, label: '編集' },
 ])
 
-const page = 1
-const perPage = 2
+const page = ref(1)
 
-const { data } = await useFetch(`/api/users?page=${page}&perPage=${perPage}`)
-const users = data.value.items
-const links = data.value.meta.links
+const { data: users } = await useFetch(`/api/users`, {
+  params: {
+    page,
+    perPage: 1,
+  },
+  watch: [page]
+})
+
+const refetch = (num) => {
+  page.value = num
+}
 </script>
