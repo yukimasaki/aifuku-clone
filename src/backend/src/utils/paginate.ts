@@ -15,8 +15,8 @@ type PaginateOutputs<Items> = {
   items: Items
   count: number
   pageCount: number
-  links: any,
-  // meta: any
+  links: any //型定義する
+  meta: any, //型定義する
 }
 
 type PageContinuty = {
@@ -72,9 +72,13 @@ export const paginate = async <Items>(req: Request, {
 
   const baseUrl = req.baseUrl
   const pageCount = Math.ceil(count / perPage)
-  // const pageRange = 2
-  const firstPage = 1
+  const pageRange = 2
 
+  const pageInfo: PageInfo = {
+    page, pageCount, pageRange, perPage, baseUrl
+  }
+
+  const firstPage = 1
   const links = {
     first: `${baseUrl}/?page=1&perPage=${perPage}`,
     prev: page === firstPage ? '' : `${baseUrl}/?page=${page - 1}&perPage=${perPage}`,
@@ -82,15 +86,16 @@ export const paginate = async <Items>(req: Request, {
     last: `${baseUrl}/?page=${pageCount}&perPage=${perPage}`,
   }
 
+  const pageLabels: PageLabel[] = createPageLabels(pageInfo)
+
   return {
     items,
     count,
     pageCount,
     links,
-    // meta: { links: metaLinks },
+    meta: { links: pageLabels },
   }
 }
-
 
 // ページネーション用のページ番号ラベルの配列を返す
 export const createPageLabels = (
