@@ -16,7 +16,6 @@ type PaginateOutputs<Items> = {
   count: number
   pageCount: number
   links: any //型定義する
-  meta: any, //型定義する
 }
 
 type PageContinuty = {
@@ -70,20 +69,13 @@ export const paginate = async <Items>(req: Request, {
     countFn(),
   ])
 
-  const baseUrl = req.baseUrl
+  const baseUrl = req.baseUrl.replaceAll('/api', '')
+  console.log(baseUrl)
   const pageCount = Math.ceil(count / perPage)
   const pageRange = 2
 
   const pageInfo: PageInfo = {
     page, pageCount, pageRange, perPage, baseUrl
-  }
-
-  const firstPage = 1
-  const links = {
-    first: `${baseUrl}/?page=1&perPage=${perPage}`,
-    prev: page === firstPage ? '' : `${baseUrl}/?page=${page - 1}&perPage=${perPage}`,
-    next: page === pageCount ? '' : `${baseUrl}/?page=${page + 1}&perPage=${perPage}`,
-    last: `${baseUrl}/?page=${pageCount}&perPage=${perPage}`,
   }
 
   const pageLabels: PageLabel[] = createPageLabels(pageInfo)
@@ -92,8 +84,7 @@ export const paginate = async <Items>(req: Request, {
     items,
     count,
     pageCount,
-    links,
-    meta: { links: pageLabels },
+    links: pageLabels,
   }
 }
 
@@ -143,11 +134,11 @@ export const createPageLabels = (
       direction: 'Prev' | 'Next',
       pageInfo: PageInfo,
     ): DuplicatedLabel => {
-      const { page, perPage, baseUrl } = pageInfo
+      const { page, baseUrl } = pageInfo
       return {
         description: direction,
         value: direction,
-        url: `${baseUrl}/?page=${direction === 'Prev' ? page - 1 : page + 1 }&perPage=${perPage}`,
+        url: `${baseUrl}/page/${direction === 'Prev' ? page - 1 : page + 1 }`,
         active: false,
       }
     }
@@ -158,13 +149,13 @@ export const createPageLabels = (
       pageInfo: PageInfo
     ): DuplicatedLabel[] => {
       const { length, loopStart } = conditions
-      const { page, perPage, baseUrl } = pageInfo
+      const { page, baseUrl } = pageInfo
       return Array.from({ length }, (_, index) => {
         const currentPage = index + loopStart
         return {
           description: currentPage.toString(),
           value: currentPage.toString(),
-          url: `${baseUrl}/?page=${currentPage}&perPage=${perPage}`,
+          url: `${baseUrl}/page/${currentPage}`,
           active: page === currentPage,
         }
       })
