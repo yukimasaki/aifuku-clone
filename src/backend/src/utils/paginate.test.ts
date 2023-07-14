@@ -8,7 +8,7 @@ describe('createPageLabels: 分岐1', () => {
       pageCount: 1,
       pageRange: 2,
       perPage: 5,
-      baseUrl: '/api/users',
+      baseUrl: '/users',
     }
 
     const pageLabels = createPageLabels(pageInfo)
@@ -17,7 +17,7 @@ describe('createPageLabels: 分岐1', () => {
         "active": true,
         "id": 1,
         "label": "1",
-        "url": "/api/users/?page=1&perPage=5",
+        "url": "/users/page/1",
       },
     ])
   })
@@ -30,7 +30,7 @@ describe('createPageLabels: 分岐2', () => {
       pageCount: 2,
       pageRange: 2,
       perPage: 5,
-      baseUrl: '/api/users',
+      baseUrl: '/users',
     }
 
     const pageLabels = createPageLabels(pageInfo)
@@ -39,19 +39,19 @@ describe('createPageLabels: 分岐2', () => {
         "active": true,
         "id": 1,
         "label": "1",
-        "url": "/api/users/?page=1&perPage=5",
+        "url": "/users/page/1",
       },
       {
         "active": false,
         "id": 2,
         "label": "2",
-        "url": "/api/users/?page=2&perPage=5",
+        "url": "/users/page/2",
       },
       {
         "active": false,
         "id": 3,
         "label": "Next",
-        "url": "/api/users/?page=2&perPage=5",
+        "url": "/users/page/2",
       },
     ])
   })
@@ -62,7 +62,7 @@ describe('createPageLabels: 分岐2', () => {
       pageCount: 3,
       pageRange: 2,
       perPage: 5,
-      baseUrl: '/api/users',
+      baseUrl: '/users',
     }
 
     const pageLabels = createPageLabels(pageInfo)
@@ -71,25 +71,25 @@ describe('createPageLabels: 分岐2', () => {
         "active": true,
         "id": 1,
         "label": "1",
-        "url": "/api/users/?page=1&perPage=5",
+        "url": "/users/page/1",
       },
       {
         "active": false,
         "id": 2,
         "label": "2",
-        "url": "/api/users/?page=2&perPage=5",
+        "url": "/users/page/2",
       },
       {
         "active": false,
         "id": 3,
         "label": "3",
-        "url": "/api/users/?page=3&perPage=5",
+        "url": "/users/page/3",
       },
       {
         "active": false,
         "id": 4,
         "label": "Next",
-        "url": "/api/users/?page=2&perPage=5",
+        "url": "/users/page/2",
       },
     ])
   })
@@ -100,7 +100,7 @@ describe('createPageLabels: 分岐2', () => {
       pageCount: 4,
       pageRange: 2,
       perPage: 5,
-      baseUrl: '/api/users',
+      baseUrl: '/users',
     }
 
     const pageLabels = createPageLabels(pageInfo)
@@ -109,31 +109,31 @@ describe('createPageLabels: 分岐2', () => {
         "active": true,
         "id": 1,
         "label": "1",
-        "url": "/api/users/?page=1&perPage=5",
+        "url": "/users/page/1",
       },
       {
         "active": false,
         "id": 2,
         "label": "2",
-        "url": "/api/users/?page=2&perPage=5",
+        "url": "/users/page/2",
       },
       {
         "active": false,
         "id": 3,
         "label": "3",
-        "url": "/api/users/?page=3&perPage=5",
+        "url": "/users/page/3",
       },
       {
         "active": false,
         "id": 4,
         "label": "4",
-        "url": "/api/users/?page=4&perPage=5",
+        "url": "/users/page/4",
       },
       {
         "active": false,
         "id": 5,
         "label": "Next",
-        "url": "/api/users/?page=2&perPage=5",
+        "url": "/users/page/2",
       },
     ])
   })
@@ -146,7 +146,7 @@ describe('createPageLabels: 分岐3', () => {
       pageCount: 5,
       pageRange: 2,
       perPage: 5,
-      baseUrl: '/api/users',
+      baseUrl: '/users',
     }
 
     const pageLabels = createPageLabels(pageInfo)
@@ -155,43 +155,43 @@ describe('createPageLabels: 分岐3', () => {
         "active": false,
         "id": 1,
         "label": "Prev",
-        "url": "/api/users/?page=1&perPage=5",
+        "url": "/users/page/1",
       },
       {
         "active": false,
         "id": 2,
         "label": "1",
-        "url": "/api/users/?page=1&perPage=5",
+        "url": "/users/page/1",
       },
       {
         "active": true,
         "id": 3,
         "label": "2",
-        "url": "/api/users/?page=2&perPage=5",
+        "url": "/users/page/2",
       },
       {
         "active": false,
         "id": 4,
         "label": "3",
-        "url": "/api/users/?page=3&perPage=5",
+        "url": "/users/page/3",
       },
       {
         "active": false,
         "id": 5,
         "label": "4",
-        "url": "/api/users/?page=4&perPage=5",
+        "url": "/users/page/4",
       },
       {
         "active": false,
         "id": 6,
         "label": "5",
-        "url": "/api/users/?page=5&perPage=5",
+        "url": "/users/page/5",
       },
       {
         "active": false,
         "id": 7,
         "label": "Next",
-        "url": "/api/users/?page=3&perPage=5",
+        "url": "/users/page/3",
       },
     ])
   })
@@ -204,7 +204,7 @@ describe('createPageLabels: 分岐4', () => {
       pageCount: 4,
       pageRange: 2,
       perPage: 5,
-      baseUrl: '/api/users',
+      baseUrl: '/users',
     }
 
     const pageLabels = createPageLabels(pageInfo)
@@ -213,31 +213,31 @@ describe('createPageLabels: 分岐4', () => {
         "active": false,
         "id": 1,
         "label": "Prev",
-        "url": "/api/users/?page=3&perPage=5",
+        "url": "/users/page/3",
       },
       {
         "active": false,
         "id": 2,
         "label": "1",
-        "url": "/api/users/?page=1&perPage=5",
+        "url": "/users/page/1",
       },
       {
         "active": false,
         "id": 3,
         "label": "2",
-        "url": "/api/users/?page=2&perPage=5",
+        "url": "/users/page/2",
       },
       {
         "active": false,
         "id": 4,
         "label": "3",
-        "url": "/api/users/?page=3&perPage=5",
+        "url": "/users/page/3",
       },
       {
         "active": true,
         "id": 5,
         "label": "4",
-        "url": "/api/users/?page=4&perPage=5",
+        "url": "/users/page/4",
       },
     ])
   })
@@ -250,7 +250,7 @@ describe('createPageLabels: 分岐5', () => {
       pageCount: 5,
       pageRange: 2,
       perPage: 5,
-      baseUrl: '/api/users',
+      baseUrl: '/users',
     }
 
     const pageLabels = createPageLabels(pageInfo)
@@ -259,19 +259,19 @@ describe('createPageLabels: 分岐5', () => {
         "active": true,
         "id": 1,
         "label": "1",
-        "url": "/api/users/?page=1&perPage=5",
+        "url": "/users/page/1",
       },
       {
         "active": false,
         "id": 2,
         "label": "2",
-        "url": "/api/users/?page=2&perPage=5",
+        "url": "/users/page/2",
       },
       {
         "active": false,
         "id": 3,
         "label": "3",
-        "url": "/api/users/?page=3&perPage=5",
+        "url": "/users/page/3",
       },
       {
         "active": false,
@@ -283,13 +283,13 @@ describe('createPageLabels: 分岐5', () => {
         "active": false,
         "id": 5,
         "label": "5",
-        "url": "/api/users/?page=5&perPage=5",
+        "url": "/users/page/5",
       },
       {
         "active": false,
         "id": 6,
         "label": "Next",
-        "url": "/api/users/?page=2&perPage=5",
+        "url": "/users/page/2",
       },
     ])
   })
@@ -302,7 +302,7 @@ describe('createPageLabels: 分岐6', () => {
       pageCount: 6,
       pageRange: 2,
       perPage: 5,
-      baseUrl: '/api/users',
+      baseUrl: '/users',
     }
 
     const pageLabels = createPageLabels(pageInfo)
@@ -311,31 +311,31 @@ describe('createPageLabels: 分岐6', () => {
         "active": false,
         "id": 1,
         "label": "Prev",
-        "url": "/api/users/?page=1&perPage=5",
+        "url": "/users/page/1",
       },
       {
         "active": false,
         "id": 2,
         "label": "1",
-        "url": "/api/users/?page=1&perPage=5",
+        "url": "/users/page/1",
       },
       {
         "active": true,
         "id": 3,
         "label": "2",
-        "url": "/api/users/?page=2&perPage=5",
+        "url": "/users/page/2",
       },
       {
         "active": false,
         "id": 4,
         "label": "3",
-        "url": "/api/users/?page=3&perPage=5",
+        "url": "/users/page/3",
       },
       {
         "active": false,
         "id": 5,
         "label": "4",
-        "url": "/api/users/?page=4&perPage=5",
+        "url": "/users/page/4",
       },
       {
         "active": false,
@@ -347,13 +347,13 @@ describe('createPageLabels: 分岐6', () => {
         "active": false,
         "id": 7,
         "label": "6",
-        "url": "/api/users/?page=6&perPage=5",
+        "url": "/users/page/6",
       },
       {
         "active": false,
         "id": 8,
         "label": "Next",
-        "url": "/api/users/?page=3&perPage=5",
+        "url": "/users/page/3",
       },
     ])
   })
@@ -366,7 +366,7 @@ describe('createPageLabels: 分岐7', () => {
       pageCount: 6,
       pageRange: 2,
       perPage: 5,
-      baseUrl: '/api/users',
+      baseUrl: '/users',
     }
 
     const pageLabels = createPageLabels(pageInfo)
@@ -375,13 +375,13 @@ describe('createPageLabels: 分岐7', () => {
         "active": false,
         "id": 1,
         "label": "Prev",
-        "url": "/api/users/?page=4&perPage=5",
+        "url": "/users/page/4",
       },
       {
         "active": false,
         "id": 2,
         "label": "1",
-        "url": "/api/users/?page=1&perPage=5",
+        "url": "/users/page/1",
       },
       {
         "active": false,
@@ -393,31 +393,31 @@ describe('createPageLabels: 分岐7', () => {
         "active": false,
         "id": 4,
         "label": "3",
-        "url": "/api/users/?page=3&perPage=5",
+        "url": "/users/page/3",
       },
       {
         "active": false,
         "id": 5,
         "label": "4",
-        "url": "/api/users/?page=4&perPage=5",
+        "url": "/users/page/4",
       },
       {
         "active": true,
         "id": 6,
         "label": "5",
-        "url": "/api/users/?page=5&perPage=5",
+        "url": "/users/page/5",
       },
       {
         "active": false,
         "id": 7,
         "label": "6",
-        "url": "/api/users/?page=6&perPage=5",
+        "url": "/users/page/6",
       },
       {
         "active": false,
         "id": 8,
         "label": "Next",
-        "url": "/api/users/?page=6&perPage=5",
+        "url": "/users/page/6",
       },
     ])
   })
@@ -430,7 +430,7 @@ describe('createPageLabels: 分岐8', () => {
       pageCount: 5,
       pageRange: 2,
       perPage: 5,
-      baseUrl: '/api/users',
+      baseUrl: '/users',
     }
 
     const pageLabels = createPageLabels(pageInfo)
@@ -439,13 +439,13 @@ describe('createPageLabels: 分岐8', () => {
         "active": false,
         "id": 1,
         "label": "Prev",
-        "url": "/api/users/?page=4&perPage=5",
+        "url": "/users/page/4",
       },
       {
         "active": false,
         "id": 2,
         "label": "1",
-        "url": "/api/users/?page=1&perPage=5",
+        "url": "/users/page/1",
       },
       {
         "active": false,
@@ -457,19 +457,19 @@ describe('createPageLabels: 分岐8', () => {
         "active": false,
         "id": 4,
         "label": "3",
-        "url": "/api/users/?page=3&perPage=5",
+        "url": "/users/page/3",
       },
       {
         "active": false,
         "id": 5,
         "label": "4",
-        "url": "/api/users/?page=4&perPage=5",
+        "url": "/users/page/4",
       },
       {
         "active": true,
         "id": 6,
         "label": "5",
-        "url": "/api/users/?page=5&perPage=5",
+        "url": "/users/page/5",
       },
     ])
   })
@@ -482,7 +482,7 @@ describe('createPageLabels: 分岐9', () => {
       pageCount: 9,
       pageRange: 2,
       perPage: 5,
-      baseUrl: '/api/users',
+      baseUrl: '/users',
     }
 
     const pageLabels = createPageLabels(pageInfo)
@@ -491,13 +491,13 @@ describe('createPageLabels: 分岐9', () => {
         "active": false,
         "id": 1,
         "label": "Prev",
-        "url": "/api/users/?page=4&perPage=5",
+        "url": "/users/page/4",
       },
       {
         "active": false,
         "id": 2,
         "label": "1",
-        "url": "/api/users/?page=1&perPage=5",
+        "url": "/users/page/1",
       },
       {
         "active": false,
@@ -509,31 +509,31 @@ describe('createPageLabels: 分岐9', () => {
         "active": false,
         "id": 4,
         "label": "3",
-        "url": "/api/users/?page=3&perPage=5",
+        "url": "/users/page/3",
       },
       {
         "active": false,
         "id": 5,
         "label": "4",
-        "url": "/api/users/?page=4&perPage=5",
+        "url": "/users/page/4",
       },
       {
         "active": true,
         "id": 6,
         "label": "5",
-        "url": "/api/users/?page=5&perPage=5",
+        "url": "/users/page/5",
       },
       {
         "active": false,
         "id": 7,
         "label": "6",
-        "url": "/api/users/?page=6&perPage=5",
+        "url": "/users/page/6",
       },
       {
         "active": false,
         "id": 8,
         "label": "7",
-        "url": "/api/users/?page=7&perPage=5",
+        "url": "/users/page/7",
       },
       {
         "active": false,
@@ -545,13 +545,13 @@ describe('createPageLabels: 分岐9', () => {
         "active": false,
         "id": 10,
         "label": "9",
-        "url": "/api/users/?page=9&perPage=5",
+        "url": "/users/page/9",
       },
       {
         "active": false,
         "id": 11,
         "label": "Next",
-        "url": "/api/users/?page=6&perPage=5",
+        "url": "/users/page/6",
       },
     ])
   })
