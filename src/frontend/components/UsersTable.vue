@@ -26,13 +26,13 @@
       </table>
     </div>
 
-    <div class="flex justify-center">
+    <div class="flex justify-center bg-white">
       <div class="join">
         <nuxt-link
           v-for="link in users.links" :key="link.id"
           :to="link.url"
         >
-          <button class="join-item btn">
+          <button class="join-item btn rounded-sm my-2 mx-1 drop-shadow">
             {{ link.label }}
           </button>
         </nuxt-link>
