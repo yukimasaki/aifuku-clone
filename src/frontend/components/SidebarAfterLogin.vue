@@ -55,7 +55,7 @@ const toggleSidebar = () => {
 
 const mdiArrowLeftPath = ref(mdiArrowLeft)
 
-const logoPath = '../assets/images/sidebar'
+const logoPath = '/assets/images/sidebar'
 
 const items = reactive([
   { id: 1, label: 'ホーム', link: '', logo: `${logoPath}/home.svg` },
