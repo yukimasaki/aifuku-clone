@@ -25,13 +25,14 @@
     </table>
 
     <div class="join">
-      <button
-        class="join-item btn"
-        v-for="link in users.meta.links" :key="link.id"
-        @click="refetch(link.label)"
+      <nuxt-link
+        v-for="link in users.links" :key="link.id"
+        :to="link.url"
       >
-        {{ link.label }}
-      </button>
+        <button class="join-item btn">
+          {{ link.label }}
+        </button>
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -54,12 +55,7 @@ const testHeaders = reactive([
 const { data: users } = await useFetch(`/api/users`, {
   params: {
     page,
-    perPage: 1,
+    perPage: 10,
   },
-  watch: [page]
 })
-
-const refetch = (num) => {
-  page.value = num
-}
 </script>
