@@ -170,6 +170,16 @@ router.get('/', async (req, res) => {
     countFn: () => prisma.profile.count()
   })
 
+  // 存在しないページをパスパラメータとして渡された場合
+  if (rulePage.parse(page) > users.pageCount) {
+    res.status(404)
+    .send({
+      statusCode: 404,
+      statusMessage: 'Not Found',
+    })
+    return
+  }
+
   res
   .status(200)
   .send(users)
