@@ -37,6 +37,11 @@
 </template>
 
 <script setup >
+const props = defineProps({
+  parentProp: String,
+})
+const page = ref(props.parentProp)
+
 const testHeaders = reactive([
   { id: 1, label: '選択' },
   { id: 2, label: 'ID' },
@@ -45,8 +50,6 @@ const testHeaders = reactive([
   { id: 5, label: 'テナントID' },
   { id: 6, label: '編集' },
 ])
-
-const page = ref(1)
 
 const { data: users } = await useFetch(`/api/users`, {
   params: {
