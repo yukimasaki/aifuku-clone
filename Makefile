@@ -6,11 +6,11 @@ nuxt:
 	docker compose exec nuxt sh
 dev-f:
 	docker compose exec nuxt yarn dev
-express:
-	docker compose exec express sh
+backend:
+	docker compose exec backend sh
 test:
-	docker compose exec express yarn test
+	docker compose exec backend yarn test
 dev-b:
-	docker compose exec express yarn dev
+	docker compose exec backend yarn dev
 std:
-	docker compose exec express npx prisma studio --browser none
+	docker compose exec backend npx prisma studio --browser none

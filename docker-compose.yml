@@ -40,13 +40,13 @@ services:
     tty: true
     restart: always
 
-  express:
-    container_name: express
+  backend:
+    container_name: backend
     networks:
       default:
       aifuku-network:
         aliases:
-          - express-container
+          - backend-container
     depends_on:
       - db
     build:
