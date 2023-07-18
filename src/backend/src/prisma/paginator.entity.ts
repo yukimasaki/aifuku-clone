@@ -1,6 +1,6 @@
 export type PaginateOptions = {
-  page?: number,
-  perPage?: number,
+  page: number,
+  perPage: number,
 }
 
 export type PaginateInputs<Items> = {
@@ -26,7 +26,7 @@ export type PageContinuty = {
   right: boolean
 }
 
-export type PagePosition = 'start' | 'end' | 'middle'
+export type PagePosition = 'start' | 'end' | 'middle';
 
 export type PageInfo = {
   page: number
