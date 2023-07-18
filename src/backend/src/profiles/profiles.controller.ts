@@ -3,31 +3,36 @@ import { ProfilesService } from './profiles.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 
-@Controller('profiles')
+@Controller('api')
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
-  @Post()
+  @Post('profiles')
   create(@Body() createProfileDto: CreateProfileDto) {
     return this.profilesService.create(createProfileDto);
   }
 
-  @Get()
-  findAll() {
-    return this.profilesService.findAll();
+  // @Get('profiles')
+  // findAll() {
+  //   return this.profilesService.findAll();
+  // }
+
+  @Get('profiles')
+  findLimit(@Param('page') page: string) {
+    return this.profilesService.findByPage(page);
   }
 
-  @Get(':uid')
+  @Get('profiles/:uid')
   findOne(@Param('uid') uid: string) {
     return this.profilesService.findOne(uid);
   }
 
-  @Patch(':uid')
+  @Patch('profiles/:uid')
   update(@Param('uid') uid: string, @Body() updateProfileDto: UpdateProfileDto) {
     return this.profilesService.update(uid, updateProfileDto);
   }
 
-  @Delete(':uid')
+  @Delete('profiles/:uid')
   remove(@Param('uid') uid: string) {
     return this.profilesService.remove(uid);
   }

@@ -16,12 +16,16 @@ export class ProfilesService {
     return this.prisma.profile.findMany();
   }
 
-  findOne(uid: string) {
+  findOne(uid: string): Promise<Profile> {
     return this.prisma.profile.findUnique({
       where: {
         uid,
       },
     });
+  }
+
+  findByPage(page: string): Promise<Profile[]> {
+    return this.prisma.profile.findMany({ take: parseInt(page) });
   }
 
   update(uid: string, updateProfileDto: UpdateProfileDto) {
