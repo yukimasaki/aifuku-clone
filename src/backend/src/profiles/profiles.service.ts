@@ -17,7 +17,11 @@ export class ProfilesService {
   }
 
   findOne(uid: string) {
-    return `This action returns a #${uid} profile`;
+    return this.prisma.profile.findUnique({
+      where: {
+        uid,
+      },
+    });
   }
 
   update(uid: string, updateProfileDto: UpdateProfileDto) {
