@@ -28,8 +28,8 @@ export class ProfilesController {
   //   return this.profilesService.update(uid, updateProfileDto);
   // }
 
-  @Delete('profiles/:uid')
-  remove(@Param('uid') uid: string) {
-    return this.profilesService.remove(uid);
-  }
+  // @Delete('profiles/:uid')
+  // remove(@Param('uid') uid: string) {
+  //   return this.profilesService.remove(uid);
+  // }
 }

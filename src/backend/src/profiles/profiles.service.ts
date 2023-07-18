@@ -39,7 +39,7 @@ export class ProfilesService {
   //   return `This action updates a #${uid} profile`;
   // }
 
-  remove(uid: string) {
-    return `This action removes a #${uid} profile`;
-  }
+  // remove(uid: string) {
+  //   return `This action removes a #${uid} profile`;
+  // }
 }
