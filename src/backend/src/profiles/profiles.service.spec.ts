@@ -27,4 +27,16 @@ describe('ProfilesService', () => {
     expect(profiles.every((profile: Profile) => typeof profile.displayName === 'string')).toBe(true);
     expect(profiles.every((profile: Profile) => typeof profile.tenantId === 'number')).toBe(true);
   });
+
+  it('ユーザを1レコード取得', async () => {
+    const uid = 'bXejERn6lgdWEZniPU3HNoRWPSD3';
+    const profile = await service.findOne(uid);
+    expect(profile).toEqual({
+      id: 1,
+      uid,
+      displayName: 'Admin',
+      email: 'admin@example.com',
+      tenantId: 1,
+    });
+  });
 });
