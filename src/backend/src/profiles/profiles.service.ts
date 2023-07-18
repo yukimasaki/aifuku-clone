@@ -13,10 +13,6 @@ export class ProfilesService {
     return 'This action adds a new profile';
   }
 
-  findAll(): Promise<Profile[]> {
-    return this.prisma.profile.findMany();
-  }
-
   findOne(uid: string): Promise<Profile> {
     return this.prisma.profile.findUnique({
       where: {
