@@ -9,11 +9,16 @@ type PaginateInputs<Items> = {
   countFn: () => Promise<number>
 }
 
-type PaginateOutputs<Items> = {
+export type PaginateOutputs<Items> = {
   items: Items
   count: number
   pageCount: number
-  links: any //型定義する
+  links: {
+    id: number,
+    label: string,
+    url: string,
+    active: boolean,
+  }[]
 }
 
 type PageContinuty = {
