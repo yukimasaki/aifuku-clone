@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { PrismaService } from '../prisma/prisma.service';
+import { Profile } from '@prisma/client';
 
 @Injectable()
 export class ProfilesService {
+  constructor(private readonly prisma: PrismaService) {}
+
   create(createProfileDto: CreateProfileDto) {
     return 'This action adds a new profile';
   }
 
-  findAll() {
-    return `This action returns all profiles`;
+  findAll(): Promise<Profile[]> {
+    return this.prisma.profile.findMany();
   }
 
   findOne(uid: string) {
