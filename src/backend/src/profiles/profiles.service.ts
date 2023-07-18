@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { paginate, PaginateOutputs } from '../prisma/paginate'
+import { paginate } from '../prisma/paginator.service'
+import { PaginateOutputs, PaginateOptions } from '../prisma/paginator.entity'
 import { ProfileResponse } from './entities/profile.entity';
 
 @Injectable()
@@ -23,12 +24,13 @@ export class ProfilesService {
     page: string,
     perPage: string,
   ): Promise<PaginateOutputs<ProfileResponse[]>> {
-    const numPage = parseInt(page);
-    const numPerPage = parseInt(perPage);
+    const paginateOptions: PaginateOptions = {
+      page: parseInt(page),
+      perPage: parseInt(perPage),
+    }
 
     return paginate({
-      page: numPage,
-      perPage: numPerPage,
+      paginateOptions,
       queryFn: (args) =>
         this.prisma.profile.findMany({ ...args }),
       countFn: async () => this.prisma.profile.count(),

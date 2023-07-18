@@ -1,4 +1,4 @@
-import { createPageLabels } from './paginate'
+import { createPageLabels } from './paginator.service'
 import { describe, it, expect } from '@jest/globals'
 
 describe('createPageLabels: 分岐1', () => {

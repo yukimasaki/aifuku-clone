@@ -2,68 +2,28 @@
  * Prismaでページネーションを実装する（Client extensionsも使ってみる）
  * https://zenn.dev/gibjapan/articles/815c0a6783d5ff
  */
-type PaginateInputs<Items> = {
-  page: number
-  perPage: number
-  queryFn: (args: { skip: number; take: number }) => Promise<Items>
-  countFn: () => Promise<number>
-}
-
-export type PaginateOutputs<Items> = {
-  items: Items
-  count: number
-  pageCount: number
-  links: {
-    id: number,
-    label: string,
-    url: string,
-    active: boolean,
-  }[]
-}
-
-type PageContinuty = {
-  left: boolean
-  right: boolean
-}
-
-type PagePosition = 'start' | 'end' | 'middle'
-
-type PageInfo = {
-  page: number
-  pageCount: number
-  pageRange: number
-  perPage: number
-  baseUrl: string
-}
-
-type PageLabel = {
-  id: number
-  label: string
-  url: string
-  active: boolean
-}
-
-type DuplicatedLabel = {
-  description: string
-  value: string
-  url: string
-  active: boolean
-}
-
-type CreationConditions = {
-  length: number
-  loopStart: number
-}
+import {
+  PaginateInputs,
+  PaginateOutputs,
+  PageContinuty,
+  PagePosition,
+  PageInfo,
+  PageLabel,
+  DuplicatedLabel,
+  CreationConditions,
+} from './paginator.entity'
 
 /**
  * ページネーションされたデータを取得する
  */
 export const paginate = async <Items>({
-  page,
-  perPage,
+  paginateOptions,
   countFn,
   queryFn,
 }: PaginateInputs<Items>): Promise<PaginateOutputs<Items>> => {
+  const page = paginateOptions?.page || 1;
+  const perPage = paginateOptions?.perPage || 10;
+
   const [items, count] = await Promise.all([
     queryFn({
       skip: perPage * (page - 1),
