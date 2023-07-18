@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -18,8 +18,11 @@ export class ProfilesController {
   // }
 
   @Get('profiles')
-  findLimit(@Param('page') page: string) {
-    return this.profilesService.findByPage(page);
+  findByPage(
+    @Query('page') page: string,
+    @Query('PerPage') perPage: string,
+    ) {
+    return this.profilesService.findByPage(page, perPage);
   }
 
   @Get('profiles/:uid')

@@ -24,8 +24,14 @@ export class ProfilesService {
     });
   }
 
-  findByPage(page: string): Promise<Profile[]> {
-    return this.prisma.profile.findMany({ take: parseInt(page) });
+  findByPage(
+    page: string,
+    perPage: string,
+  ): Promise<Profile[]> {
+    return this.prisma.profile.findMany({
+      skip: parseInt(perPage),
+      take: parseInt(page),
+    });
   }
 
   update(uid: string, updateProfileDto: UpdateProfileDto) {
