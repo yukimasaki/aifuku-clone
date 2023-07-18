@@ -1,5 +1,3 @@
-import { Request } from 'express'
-
 /**
  * Prismaでページネーションを実装する（Client extensionsも使ってみる）
  * https://zenn.dev/gibjapan/articles/815c0a6783d5ff
@@ -55,7 +53,7 @@ type CreationConditions = {
 /**
  * ページネーションされたデータを取得する
  */
-export const paginate = async <Items>(req: Request, {
+export const paginate = async <Items>({
   page,
   perPage,
   countFn,
@@ -69,7 +67,7 @@ export const paginate = async <Items>(req: Request, {
     countFn(),
   ])
 
-  const baseUrl = req.baseUrl.replaceAll('/api', '')
+  const baseUrl = '/profiles'
   console.log(baseUrl)
   const pageCount = Math.ceil(count / perPage)
   const pageRange = 2
