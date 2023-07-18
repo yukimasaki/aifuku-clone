@@ -21,7 +21,7 @@ export class ProfilesController {
   findByPage(
     @Query('page') page: string,
     @Query('PerPage') perPage: string,
-    ) {
+  ) {
     return this.profilesService.findByPage(page, perPage);
   }
 
