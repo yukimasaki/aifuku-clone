@@ -20,7 +20,7 @@ export class ProfilesController {
   @Get('profiles')
   findByPage(
     @Query('page') page: string,
-    @Query('PerPage') perPage: string,
+    @Query('perPage') perPage: string,
   ) {
     return this.profilesService.findByPage(page, perPage);
   }

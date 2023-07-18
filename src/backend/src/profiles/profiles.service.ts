@@ -31,6 +31,7 @@ export class ProfilesService {
   ): Promise<any> {
     const numPage = parseInt(page)
     const numPerPage = parseInt(perPage)
+
     return paginate({
       page: numPage,
       perPage: numPerPage,
