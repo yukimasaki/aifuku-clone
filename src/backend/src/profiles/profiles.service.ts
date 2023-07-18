@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Profile } from '@prisma/client';
-import { paginate } from '../prisma/paginate'
+import { paginate, PaginateOutputs } from '../prisma/paginate'
+import { ProfileResponse } from './entities/profile.entity';
 
 @Injectable()
 export class ProfilesService {
@@ -11,7 +11,7 @@ export class ProfilesService {
   //   return 'This action adds a new profile';
   // }
 
-  findOne(uid: string): Promise<Profile | null> {
+  findOne(uid: string): Promise<ProfileResponse | null> {
     return this.prisma.profile.findUnique({
       where: {
         uid,
@@ -22,7 +22,7 @@ export class ProfilesService {
   findByPage(
     page: string,
     perPage: string,
-  ): Promise<any> {
+  ): Promise<PaginateOutputs<ProfileResponse[]>> {
     const numPage = parseInt(page)
     const numPerPage = parseInt(perPage)
 
