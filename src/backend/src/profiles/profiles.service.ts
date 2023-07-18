@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProfileDto } from './dto/create-profile.dto';
-import { UpdateProfileDto } from './dto/update-profile.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { Profile } from '@prisma/client';
 import { paginate } from '../../utils/paginate'
@@ -9,11 +7,11 @@ import { paginate } from '../../utils/paginate'
 export class ProfilesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createProfileDto: CreateProfileDto) {
-    return 'This action adds a new profile';
-  }
+  // create(createProfileDto: CreateProfileDto) {
+  //   return 'This action adds a new profile';
+  // }
 
-  findOne(uid: string): Promise<Profile> {
+  findOne(uid: string): Promise<Profile | null> {
     return this.prisma.profile.findUnique({
       where: {
         uid,
@@ -37,9 +35,9 @@ export class ProfilesService {
     })
   }
 
-  update(uid: string, updateProfileDto: UpdateProfileDto) {
-    return `This action updates a #${uid} profile`;
-  }
+  // update(uid: string, updateProfileDto: UpdateProfileDto) {
+  //   return `This action updates a #${uid} profile`;
+  // }
 
   remove(uid: string) {
     return `This action removes a #${uid} profile`;
