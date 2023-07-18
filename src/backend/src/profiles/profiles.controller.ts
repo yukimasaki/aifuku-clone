@@ -12,11 +12,6 @@ export class ProfilesController {
     return this.profilesService.create(createProfileDto);
   }
 
-  // @Get('profiles')
-  // findAll() {
-  //   return this.profilesService.findAll();
-  // }
-
   @Get('profiles')
   findByPage(
     @Query('page') page: string,
