@@ -72,16 +72,15 @@ export const paginate = async <Items>({
     countFn(),
   ])
 
-  const baseUrl = '/profiles'
-  console.log(baseUrl)
-  const pageCount = Math.ceil(count / perPage)
-  const pageRange = 2
+  const baseUrl = '/profiles';
+  const pageCount = Math.ceil(count / perPage);
+  const pageRange = 2;
 
   const pageInfo: PageInfo = {
     page, pageCount, pageRange, perPage, baseUrl
   }
 
-  const pageLabels: PageLabel[] = createPageLabels(pageInfo)
+  const pageLabels: PageLabel[] = createPageLabels(pageInfo);
 
   return {
     items,
@@ -102,7 +101,7 @@ export const createPageLabels = (
       const { page, pageCount, pageRange } = pageInfo
       return {
         left: page - pageRange - 1 <= 1,
-        right: pageCount - page <= pageRange + 1
+        right: pageCount - page <= pageRange + 1,
       }
     }
 
@@ -149,12 +148,12 @@ export const createPageLabels = (
     // ページ番号ラベルのオブジェクトを返すだけの関数
     const createPageNumberLabel = (
       conditions: CreationConditions,
-      pageInfo: PageInfo
+      pageInfo: PageInfo,
     ): DuplicatedLabel[] => {
-      const { length, loopStart } = conditions
-      const { page, baseUrl } = pageInfo
+      const { length, loopStart } = conditions;
+      const { page, baseUrl } = pageInfo;
       return Array.from({ length }, (_, index) => {
-        const currentPage = index + loopStart
+        const currentPage = index + loopStart;
         return {
           description: currentPage.toString(),
           value: currentPage.toString(),
@@ -165,64 +164,64 @@ export const createPageLabels = (
     }
 
     // メイン処理
-    const { page, pageCount, pageRange } = pageInfo
-    const { left, right } = checkPageContinuty(pageInfo)
-    const pagePosition = checkPagePosition(pageInfo)
+    const { page, pageCount, pageRange } = pageInfo;
+    const { left, right } = checkPageContinuty(pageInfo);
+    const pagePosition = checkPagePosition(pageInfo);
 
     // 以下、7つの分岐があり、ページの連続性・ページ位置に応じて配列を生成する
-    const duplicatedLabels: DuplicatedLabel[] = []
+    const duplicatedLabels: DuplicatedLabel[] = [];
 
     if (pageCount === 1) {
-      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: 1 }, pageInfo))
+      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: 1 }, pageInfo));
     } else if (left && right && pagePosition === 'start') {
-      duplicatedLabels.push(...createPageNumberLabel({ length: pageCount, loopStart: 1 }, pageInfo))
-      duplicatedLabels.push(createNavigateBtn('Next', pageInfo))
+      duplicatedLabels.push(...createPageNumberLabel({ length: pageCount, loopStart: 1 }, pageInfo));
+      duplicatedLabels.push(createNavigateBtn('Next', pageInfo));
     } else if (left && right && pagePosition === 'middle') {
-      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo))
-      duplicatedLabels.push(...createPageNumberLabel({ length: pageCount, loopStart: 1 }, pageInfo))
-      duplicatedLabels.push(createNavigateBtn('Next', pageInfo))
+      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo));
+      duplicatedLabels.push(...createPageNumberLabel({ length: pageCount, loopStart: 1 }, pageInfo));
+      duplicatedLabels.push(createNavigateBtn('Next', pageInfo));
     } else if (left && right && pagePosition === 'end') {
-      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo))
-      duplicatedLabels.push(...createPageNumberLabel({ length: pageCount, loopStart: 1 }, pageInfo))
+      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo));
+      duplicatedLabels.push(...createPageNumberLabel({ length: pageCount, loopStart: 1 }, pageInfo));
     } else if (left && !right && pagePosition === 'start') {
-      duplicatedLabels.push(...createPageNumberLabel({ length: page + pageRange, loopStart: 1 }, pageInfo))
-      duplicatedLabels.push(createDotLabel('rightDot'))
-      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: pageCount }, pageInfo))
-      duplicatedLabels.push(createNavigateBtn('Next', pageInfo))
+      duplicatedLabels.push(...createPageNumberLabel({ length: page + pageRange, loopStart: 1 }, pageInfo));
+      duplicatedLabels.push(createDotLabel('rightDot'));
+      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: pageCount }, pageInfo));
+      duplicatedLabels.push(createNavigateBtn('Next', pageInfo));
     } else if (left && !right && pagePosition === 'middle') {
-      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo))
-      duplicatedLabels.push(...createPageNumberLabel({ length: page + pageRange, loopStart: 1 }, pageInfo))
-      duplicatedLabels.push(createDotLabel('rightDot'))
-      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: pageCount }, pageInfo))
-      duplicatedLabels.push(createNavigateBtn('Next', pageInfo))
+      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo));
+      duplicatedLabels.push(...createPageNumberLabel({ length: page + pageRange, loopStart: 1 }, pageInfo));
+      duplicatedLabels.push(createDotLabel('rightDot'));
+      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: pageCount }, pageInfo));
+      duplicatedLabels.push(createNavigateBtn('Next', pageInfo));
     } else if (!left && right && pagePosition === 'middle') {
-      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo))
-      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: 1 }, pageInfo))
-      duplicatedLabels.push(createDotLabel('leftDot'))
-      duplicatedLabels.push(...createPageNumberLabel({ length: 3, loopStart: page- pageRange }, pageInfo))
-      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: pageCount }, pageInfo))
-      duplicatedLabels.push(createNavigateBtn('Next', pageInfo))
+      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo));
+      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: 1 }, pageInfo));
+      duplicatedLabels.push(createDotLabel('leftDot'));
+      duplicatedLabels.push(...createPageNumberLabel({ length: 3, loopStart: page- pageRange }, pageInfo));
+      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: pageCount }, pageInfo));
+      duplicatedLabels.push(createNavigateBtn('Next', pageInfo));
     } else if (!left && right && pagePosition === 'end') {
-      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo))
-      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: 1 }, pageInfo))
-      duplicatedLabels.push(createDotLabel('leftDot'))
-      duplicatedLabels.push(...createPageNumberLabel({ length: 3, loopStart: page - pageRange }, pageInfo))
+      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo));
+      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: 1 }, pageInfo));
+      duplicatedLabels.push(createDotLabel('leftDot'));
+      duplicatedLabels.push(...createPageNumberLabel({ length: 3, loopStart: page - pageRange }, pageInfo));
     } else if (!left && !right && pagePosition === 'middle') {
-      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo))
-      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: 1 }, pageInfo))
-      duplicatedLabels.push(createDotLabel('leftDot'))
-      duplicatedLabels.push(...createPageNumberLabel({ length: 5, loopStart: page - pageRange }, pageInfo))
-      duplicatedLabels.push(createDotLabel('rightDot'))
-      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: pageCount }, pageInfo))
-      duplicatedLabels.push(createNavigateBtn('Next', pageInfo))
+      duplicatedLabels.push(createNavigateBtn('Prev', pageInfo));
+      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: 1 }, pageInfo));
+      duplicatedLabels.push(createDotLabel('leftDot'));
+      duplicatedLabels.push(...createPageNumberLabel({ length: 5, loopStart: page - pageRange }, pageInfo));
+      duplicatedLabels.push(createDotLabel('rightDot'));
+      duplicatedLabels.push(...createPageNumberLabel({ length: 1, loopStart: pageCount }, pageInfo));
+      duplicatedLabels.push(createNavigateBtn('Next', pageInfo));
     } else {
-      console.log(`想定外の分岐`)
+      console.log(`想定外の分岐`);
     }
 
     // 重複した要素を排除する
     const uniqueValues = duplicatedLabels.filter((element, index, self) =>
       self.findIndex(e => e.description === element.description) === index
-    )
+    );
     const pageLabels: PageLabel[] = uniqueValues.map(element => {
       return {
         id: (uniqueValues.indexOf(element) + 1),
@@ -230,6 +229,6 @@ export const createPageLabels = (
         url: element.url?.toString(),
         active: element.active,
       }
-    })
-    return pageLabels
+    });
+    return pageLabels;
 }

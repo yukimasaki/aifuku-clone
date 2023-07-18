@@ -23,16 +23,16 @@ export class ProfilesService {
     page: string,
     perPage: string,
   ): Promise<PaginateOutputs<ProfileResponse[]>> {
-    const numPage = parseInt(page)
-    const numPerPage = parseInt(perPage)
+    const numPage = parseInt(page);
+    const numPerPage = parseInt(perPage);
 
     return paginate({
       page: numPage,
       perPage: numPerPage,
       queryFn: (args) =>
         this.prisma.profile.findMany({ ...args }),
-      countFn: async () => this.prisma.profile.count()
-    })
+      countFn: async () => this.prisma.profile.count(),
+    });
   }
 
   // update(uid: string, updateProfileDto: UpdateProfileDto) {
