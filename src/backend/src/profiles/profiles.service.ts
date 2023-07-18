@@ -21,14 +21,8 @@ export class ProfilesService {
   }
 
   findByPage(
-    page: string,
-    perPage: string,
+    paginateOptions: PaginateOptions,
   ): Promise<PaginateOutputs<ProfileResponse[]>> {
-    const paginateOptions: PaginateOptions = {
-      page: parseInt(page),
-      perPage: parseInt(perPage),
-    }
-
     return paginate({
       paginateOptions,
       queryFn: (args) =>
