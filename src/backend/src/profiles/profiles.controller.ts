@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
+import { PaginateOptions } from 'src/prisma/paginator.entity';
 
 @Controller('api')
 export class ProfilesController {
@@ -15,7 +16,11 @@ export class ProfilesController {
     @Query('page') page: string,
     @Query('perPage') perPage: string,
   ) {
-    return this.profilesService.findByPage(page, perPage);
+    const paginateOptions: PaginateOptions = {
+      page: parseInt(page),
+      perPage: parseInt(perPage),
+    }
+    return this.profilesService.findByPage(paginateOptions);
   }
 
   @Get('profiles/:uid')
