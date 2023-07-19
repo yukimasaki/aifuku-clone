@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
-import { FindByPageQueries, PaginateOptions } from '../prisma/paginator.entity';
+import { FindByPageQueries, PaginateOptions } from '../common/paginator/paginator.entity';
 
 @Controller('api')
 export class ProfilesController {
