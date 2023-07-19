@@ -21,8 +21,8 @@ export const paginate = async <Items>({
   countFn,
   queryFn,
 }: PaginateInputs<Items>): Promise<PaginateOutputs<Items>> => {
-  const page = paginateOptions?.page || 1;
-  const perPage = paginateOptions?.perPage || 10;
+  const page = paginateOptions.page;
+  const perPage = paginateOptions.perPage;
 
   const [items, count] = await Promise.all([
     queryFn({

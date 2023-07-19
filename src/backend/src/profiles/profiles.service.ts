@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { paginate } from '../prisma/paginator.service'
-import { PaginateOutputs, PaginateOptions } from '../prisma/paginator.entity'
+import { paginate } from '../prisma/paginator.service';
+import { PaginateOptions, PaginateOutputs } from '../prisma/paginator.entity';
 import { ProfileResponse } from './profile.entity';
 
 @Injectable()
