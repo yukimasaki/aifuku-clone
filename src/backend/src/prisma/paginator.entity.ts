@@ -1,6 +1,24 @@
+import { Transform } from "class-transformer";
+import { IsInt, IsNotEmpty, Max, Min } from "class-validator";
+
+export class FindByPageQueries {
+  @IsNotEmpty()
+  @Transform(({value}) => parseInt(value))
+  @IsInt()
+  @Min(1)
+  page: number = 1;
+
+  @IsNotEmpty()
+  @Transform(({value}) => parseInt(value))
+  @IsInt()
+  @Min(1)
+  @Max(25)
+  perPage: number = 10;
+}
+
 export type PaginateOptions = {
-  page: number,
-  perPage: number,
+  page: number
+  perPage: number
 }
 
 export type PaginateInputs<Items> = {

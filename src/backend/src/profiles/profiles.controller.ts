@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
-import { PaginateOptions } from 'src/prisma/paginator.entity';
+import { FindByPageQueries, PaginateOptions } from '../prisma/paginator.entity';
 
 @Controller('api')
 export class ProfilesController {
@@ -13,13 +13,24 @@ export class ProfilesController {
 
   @Get('profiles')
   findByPage(
-    @Query('page') page: string,
-    @Query('perPage') perPage: string,
+    @Query() queries: FindByPageQueries,
   ) {
+
+    console.log(`======================================`);
+    console.log(`queries:`);
+    console.log(queries);
+    console.log(typeof(queries.page));
+
     const paginateOptions: PaginateOptions = {
-      page: parseInt(page),
-      perPage: parseInt(perPage),
+      page: queries.page,
+      perPage: queries.perPage,
     }
+
+    console.log(`======================================`);
+    console.log(`paginateOptions:`);
+    console.log(paginateOptions);
+    console.log(typeof(paginateOptions.page));
+
     return this.profilesService.findByPage(paginateOptions);
   }
 
