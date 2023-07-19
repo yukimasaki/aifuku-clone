@@ -15,22 +15,10 @@ export class ProfilesController {
   findByPage(
     @Query() queries: FindByPageQueries,
   ) {
-
-    console.log(`======================================`);
-    console.log(`queries:`);
-    console.log(queries);
-    console.log(typeof(queries.page));
-
     const paginateOptions: PaginateOptions = {
       page: queries.page,
       perPage: queries.perPage,
     }
-
-    console.log(`======================================`);
-    console.log(`paginateOptions:`);
-    console.log(paginateOptions);
-    console.log(typeof(paginateOptions.page));
-
     return this.profilesService.findByPage(paginateOptions);
   }
 
