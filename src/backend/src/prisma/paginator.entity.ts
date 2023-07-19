@@ -1,15 +1,15 @@
-import { Transform } from "class-transformer";
+import { Type } from "class-transformer";
 import { IsInt, IsNotEmpty, Max, Min } from "class-validator";
 
 export class FindByPageQueries {
+  @Type(() => Number)
   @IsNotEmpty()
-  @Transform(({value}) => parseInt(value))
   @IsInt()
   @Min(1)
   page: number = 1;
 
+  @Type(() => Number)
   @IsNotEmpty()
-  @Transform(({value}) => parseInt(value))
   @IsInt()
   @Min(1)
   @Max(25)
