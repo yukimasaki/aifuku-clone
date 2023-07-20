@@ -1,33 +1,14 @@
+import { OmitType } from "@nestjs/mapped-types";
 import { IsEmail, IsInt, IsPositive, IsString, IsStrongPassword, MaxLength } from "class-validator";
 
-export class CreateUserDto {
-  @IsString()
-  @IsEmail()
-  email!: string;
-
-  @IsString()
-  @IsStrongPassword()
-  password!: string;
-
-  @IsString()
-  @MaxLength(255)
-  displayName!: string;
-
-  @IsInt()
-  @IsPositive()
-  tenantId!: number;
-}
-
-export class UpdateUserDto {}
-
-export class UserResponse {
+export class User {
   @IsInt()
   @IsPositive()
   id!: number;
 
   @IsString()
   @IsEmail()
-  email!: string;
+  email!: string
 
   @IsString()
   hashedPassword!: string;
@@ -40,3 +21,15 @@ export class UserResponse {
   @IsPositive()
   tenantId!: number;
 }
+
+export class CreateUserDto extends OmitType(User, ['id', 'hashedPassword']) {
+  @IsString()
+  @IsStrongPassword()
+  password!: string
+}
+
+export class UpdateUserDto {}
+
+export class UserResponse extends User {}
+
+export class UserJwtPayload extends OmitType(User, ['hashedPassword']) {}
