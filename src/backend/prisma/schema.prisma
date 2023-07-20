@@ -10,6 +10,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator cv {
+  provider = "prisma-class-validator-generator"
+}
+
 model Profile {
   id            Int     @id @default(autoincrement())
   uid           String  @unique
