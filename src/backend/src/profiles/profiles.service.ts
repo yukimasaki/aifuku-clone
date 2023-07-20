@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../common/prisma/prisma.service';
-import { paginate } from '../common/paginator/paginator.service';
+import { PaginatorService } from '../common/paginator/paginator.service';
 import { PaginateOptions, PaginateOutputs } from '../common/paginator/paginator.entity';
 import { ProfileResponse } from './profile.entity';
 
 @Injectable()
 export class ProfilesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly paginator: PaginatorService,
+  ) {}
 
   // create(createProfileDto: CreateProfileDto) {
   //   return 'This action adds a new profile';
@@ -23,7 +26,7 @@ export class ProfilesService {
   findByPage(
     paginateOptions: PaginateOptions,
   ): Promise<PaginateOutputs<ProfileResponse[]>> {
-    return paginate({
+    return this.paginator.paginator({
       paginateOptions,
       queryFn: (args) =>
         this.prisma.profile.findMany({ ...args }),
