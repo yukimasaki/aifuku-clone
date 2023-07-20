@@ -1,14 +1,27 @@
-import type { Prisma, Profile } from '@prisma/client';
-import { createZodDto } from 'nestjs-zod';
-import { z } from 'zod'
+import { IsEmail, IsInt, IsPositive, IsString, Length, MaxLength } from "class-validator";
 
-const item = z.object({
-  id: z.number().int(),
-  uid: z.string().length(28),
-  email: z.string().email('形式が不正です'),
-  displayName: z.string().max(255, '255文字以内で入力してください'),
-  tenantId: z.number().int(),
-});
+export class CreateProfileDto {
+  @IsString()
+  @Length(28)
+  uid!: string;
 
-export const ProfileResponseSchema: z.ZodType<Profile> = item;
-export type ProfileResponse = z.infer<typeof ProfileResponseSchema>;
+  @IsString()
+  @IsEmail()
+  email!: string;
+
+  @IsString()
+  @MaxLength(255)
+  displayName!: string;
+
+  @IsInt()
+  @IsPositive()
+  tenantId!: number;
+}
+
+export class UpdateProfileDto {}
+
+export class ProfileResponse extends CreateProfileDto {
+  @IsInt()
+  @IsPositive()
+  id!: number;
+}
