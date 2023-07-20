@@ -15,23 +15,25 @@ export class ProfilesService {
   //   return 'This action adds a new profile';
   // }
 
-  findOne(uid: string): Promise<ProfileResponse | null> {
-    return this.prisma.profile.findUnique({
+  async findOne(uid: string): Promise<ProfileResponse | null> {
+    const profile = await this.prisma.profile.findUnique({
       where: {
         uid,
       },
     });
+    return profile;
   }
 
   findByPage(
     paginateOptions: PaginateOptions,
   ): Promise<PaginateOutputs<ProfileResponse[]>> {
-    return this.paginator.paginator({
+    const profiles = this.paginator.paginator({
       paginateOptions,
       queryFn: (args) =>
         this.prisma.profile.findMany({ ...args }),
       countFn: async () => this.prisma.profile.count(),
     });
+    return profiles
   }
 
   // update(uid: string, updateProfileDto: UpdateProfileDto) {
