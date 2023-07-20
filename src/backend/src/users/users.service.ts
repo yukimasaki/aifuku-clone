@@ -4,7 +4,6 @@ import { PaginatorService } from '../common/paginator/paginator.service';
 import { PaginateOptions, PaginateOutputs } from '../common/paginator/paginator.entity';
 import { CreateUserDto, UserResponse } from './user.entity';
 import * as bcrypt from 'bcrypt';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
