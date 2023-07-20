@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UsePipes } from '@nestjs/common';
+import { Controller, Get, Param, Query, Req } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
 import { FindByPageQueries, PaginateOptions } from '../common/paginator/paginator.entity';
 
-@Controller('api')
+@Controller()
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
@@ -14,10 +14,12 @@ export class ProfilesController {
   @Get('profiles')
   findByPage(
     @Query() queries: FindByPageQueries,
+    @Req() req: any,
   ) {
     const paginateOptions: PaginateOptions = {
       page: queries.page,
       perPage: queries.perPage,
+      baseUrl: req.path,
     }
     return this.profilesService.findByPage(paginateOptions);
   }

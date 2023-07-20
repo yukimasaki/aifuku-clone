@@ -22,8 +22,7 @@ export class PaginatorService {
     countFn,
     queryFn,
   }: PaginateInputs<Items>): Promise<PaginateOutputs<Items>> {
-    const page = paginateOptions.page;
-    const perPage = paginateOptions.perPage;
+    const { page, perPage, baseUrl } = paginateOptions;
 
     const [items, count] = await Promise.all([
       queryFn({
@@ -33,7 +32,6 @@ export class PaginatorService {
       countFn(),
     ])
 
-    const baseUrl = '/profiles';
     const pageCount = Math.ceil(count / perPage);
     const pageRange = 2;
 

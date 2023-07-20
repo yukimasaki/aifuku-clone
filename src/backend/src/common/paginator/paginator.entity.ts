@@ -19,6 +19,7 @@ export class FindByPageQueries {
 export type PaginateOptions = {
   page: number
   perPage: number
+  baseUrl: string
 }
 
 export type PaginateInputs<Items> = {
