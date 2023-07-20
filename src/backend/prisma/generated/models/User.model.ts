@@ -1,18 +1,18 @@
 import { IsInt, IsDefined, IsString } from "class-validator";
 import { Tenant } from "./";
 
-export class Profile {
+export class User {
     @IsDefined()
     @IsInt()
     id!: number;
 
     @IsDefined()
     @IsString()
-    uid!: string;
+    email!: string;
 
     @IsDefined()
     @IsString()
-    email!: string;
+    hashedPassword!: string;
 
     @IsDefined()
     @IsString()

@@ -1,5 +1,5 @@
 import { IsInt, IsDefined, IsString } from "class-validator";
-import { Profile } from "./";
+import { User } from "./";
 
 export class Tenant {
     @IsDefined()
@@ -11,5 +11,5 @@ export class Tenant {
     displayName!: string;
 
     @IsDefined()
-    profiles!: Profile[];
+    users!: User[];
 }
