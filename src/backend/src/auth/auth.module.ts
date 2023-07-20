@@ -9,7 +9,7 @@ import { LocalStrategy } from './local.strategy';
 
 @Module({
   imports: [
-    PassportModule.register({ defaultStrategy: 'jwt' }),
+    PassportModule,
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => {
         return {

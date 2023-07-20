@@ -5,6 +5,8 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserJwtPayload } from 'src/users/user.entity';
 
+console.log(`ここはauth.serviceです@top`);
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -26,6 +28,10 @@ export class AuthService {
       await bcrypt.compare(password, user.hashedPassword)
     ) {
       const { hashedPassword, ...userWithoutHashedPassword } = user;
+      console.log(`====================================`);
+      console.log(`userWithoutHashedPassword:`);
+      console.log(userWithoutHashedPassword);
+
       return userWithoutHashedPassword;
     }
 
@@ -35,6 +41,8 @@ export class AuthService {
   async createJwt(
     user: UserJwtPayload
   ): Promise<{ accessToken: string }> {
+    console.log(`user:`);
+    console.log(user);
 
     const payload = { id: user.id, email: user.email }
     const accessToken = this.jwtService.sign(payload);
