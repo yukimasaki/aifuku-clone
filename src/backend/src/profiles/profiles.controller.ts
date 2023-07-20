@@ -1,15 +1,16 @@
-import { Controller, Get, Param, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Req } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
 import { FindByPageQueries, PaginateOptions } from '../common/paginator/paginator.entity';
+import { CreateProfileDto } from './profile.entity';
 
 @Controller()
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
-  // @Post('profiles')
-  // create(@Body() createProfileDto: CreateProfileDto) {
-  //   return this.profilesService.create(createProfileDto);
-  // }
+  @Post('profiles')
+  create(@Body() createProfileDto: CreateProfileDto) {
+    return this.profilesService.create(createProfileDto);
+  }
 
   @Get('profiles')
   findByPage(
