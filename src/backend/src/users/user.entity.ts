@@ -1,4 +1,4 @@
-import { IsEmail, IsInt, IsNotEmpty, IsPositive, IsString, IsStrongPassword, Length, MaxLength } from "class-validator";
+import { IsEmail, IsInt, IsPositive, IsString, IsStrongPassword, MaxLength } from "class-validator";
 
 export class CreateUserDto {
   @IsString()
@@ -39,13 +39,4 @@ export class UserResponse {
   @IsInt()
   @IsPositive()
   tenantId!: number;
-}
-
-export class UserCredentialsDto {
-  @IsString()
-  @IsNotEmpty()
-  email!: string;
-
-  @IsString()
-  password!: string
 }
