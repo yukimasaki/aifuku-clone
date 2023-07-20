@@ -21,7 +21,7 @@ export const useAuth = () => {
   }
 
   const login = async (email: String, password: String) => {
-    const url = '/api/login'
+    const url = '/api/auth/signin'
 
     const { data } = await useFetch(url,{
       method: 'POST',
