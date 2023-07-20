@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { UserCredentialsDto } from './auth.entity';
+import { Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { AuthGuard } from '@nestjs/passport';
+import { UserJwtPayload } from 'src/users/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -8,10 +9,12 @@ export class AuthController {
     private readonly authService: AuthService,
   ) {}
 
+  @UseGuards(AuthGuard('local'))
   @Post('signin')
   async signIn(
-    @Body() userCredentialsDto: UserCredentialsDto,
+    @Request() req: { user: UserJwtPayload }
   ): Promise<{ accessToken: string }> {
-    return this.authService.signIn(userCredentialsDto);
+    const user = req.user;
+    return this.authService.createJwt(user);
   }
 }
