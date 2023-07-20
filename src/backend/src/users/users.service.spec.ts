@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ProfilesService } from './profiles.service';
+import { UsersService } from './users.service';
 import { PrismaService } from '../common/prisma/prisma.service';
 
-describe('ProfilesService', () => {
-  let service: ProfilesService;
+describe('UsersService', () => {
+  let service: UsersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [PrismaService, ProfilesService],
+      providers: [PrismaService, UsersService],
     }).compile();
 
-    service = module.get<ProfilesService>(ProfilesService);
+    service = module.get<UsersService>(UsersService);
   });
 
   it('should be defined', () => {
@@ -18,11 +18,10 @@ describe('ProfilesService', () => {
   });
 
   it('ユーザを1レコード取得', async () => {
-    const uid = 'bXejERn6lgdWEZniPU3HNoRWPSD3';
-    const profile = await service.findOne(uid);
-    expect(profile).toEqual({
-      id: 1,
-      uid,
+    const id = 4;
+    const user = await service.findOne(id);
+    expect(user).toEqual({
+      id: 4,
       displayName: 'Admin',
       email: 'admin@example.com',
       tenantId: 1,

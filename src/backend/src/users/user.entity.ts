@@ -1,13 +1,12 @@
 import { IsEmail, IsInt, IsPositive, IsString, Length, MaxLength } from "class-validator";
 
-export class CreateProfileDto {
-  @IsString()
-  @Length(28)
-  uid!: string;
-
+export class CreateUserDto {
   @IsString()
   @IsEmail()
   email!: string;
+
+  @IsString()
+  hashedPassword!: string;
 
   @IsString()
   @MaxLength(255)
@@ -18,9 +17,9 @@ export class CreateProfileDto {
   tenantId!: number;
 }
 
-export class UpdateProfileDto {}
+export class UpdateUserDto {}
 
-export class ProfileResponse extends CreateProfileDto {
+export class UserResponse extends CreateUserDto {
   @IsInt()
   @IsPositive()
   id!: number;
