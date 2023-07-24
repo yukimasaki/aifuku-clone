@@ -2,11 +2,11 @@ up:
 	docker compose up -d --foce-recreate
 build:
 	docker compose up -d --build
-frontend:
+front:
 	docker compose exec frontend sh
 dev-f:
-	docker compose exec frontend yarn dev
-backend:
+	docker compose exec frontend npx ng serve
+back:
 	docker compose exec backend sh
 test:
 	docker compose exec backend yarn test
