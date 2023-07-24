@@ -33,8 +33,7 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile.frontend
     ports:
-      - "3000:3000"
-      - "24678:24678"
+      - "4200:4200"
     volumes:
       - ./src/frontend:/work
     tty: true

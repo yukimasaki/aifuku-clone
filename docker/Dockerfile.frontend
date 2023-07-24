@@ -2,6 +2,6 @@ FROM node:19.9.0-alpine
 
 WORKDIR /work
 
-EXPOSE 3001
+EXPOSE 4200
 
 CMD ["/bin/sh"]
