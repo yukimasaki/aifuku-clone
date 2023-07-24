@@ -29,7 +29,7 @@
 import { useAuth } from '../composables/useAuth'
 
 definePageMeta({
-  middleware: 'no-required-auth',
+  // middleware: 'no-required-auth',
   layout: 'before-login'
 })
 

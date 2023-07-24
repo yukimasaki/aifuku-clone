@@ -6,6 +6,6 @@
 
 <script setup>
 definePageMeta({
-  middleware: 'required-auth'
+  // middleware: 'required-auth'
 })
 </script>

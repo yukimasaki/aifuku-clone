@@ -14,7 +14,7 @@
 import UsersTable from '~/components/UsersTable.vue'
 
 definePageMeta({
-  middleware: 'required-auth'
+  // middleware: 'required-auth'
 })
 
 </script>
