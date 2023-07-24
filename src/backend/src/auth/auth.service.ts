@@ -3,7 +3,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 import { UserCredentialsDto } from './auth.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { UserJwtPayload } from 'src/users/user.entity';
+import { UserJwtPayload } from 'src/users/bak/user.entity';
 
 console.log(`ここはauth.serviceです@top`);
 

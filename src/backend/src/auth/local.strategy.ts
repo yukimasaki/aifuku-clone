@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserCredentialsDto } from './auth.entity';
-import { UserJwtPayload } from 'src/users/user.entity';
+import { UserJwtPayload } from 'src/users/bak/user.entity';
 
 /**
  * @description emailとpasswordを使った認証処理を行うクラス
