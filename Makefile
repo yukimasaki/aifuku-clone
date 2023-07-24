@@ -2,10 +2,10 @@ up:
 	docker compose up -d --foce-recreate
 build:
 	docker compose up -d --build
-nuxt:
-	docker compose exec nuxt sh
+frontend:
+	docker compose exec frontend sh
 dev-f:
-	docker compose exec nuxt yarn dev
+	docker compose exec frontend yarn dev
 backend:
 	docker compose exec backend sh
 test:

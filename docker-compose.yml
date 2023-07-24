@@ -20,13 +20,13 @@ services:
     tty: true
     restart: always
 
-  nuxt:
-    container_name: nuxt
+  frontend:
+    container_name: frontend
     networks:
       default:
       aifuku-network:
         aliases:
-          - nuxt-container
+          - frontend-container
     depends_on:
       - db
     build:
