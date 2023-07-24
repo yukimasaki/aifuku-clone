@@ -3,7 +3,6 @@ import { PrismaService } from '../common/prisma/prisma.service';
 import { PaginatorService } from '../common/paginator/paginator.service';
 import { PaginateOptions, PaginateOutputs } from '../common/paginator/paginator.entity';
 import { CreateUserDto, UserResponse } from './user.entity';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -13,26 +12,12 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const { email, password, displayName, tenantId } = createUserDto;
-
-    const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const data = {
-      email,
-      hashedPassword,
-      displayName,
-      tenantId,
-    }
-
-    return await this.prisma.user.create({ data });
+    return await this.prisma.user.create({ data: createUserDto });
   }
 
   async findOne(id: number): Promise<UserResponse | null> {
     const user = await this.prisma.user.findUnique({
-      where: {
-        id,
-      },
+      where: { id },
     });
     return user;
   }
