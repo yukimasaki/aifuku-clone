@@ -1,18 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { toggleVisibleSidebarAction } from 'src/store/sidebar/sidebar.action';
+import { selectSidebarAllInfo, selectSidebarVisible } from 'src/store/sidebar/sidebar.selector';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent {
-  toggleSidebar = () => {
-    this.visibleSidebar = !this.visibleSidebar;
+export class SidebarComponent implements OnInit {
+  constructor(
+    private store: Store
+  ) {}
+
+  // サイドバーの全情報を取得
+  sidebar$ = this.store.select(selectSidebarAllInfo);
+
+  // サイドバーの表示状態を取得
+  sidebarVisibleSidebar$ = this.store.select(selectSidebarVisible);
+
+  // サイドバーの表示状態を更新
+  toggleVisibleSidebar() {
+    this.store.dispatch(toggleVisibleSidebarAction());
   }
 
-  visibleSidebar = false;
-
   items = items;
+
+  ngOnInit(): void {}
 }
 
 export const logoPath = '../../assets/images/sidebar';
