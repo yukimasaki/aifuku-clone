@@ -7,6 +7,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
+import { StoreModule } from '@ngrx/store';
+import { sidebarReducer } from 'src/store/sidebar/sidebar.reducer';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatIconModule,
+    StoreModule.forRoot({ sidebar: sidebarReducer }),
   ],
   providers: [],
   bootstrap: [AppComponent]
