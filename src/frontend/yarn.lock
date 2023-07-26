@@ -2149,6 +2149,13 @@
     "@material/theme" "15.0.0-canary.b994146f6.0"
     tslib "^2.1.0"
 
+"@ngrx/store-devtools@^16.1.0":
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-16.1.0.tgz#7452d6dbf5e14de3626a72d8cebe734aa7279835"
+  integrity sha512-7MKvmdRhAoIClOX9KkIeeQxe6c/uUqe1UcjFTABsquioSac4r/TxfUkmelSjtlQLBXiUAKTc9icqhZzfyMI0gw==
+  dependencies:
+    tslib "^2.0.0"
+
 "@ngrx/store@^16.1.0":
   version "16.1.0"
   resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-16.1.0.tgz#7eeb6a4299a7627ddd1c8e3c1148623e644be3b9"
