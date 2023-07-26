@@ -28,7 +28,7 @@ import { LoginButtonComponent } from './login-button/login-button.component';
       domain: 'dev-aifuku-app.jp.auth0.com',
       clientId: 'TDRiBTDao1hwndeuB3t7CaRpeMXPjDn1',
       authorizationParams: {
-        redirect_uri: 'http://aifuku.local:4200'
+        redirect_uri: `${window.location.origin}`
       }
     }),
     AppRoutingModule,
