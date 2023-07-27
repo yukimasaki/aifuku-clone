@@ -10,9 +10,6 @@ import { StoreModule } from '@ngrx/store';
 import { sidebarReducer } from 'src/store/sidebar/sidebar.reducer';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AuthModule } from '@auth0/auth0-angular';
-import { LoginButtonComponent } from './login-button/login-button.component';
-import { LogoutButtonComponent } from './logout-button/logout-button.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 @NgModule({
@@ -22,19 +19,10 @@ import { WelcomeComponent } from './welcome/welcome.component';
     HeaderComponent,
     NotFoundComponent,
     DashboardComponent,
-    LoginButtonComponent,
-    LogoutButtonComponent,
     WelcomeComponent,
   ],
   imports: [
     BrowserModule,
-    AuthModule.forRoot({
-      domain: 'dev-aifuku-app.jp.auth0.com',
-      clientId: 'TDRiBTDao1hwndeuB3t7CaRpeMXPjDn1',
-      authorizationParams: {
-        redirect_uri: `${window.location.origin}`
-      }
-    }),
     AppRoutingModule,
     BrowserAnimationsModule,
     MatIconModule,
