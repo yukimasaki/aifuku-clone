@@ -8,7 +8,11 @@ export class Tenant {
 
     @IsDefined()
     @IsString()
-    displayName!: string;
+    uid!: string;
+
+    @IsDefined()
+    @IsString()
+    tenantName!: string;
 
     @IsDefined()
     users!: User[];
