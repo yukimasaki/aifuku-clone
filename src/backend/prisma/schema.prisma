@@ -14,17 +14,11 @@ generator cv {
   provider = "prisma-class-validator-generator"
 }
 
-enum Role {
-  ADMIN
-  OWNER
-  USER
-}
-
 model User {
   id              Int     @id @default(autoincrement())
   email           String  @unique
+  hashedPassword  String
   displayName     String
-  role            Role    @default(USER)
   tenant          Tenant  @relation(fields: [tenantId], references: [id])
   tenantId        Int
 }

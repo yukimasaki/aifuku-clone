@@ -1,6 +1,5 @@
 import { OmitType } from "@nestjs/mapped-types";
-import { Role } from "@prisma/client";
-import { IsEmail, IsIn, IsInt, IsPositive, IsString, MaxLength } from "class-validator";
+import { IsEmail, IsInt, IsPositive, IsString, IsStrongPassword, MaxLength } from "class-validator";
 
 export class User {
   @IsInt()
@@ -12,17 +11,25 @@ export class User {
   email!: string
 
   @IsString()
+  hashedPassword!: string;
+
+  @IsString()
   @MaxLength(255)
   displayName!: string;
-
-  @IsIn(Object.keys(Role))
-  role!: Role;
 
   @IsInt()
   @IsPositive()
   tenantId!: number;
 }
 
-export class CreateUserDto extends OmitType(User, ['id']) {}
+export class CreateUserDto extends OmitType(User, ['id', 'hashedPassword']) {
+  @IsString()
+  @IsStrongPassword()
+  password!: string
+}
+
+export class UpdateUserDto {}
 
 export class UserResponse extends User {}
+
+export class UserJwtPayload extends OmitType(User, ['hashedPassword']) {}
