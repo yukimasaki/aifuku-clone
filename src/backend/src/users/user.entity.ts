@@ -17,10 +17,6 @@ export class User {
   @IsString()
   @MaxLength(255)
   displayName!: string;
-
-  @IsInt()
-  @IsPositive()
-  tenantId!: number;
 }
 
 class UserOmitHashedPassword extends OmitType(User, ['id', 'hashedPassword']) {
