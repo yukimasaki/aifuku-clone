@@ -6,12 +6,14 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { TenantsModule } from './tenants/tenants.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
     AuthModule,
+    TenantsModule,
   ],
   providers: [PrismaService, PaginatorService, JwtService, AuthService],
 })
