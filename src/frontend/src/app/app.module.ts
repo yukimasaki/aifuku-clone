@@ -12,6 +12,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthModule } from '@auth0/auth0-angular';
 import { LoginButtonComponent } from './login-button/login-button.component';
+import { LogoutButtonComponent } from './logout-button/logout-button.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { LoginButtonComponent } from './login-button/login-button.component';
     NotFoundComponent,
     DashboardComponent,
     LoginButtonComponent,
+    LogoutButtonComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,
