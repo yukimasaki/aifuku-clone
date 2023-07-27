@@ -5,7 +5,7 @@ build:
 front:
 	docker compose exec frontend sh
 dev-f:
-	docker compose exec frontend npx ng serve --host=0.0.0.0 --disable-host-check
+	docker compose exec frontend npx ng serve --host=0.0.0.0 --disable-host-check --ssl
 back:
 	docker compose exec backend sh
 test:
