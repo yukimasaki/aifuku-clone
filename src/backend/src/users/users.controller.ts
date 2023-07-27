@@ -5,7 +5,9 @@ import { CreateUserDto } from './user.entity';
 
 @Controller()
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService
+  ) {}
 
   @Post('users')
   create(@Body() createUserDto: CreateUserDto) {
