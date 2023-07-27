@@ -20,8 +20,7 @@
     <div class="flex items-center gap-3 2xsm:gap-7">
       <!-- Icon Sample -->
       <ul class="flex items-center gap-2 2xsm:gap-4">
-        <li class="relative"><a>〇</a></li>
-        <li class="relative"><a>★</a></li>
+        <li class="relative"><a><mat-icon>notifications</mat-icon></a></li>
       </ul>
       <!-- Icon Sample -->
 
@@ -50,33 +49,18 @@
           <ul class="flex flex-col gap-5 border-b border-stroke px-6 py-7">
             <li>
               <a href="profile.html" class="flex items-center gap-3 text-sm font-medium duration-300 ease-in-out hover:text-primary">
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
-                  <path :d="mdiAccountOutlinePath"></path>
-                </svg>
+                <mat-icon>account_circle</mat-icon>
                 My Profile
               </a>
             </li>
             <li>
               <a href="settings.html" class="flex items-center gap-3 text-sm font-medium duration-300 ease-in-out hover:text-primary">
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
-                  <path :d="mdiCogOutlinePath"></path>
-                </svg>
+                <mat-icon>settings</mat-icon>
                 Account Settings
               </a>
             </li>
           </ul>
-          <button
-            class="flex items-center gap-3 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary"
-          >
-          <!-- <button
-            class="flex items-center gap-3 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary"
-            on-click="logout()"
-          > -->
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" style="transform: scaleX(-1)">
-              <path :d="mdiLogoutPath"></path>
-            </svg>
-            Log Out
-          </button>
+          <app-logout-button></app-logout-button>
         </div>
         <!-- Dropdown End -->
       </div>
