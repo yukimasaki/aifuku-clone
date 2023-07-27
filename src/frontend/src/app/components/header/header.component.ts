@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { toggleVisibleSidebarAction } from 'src/store/sidebar/sidebar.action';
+import { HeaderService } from './header.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   constructor(
-    private store: Store
+    private store: Store,
+    public headerService: HeaderService
   ) {}
 
   // サイドバーの表示状態を更新
@@ -20,6 +22,4 @@ export class HeaderComponent implements OnInit {
   visibleSidebar = true;
 
   dropdownOpen = false;
-
-  ngOnInit(): void {}
 }

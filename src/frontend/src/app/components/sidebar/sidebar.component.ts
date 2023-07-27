@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { toggleVisibleSidebarAction } from 'src/store/sidebar/sidebar.action';
 import { selectSidebarAllInfo, selectSidebarVisible } from 'src/store/sidebar/sidebar.selector';
+import { SidebarService } from './sidebar.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,7 +11,8 @@ import { selectSidebarAllInfo, selectSidebarVisible } from 'src/store/sidebar/si
 })
 export class SidebarComponent implements OnInit {
   constructor(
-    private store: Store
+    private store: Store,
+    public sidebarService: SidebarService
   ) {}
 
   // サイドバーの全情報を取得

@@ -1,71 +1,73 @@
-<header class="sticky top-0 z-30 flex w-full bg-base-100 drop-shadow">
-  <div class="flex flex-grow items-center justify-between py-4 px-4 shadow-sm md:px-6 2xl:px-11">
-    <!-- Hamburger Toggle Button -->
-    <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
-      <button
-        class="btn btn-square z-50 bg-base-100 p-1 shadow-sm lg:hidden"
-        on-click="toggleVisibleSidebar()"
-      >
-        <mat-icon>menu</mat-icon>
-      </button>
-    </div>
-    <!-- Hamburger Toggle Button -->
-
-    <!-- Middle Area -->
-    <div class="hidden sm:block">
-    </div>
-    <!-- Middle Area -->
-
-    <!-- Right Area -->
-    <div class="flex items-center gap-3 2xsm:gap-7">
-      <!-- Icon Sample -->
-      <ul class="flex items-center gap-2 2xsm:gap-4">
-        <li class="relative"><a><mat-icon>notifications</mat-icon></a></li>
-      </ul>
-      <!-- Icon Sample -->
-
-      <!-- User Area -->
-      <div class="relative">
-        <a class="flex items-center gap-4" href="#" on-click="dropdownOpen = !dropdownOpen">
-          <span class="hidden text-right lg:block">
-            <span class="block text-sm font-medium text-black">Ms. Anko</span>
-            <span class="block text-xs font-medium">Chief Engineer</span>
-          </span>
-
-          <div class="avatar">
-            <div class="w-12 rounded-full">
-              <img src="../../assets/images/user-icon.png" alt="User Icon">
-            </div>
-          </div>
-
-          <mat-icon *ngIf="dropdownOpen; else expandMore;" class="rotate-180">expand_more</mat-icon>
-          <ng-template #expandMore>
-            <mat-icon>expand_more</mat-icon>
-          </ng-template>
-        </a>
-
-        <!-- Dropdown Start -->
-        <div *ngIf="dropdownOpen" class="absolute right-0 mt-4 flex w-64 flex-col rounded-sm border border-stroke bg-base-100 shadow">
-          <ul class="flex flex-col gap-5 border-b border-stroke px-6 py-7">
-            <li>
-              <a href="profile.html" class="flex items-center gap-3 text-sm font-medium duration-300 ease-in-out hover:text-primary">
-                <mat-icon>account_circle</mat-icon>
-                My Profile
-              </a>
-            </li>
-            <li>
-              <a href="settings.html" class="flex items-center gap-3 text-sm font-medium duration-300 ease-in-out hover:text-primary">
-                <mat-icon>settings</mat-icon>
-                Account Settings
-              </a>
-            </li>
-          </ul>
-          <!-- <app-logout-button></app-logout-button> -->
-        </div>
-        <!-- Dropdown End -->
+<div *ngIf="headerService.render">
+  <header class="sticky top-0 z-30 flex w-full bg-base-100 drop-shadow">
+    <div class="flex flex-grow items-center justify-between py-4 px-4 shadow-sm md:px-6 2xl:px-11">
+      <!-- Hamburger Toggle Button -->
+      <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
+        <button
+          class="btn btn-square z-50 bg-base-100 p-1 shadow-sm lg:hidden"
+          on-click="toggleVisibleSidebar()"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
       </div>
-      <!-- User Area -->
+      <!-- Hamburger Toggle Button -->
+
+      <!-- Middle Area -->
+      <div class="hidden sm:block">
+      </div>
+      <!-- Middle Area -->
+
+      <!-- Right Area -->
+      <div class="flex items-center gap-3 2xsm:gap-7">
+        <!-- Icon Sample -->
+        <ul class="flex items-center gap-2 2xsm:gap-4">
+          <li class="relative"><a><mat-icon>notifications</mat-icon></a></li>
+        </ul>
+        <!-- Icon Sample -->
+
+        <!-- User Area -->
+        <div class="relative">
+          <a class="flex items-center gap-4" href="#" on-click="dropdownOpen = !dropdownOpen">
+            <span class="hidden text-right lg:block">
+              <span class="block text-sm font-medium text-black">Ms. Anko</span>
+              <span class="block text-xs font-medium">Chief Engineer</span>
+            </span>
+
+            <div class="avatar">
+              <div class="w-12 rounded-full">
+                <img src="../../assets/images/user-icon.png" alt="User Icon">
+              </div>
+            </div>
+
+            <mat-icon *ngIf="dropdownOpen; else expandMore;" class="rotate-180">expand_more</mat-icon>
+            <ng-template #expandMore>
+              <mat-icon>expand_more</mat-icon>
+            </ng-template>
+          </a>
+
+          <!-- Dropdown Start -->
+          <div *ngIf="dropdownOpen" class="absolute right-0 mt-4 flex w-64 flex-col rounded-sm border border-stroke bg-base-100 shadow">
+            <ul class="flex flex-col gap-5 border-b border-stroke px-6 py-7">
+              <li>
+                <a href="profile.html" class="flex items-center gap-3 text-sm font-medium duration-300 ease-in-out hover:text-primary">
+                  <mat-icon>account_circle</mat-icon>
+                  My Profile
+                </a>
+              </li>
+              <li>
+                <a href="settings.html" class="flex items-center gap-3 text-sm font-medium duration-300 ease-in-out hover:text-primary">
+                  <mat-icon>settings</mat-icon>
+                  Account Settings
+                </a>
+              </li>
+            </ul>
+            <!-- <app-logout-button></app-logout-button> -->
+          </div>
+          <!-- Dropdown End -->
+        </div>
+        <!-- User Area -->
+      </div>
+      <!-- Right Area -->
     </div>
-    <!-- Right Area -->
-  </div>
-</header>
+  </header>
+</div>
