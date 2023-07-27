@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HeaderService } from './components/header/header.service';
+import { SidebarService } from './components/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,8 @@ import { HeaderService } from './components/header/header.service';
 export class AppComponent implements OnInit {
   constructor(
     public router: Router,
-    private header: HeaderService
+    private headerService: HeaderService,
+    private sidebarService: SidebarService
   ) {}
 
   title = 'aifuku';
@@ -24,6 +26,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.header.show();
+    this.headerService.show();
+    this.sidebarService.show();
   }
 }
