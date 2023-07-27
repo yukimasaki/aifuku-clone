@@ -1,5 +1,6 @@
-import { OmitType } from "@nestjs/mapped-types";
+import { IntersectionType, OmitType } from "@nestjs/mapped-types";
 import { IsEmail, IsInt, IsPositive, IsString, IsStrongPassword, MaxLength } from "class-validator";
+import { CreateTenantDto } from "src/tenants/tenant.entity";
 
 export class User {
   @IsInt()
@@ -22,11 +23,16 @@ export class User {
   tenantId!: number;
 }
 
-export class CreateUserDto extends OmitType(User, ['id', 'hashedPassword']) {
+class UserOmitHashedPassword extends OmitType(User, ['id', 'hashedPassword']) {
   @IsString()
   @IsStrongPassword()
   password!: string
 }
+
+export class CreateUserDto extends IntersectionType(
+  UserOmitHashedPassword,
+  CreateTenantDto,
+) {}
 
 export class UpdateUserDto {}
 
