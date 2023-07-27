@@ -8,6 +8,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     component: DashboardComponent,
     canActivate: [AuthGuard],
   },
