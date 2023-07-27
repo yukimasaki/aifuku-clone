@@ -1,9 +1,8 @@
-<div class="flex h-screen overflow-hidden">
-  <app-sidebar></app-sidebar>
-  <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-    <app-header></app-header>
-    <!-- メインコンテンツ -->
-    <!-- フッター -->
-    <router-outlet></router-outlet>
-  </div>
+<!-- ログインの有無でレイアウトを切り替える -->
+<div *ngIf="isNoRequiredLoggedIn(); else NoRquiredLoginComponent">
+  <app-no-required-login></app-no-required-login>
 </div>
+
+<ng-template #NoRquiredLoginComponent>
+  <app-default></app-default>
+</ng-template>

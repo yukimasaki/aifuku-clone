@@ -11,7 +11,8 @@ import { sidebarReducer } from 'src/store/sidebar/sidebar.reducer';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
-import { LoggedInComponent } from './layouts/logged-in/logged-in.component';
+import { DefaultComponent } from './layouts/default/default.component';
+import { NoRequiredLoginComponent } from './layouts/no-required-login/no-required-login.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { LoggedInComponent } from './layouts/logged-in/logged-in.component';
     NotFoundComponent,
     DashboardComponent,
     WelcomeComponent,
-    LoggedInComponent,
+    DefaultComponent,
+    NoRequiredLoginComponent,
   ],
   imports: [
     BrowserModule,
