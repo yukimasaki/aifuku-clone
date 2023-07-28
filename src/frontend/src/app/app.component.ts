@@ -12,18 +12,10 @@ export class AppComponent implements OnInit {
   constructor(
     public router: Router,
     private headerService: HeaderService,
-    private sidebarService: SidebarService
+    private sidebarService: SidebarService,
   ) {}
 
   title = 'aifuku';
-
-  isNoRequiredLoggedIn() {
-    const urls = [
-      '/welcome'
-    ];
-    const currentPath = this.router.url;
-    return urls.some(url => url === currentPath);
-  }
 
   ngOnInit(): void {
     this.headerService.show();
