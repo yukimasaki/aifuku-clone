@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import defaultTheme from 'tailwindcss/defaultTheme'
+
 const customColor = {
   primary: '#5f939a',
   secondary: "#1b2021",
@@ -17,6 +19,11 @@ module.exports = {
     extend: {
       colors: {
         "daisy-primary": customColor.primary,
+      },
+      screens: {
+        sm: { 'max': '560px' },
+        md: { 'max': '768px' },
+        tb: { 'max': '960px' },
       }
     },
   },
