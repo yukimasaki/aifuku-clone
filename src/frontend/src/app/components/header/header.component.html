@@ -1,10 +1,10 @@
 <div *ngIf="headerService.render">
   <header class="sticky top-0 z-30 flex w-full bg-base-100 drop-shadow">
-    <div class="flex flex-grow items-center justify-between py-4 px-4 shadow-sm md:px-6 2xl:px-11">
+    <div class="flex flex-grow items-center justify-between py-4 px-4 shadow-sm">
       <!-- Hamburger Toggle Button -->
-      <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
+      <div class="lg:hidden items-center gap-2 md:flex md:gap-4">
         <button
-          class="btn btn-square z-50 bg-base-100 p-1 shadow-sm lg:hidden"
+          class="lg:hidden btn btn-square z-50 bg-base-100 p-1 shadow-sm"
           on-click="toggleVisibleSidebar()"
         >
           <mat-icon>menu</mat-icon>
@@ -13,14 +13,15 @@
       <!-- Hamburger Toggle Button -->
 
       <!-- Middle Area -->
-      <div class="hidden sm:block">
+      <div class="md:hidden block">
+        真ん中の要素
       </div>
       <!-- Middle Area -->
 
       <!-- Right Area -->
-      <div class="flex items-center gap-3 2xsm:gap-7">
+      <div class="flex items-center gap-3">
         <!-- Icon Sample -->
-        <ul class="flex items-center gap-2 2xsm:gap-4">
+        <ul class="flex items-center gap-2">
           <li class="relative"><a><mat-icon>notifications</mat-icon></a></li>
         </ul>
         <!-- Icon Sample -->
