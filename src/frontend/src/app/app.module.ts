@@ -11,6 +11,7 @@ import { sidebarReducer } from 'src/store/sidebar/sidebar.reducer';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
+import { LoginComponent } from './pages/login/login.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
     NotFoundComponent,
     DashboardComponent,
     WelcomeComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
