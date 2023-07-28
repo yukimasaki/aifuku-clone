@@ -4,7 +4,7 @@ import { SidebarService } from 'src/app/components/sidebar/sidebar.service';
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.css']
+  styleUrls: []
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
   constructor(

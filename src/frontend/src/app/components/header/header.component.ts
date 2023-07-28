@@ -6,7 +6,7 @@ import { HeaderService } from './header.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: []
 })
 export class HeaderComponent {
   constructor(
