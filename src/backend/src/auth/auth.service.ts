@@ -18,7 +18,6 @@ export class AuthService {
     email: UserCredentialsDto['email'],
     password: UserCredentialsDto['password'],
   ): Promise<UserJwtPayload | null> {
-    console.log(`bbb`)
     const user = await this.prisma.user.findUnique({
       where: { email }
     });
@@ -28,10 +27,6 @@ export class AuthService {
       await bcrypt.compare(password, user.hashedPassword)
     ) {
       const { hashedPassword, ...userWithoutHashedPassword } = user;
-      console.log(`====================================`);
-      console.log(`userWithoutHashedPassword:`);
-      console.log(userWithoutHashedPassword);
-
       return userWithoutHashedPassword;
     }
 
@@ -41,9 +36,6 @@ export class AuthService {
   async createJwt(
     user: UserJwtPayload
   ): Promise<{ accessToken: string }> {
-    console.log(`user:`);
-    console.log(user);
-
     const payload = { id: user.id, email: user.email }
     const accessToken = this.jwtService.sign(payload);
     return { accessToken }
