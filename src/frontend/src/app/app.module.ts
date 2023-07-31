@@ -13,6 +13,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HeaderSignedOutComponent } from './components/header-signed-out/header-signed-out.component';
+import { LoginFormComponent } from './components/forms/login-form/login-form.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { HeaderSignedOutComponent } from './components/header-signed-out/header-
     WelcomeComponent,
     LoginComponent,
     HeaderSignedOutComponent,
+    LoginFormComponent,
   ],
   imports: [
     BrowserModule,
