@@ -14,6 +14,9 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HeaderSignedOutComponent } from './components/header-signed-out/header-signed-out.component';
 import { LoginFormComponent } from './components/forms/login-form/login-form.component';
+import { ClassValidatorFormBuilderModule } from 'ngx-reactive-form-class-validator';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -33,6 +36,9 @@ import { LoginFormComponent } from './components/forms/login-form/login-form.com
     BrowserAnimationsModule,
     MatIconModule,
     StoreModule.forRoot({ sidebar: sidebarReducer }),
+    FormsModule,
+    ReactiveFormsModule,
+    ClassValidatorFormBuilderModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
