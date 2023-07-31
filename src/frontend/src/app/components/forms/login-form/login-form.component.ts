@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ClassValidatorFormBuilderService, ClassValidatorFormControl, ClassValidatorFormGroup } from 'ngx-reactive-form-class-validator';
 import { LoginFormValidator } from './login-form.validator';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-form',
@@ -8,6 +9,7 @@ import { LoginFormValidator } from './login-form.validator';
   styleUrls: []
 })
 export class LoginFormComponent implements OnInit {
+  private API_URL = 'https://aifuku.local:3001/api/auth/signin';
   public loginForm!: ClassValidatorFormGroup;
   public showError = {
     email: false,
@@ -15,7 +17,8 @@ export class LoginFormComponent implements OnInit {
   }
 
   public constructor(
-    private readonly fb: ClassValidatorFormBuilderService
+    private readonly fb: ClassValidatorFormBuilderService,
+    private http: HttpClient,
   ) {}
 
   ngOnInit(): void {
@@ -25,8 +28,19 @@ export class LoginFormComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    console.log(this.loginForm.value);
+  async onSubmit(body: LoginFormValidator) {
+    console.log(body);
+    return await this.http.post(
+      this.API_URL,
+      body,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      }
+    ).subscribe(res => {
+      console.log(res);
+    });
   }
 
   getErrors(property: string) {

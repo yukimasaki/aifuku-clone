@@ -16,6 +16,7 @@ import { HeaderSignedOutComponent } from './components/header-signed-out/header-
 import { LoginFormComponent } from './components/forms/login-form/login-form.component';
 import { ClassValidatorFormBuilderModule } from 'ngx-reactive-form-class-validator';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     ClassValidatorFormBuilderModule.forRoot(),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
