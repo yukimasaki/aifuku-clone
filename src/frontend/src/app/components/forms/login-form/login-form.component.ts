@@ -9,6 +9,10 @@ import { LoginFormValidator } from './login-form.validator';
 })
 export class LoginFormComponent implements OnInit {
   public loginForm!: ClassValidatorFormGroup;
+  public showError = {
+    email: false,
+    password: false,
+  }
 
   public constructor(
     private readonly fb: ClassValidatorFormBuilderService
@@ -23,5 +27,15 @@ export class LoginFormComponent implements OnInit {
 
   onSubmit(): void {
     console.log(this.loginForm.value);
+  }
+
+  getErrors(property: string) {
+    const validationErrors = this.loginForm.get(property)?.errors;
+    const errors = validationErrors && Object.values(validationErrors);
+    return errors;
+  }
+
+  onInputBlur(property: keyof typeof this.showError): void {
+    this.showError[property] = true;
   }
 }

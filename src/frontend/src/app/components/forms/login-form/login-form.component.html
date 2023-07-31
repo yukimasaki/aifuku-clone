@@ -8,21 +8,46 @@
           type="text"
           placeholder="メールアドレス"
           class="input input-bordered w-full max-w-xs focus:outline-none focus:ring-4 focus:border-transparent focus:ring-daisy-primary"
+          (blur)="onInputBlur('email')"
         />
-        <span>{{ loginForm.get('email')?.errors | json }}</span>
+        <ul
+          *ngIf="showError.email"
+          class="list-inside list-disc"
+        >
+          <li
+            *ngFor="let error of getErrors('email')"
+            class="text-red-500 text-xs"
+          >
+            {{ error }}
+          </li>
+        </ul>
+
         <input
           formControlName="password"
           type="password"
           placeholder="パスワード"
           class="input input-bordered w-full max-w-xs focus:outline-none focus:ring-4 focus:border-transparent focus:ring-daisy-primary"
+          (blur)="onInputBlur('password')"
         />
-        <span>{{ loginForm.get('password')?.errors | json }}</span>
+        <ul
+          *ngIf="showError.password"
+          class="list-inside list-disc"
+        >
+          <li
+            *ngFor="let error of getErrors('password')"
+            class="text-red-500 text-xs"
+          >
+            {{ error }}
+          </li>
+        </ul>
+
         <div class="flex justify-start">
           <div class="pt-2 text-stone-500">パスワードを忘れた場合</div>
         </div>
         <div class="card-actions justify-end pt-4">
           <button
             class="btn btn-primary text-base-100 drop-shadow"
+            [disabled]="!loginForm.valid"
             (click)="onSubmit()"
           >
             ログイン
