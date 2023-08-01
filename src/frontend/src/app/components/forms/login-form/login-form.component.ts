@@ -15,6 +15,7 @@ export class LoginFormComponent implements OnInit {
     email: false,
     password: false,
   }
+  public errorResponse!: string;
 
   public constructor(
     private readonly fb: ClassValidatorFormBuilderService,
@@ -29,7 +30,6 @@ export class LoginFormComponent implements OnInit {
   }
 
   async onSubmit(body: LoginFormValidator) {
-    console.log(body);
     return await this.http.post(
       this.API_URL,
       body,
@@ -38,8 +38,15 @@ export class LoginFormComponent implements OnInit {
           'Content-Type': 'application/json',
         }),
       }
-    ).subscribe(res => {
-      console.log(res);
+    ).subscribe({
+      next: (res) => {
+        // ログイン成功時の処理
+        console.log(res);
+      },
+      error: (err) => {
+        // ログイン失敗時の処理
+        this.errorResponse = err.error.message;
+      },
     });
   }
 

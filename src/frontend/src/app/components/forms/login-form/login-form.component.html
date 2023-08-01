@@ -3,6 +3,12 @@
     <div class="card bg-base-100 drop-shadow-lg w-96 sm:w-80">
       <div class="card-body">
         <h2 class="card-title pb-4">ログイン</h2>
+        <div
+          *ngIf="errorResponse"
+          class="text-error text-xs"
+        >
+          {{ errorResponse }}
+        </div>
         <input
           formControlName="email"
           type="text"
@@ -16,7 +22,7 @@
         >
           <li
             *ngFor="let error of getErrors('email')"
-            class="text-red-500 text-xs"
+            class="text-error text-xs"
           >
             {{ error }}
           </li>
@@ -35,7 +41,7 @@
         >
           <li
             *ngFor="let error of getErrors('password')"
-            class="text-red-500 text-xs"
+            class="text-error text-xs"
           >
             {{ error }}
           </li>
