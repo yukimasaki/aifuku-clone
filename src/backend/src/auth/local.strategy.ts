@@ -11,7 +11,7 @@ import { UserJwtPayload } from 'src/users/user.entity';
 @Injectable()
 export class LocalStrategy extends PassportStrategy(BaseLocalStrategy) {
   constructor(private authService: AuthService) {
-    super();
+    super({ usernameField: 'email' });
   }
 
   // passport-localは、デフォルトで email と password をパラメーターで受け取る
