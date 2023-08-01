@@ -46,6 +46,7 @@ services:
       aifuku-network:
         aliases:
           - backend-container
+          - aifuku.local
     depends_on:
       - db
     build:
