@@ -8,6 +8,7 @@ import RedisStore from 'connect-redis';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { createClient } from 'redis';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const httpsOptions = {
@@ -19,6 +20,8 @@ async function bootstrap() {
     httpsOptions,
   });
 
+  const configService = app.get(ConfigService);
+
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
   }));
@@ -29,13 +32,13 @@ async function bootstrap() {
 
   // Redis
   const redisClient = createClient({
-    url: 'redis://redis-container:6379'
+    url: configService.get('REDIS_URL'),
   });
   redisClient.connect().catch(console.error);
 
   const redisStore = new RedisStore({
     client: redisClient,
-    prefix: 'myapp',
+    prefix: 'aifuku',
   });
 
   app.use(
@@ -43,7 +46,11 @@ async function bootstrap() {
       store: redisStore,
       resave: false,
       saveUninitialized: false,
-      secret: "hogehoge",
+      secret: configService.get('SESSION_SECRET') || 'secret',
+      cookie: {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7days
+      },
     })
   );
   app.use(passport.initialize());
