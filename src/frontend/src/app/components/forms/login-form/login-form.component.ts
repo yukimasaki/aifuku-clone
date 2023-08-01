@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: []
 })
 export class LoginFormComponent implements OnInit {
-  private API_URL = 'https://aifuku.local:3001/api/auth/signin';
+  private API_URL = '/api/auth/signin';
   public loginForm!: ClassValidatorFormGroup;
   public showError = {
     email: false,
