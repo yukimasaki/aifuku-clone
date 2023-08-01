@@ -1,28 +1,18 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { LocalStrategy } from './local.strategy';
+import { SessionSerializer } from './session.serializer';
+import { UsersService } from 'src/users/users.service';
+import { PaginatorService } from 'src/common/paginator/paginator.service';
 
 @Module({
   imports: [
-    PassportModule,
-    JwtModule.registerAsync({
-      useFactory: async (configService: ConfigService) => {
-        return {
-          secret: configService.get<string>('JWT_SECRET_KEY'),
-          signOptions: {
-            expiresIn: 3600,
-          },
-        }
-      },
-      inject: [ConfigService],
-    }),
+    PassportModule.register({ session: true }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, PrismaService, LocalStrategy],
+  providers: [AuthService, PrismaService, LocalStrategy, SessionSerializer, UsersService, PaginatorService],
 })
 export class AuthModule {}
