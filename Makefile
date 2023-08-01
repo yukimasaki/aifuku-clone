@@ -14,3 +14,5 @@ dev-b:
 	docker compose exec backend yarn start:dev
 std:
 	docker compose exec backend npx prisma studio --browser none
+redis:
+	docker compose exec redis redis-cli
