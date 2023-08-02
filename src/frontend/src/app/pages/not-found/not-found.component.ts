@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { HeaderSignedOutService } from 'src/app/components/header-signed-out/header-signed-out.service';
-import { HeaderService } from 'src/app/components/header/header.service';
-import { SidebarService } from 'src/app/components/sidebar/sidebar.service';
+
+import { HeaderSignedOutService } from '~/components/header-signed-out/header-signed-out.service';
+import { HeaderService } from '~/components/header/header.service';
+import { SidebarService } from '~/components/sidebar/sidebar.service';
 
 @Component({
   selector: 'app-not-found',
