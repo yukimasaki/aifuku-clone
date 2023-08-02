@@ -1,5 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
-import { toggleVisibleSidebarAction } from "./sidebar.action";
+
+import { toggleVisibleSidebarAction } from "~/store/sidebar/sidebar.action";
 
 // デバッグツールでの表示名
 export const featureName = 'sidebar';

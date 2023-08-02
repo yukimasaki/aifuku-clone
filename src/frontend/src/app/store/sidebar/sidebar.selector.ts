@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { MySidebarState, featureName } from "./sidebar.reducer";
+
+import { MySidebarState, featureName } from "~/store/sidebar/sidebar.reducer";
 
 export const selectSidebarState = createFeatureSelector<MySidebarState>(featureName);
 
