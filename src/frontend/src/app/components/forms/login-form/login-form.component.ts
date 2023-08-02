@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ClassValidatorFormBuilderService, ClassValidatorFormControl, ClassValidatorFormGroup } from 'ngx-reactive-form-class-validator';
-import { LoginFormValidator } from './login-form.validator';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ClassValidatorFormBuilderService, ClassValidatorFormControl, ClassValidatorFormGroup } from 'ngx-reactive-form-class-validator';
+
+import { LoginFormValidator } from '~/components/forms/login-form/login-form.validator';
 
 @Component({
   selector: 'app-login-form',

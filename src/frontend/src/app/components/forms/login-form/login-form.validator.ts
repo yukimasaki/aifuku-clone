@@ -1,6 +1,7 @@
 import { IsEmail, IsNotEmpty, Matches, MinLength, Validate } from "class-validator"
 import { ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
-import { VALIDATION_ERRORS } from "src/app/common/errors/error.constants";
+
+import { VALIDATION_ERRORS } from "~/common/errors/error.constants";
 
 @ValidatorConstraint({ name: 'notContains', async: false })
 class NotContainsValidator implements ValidatorConstraintInterface {
