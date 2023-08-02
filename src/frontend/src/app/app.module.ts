@@ -18,6 +18,7 @@ import { DashboardComponent } from '~/pages/dashboard/dashboard.component';
 import { WelcomeComponent } from '~/pages/welcome/welcome.component';
 import { LoginComponent } from '~/pages/login/login.component';
 import { sidebarReducer } from '~/store/sidebar/sidebar.reducer';
+import { LoginButtonComponent } from './components/login-button/login-button.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { sidebarReducer } from '~/store/sidebar/sidebar.reducer';
     LoginComponent,
     HeaderSignedOutComponent,
     LoginFormComponent,
+    LoginButtonComponent,
   ],
   imports: [
     BrowserModule,
