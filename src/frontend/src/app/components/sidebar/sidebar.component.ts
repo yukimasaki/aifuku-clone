@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { toggleVisibleSidebarAction } from 'src/store/sidebar/sidebar.action';
-import { selectSidebarAllInfo, selectSidebarVisible } from 'src/store/sidebar/sidebar.selector';
+import { toggleVisibleSidebarAction } from '~/store/sidebar/sidebar.action';
+import { selectSidebarAllInfo, selectSidebarVisible } from '~/store/sidebar/sidebar.selector';
 import { SidebarService } from './sidebar.service';
 
 @Component({

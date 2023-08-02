@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { toggleVisibleSidebarAction } from 'src/store/sidebar/sidebar.action';
+import { toggleVisibleSidebarAction } from '~/store/sidebar/sidebar.action';
 import { HeaderService } from './header.service';
 
 @Component({
