@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { HeaderSignedOutService } from './header-signed-out.service';
+
+import { HeaderSignedOutService } from '~/components/header-signed-out/header-signed-out.service';
 
 @Component({
   selector: 'app-header-signed-out',
